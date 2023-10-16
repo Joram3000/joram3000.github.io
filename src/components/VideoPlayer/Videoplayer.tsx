@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { useParams } from "react-router-dom";
 import GreetingOverlay from "./GreetingOverlay";
-import "./videoplayer.css";
+import "./VideoPlayer.css";
 
-function Videoplayer() {
+function VideoPlayer() {
   const [color, setColor] = useState<string>("#0000ff");
   const [greetingIndex, setGreetingIndex] = useState(0);
   const [showOverlay, setShowOverlay] = useState(false);
@@ -82,4 +82,4 @@ function Videoplayer() {
   );
 }
 
-export default Videoplayer;
+export default VideoPlayer;
