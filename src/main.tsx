@@ -5,6 +5,8 @@ import "./index.css";
 import Root from "./routes/root";
 import ErrorPage from "./pages/Error";
 import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
+import ContactPage from "./pages/Contact";
+import AboutPage from "./pages/About";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +15,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   { path: "videoplayer", element: <VideoPlayer /> },
+  { path: "contact", element: <ContactPage /> },
+  { path: "about", element: <AboutPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
