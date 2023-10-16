@@ -1,6 +1,6 @@
 {
   "name": "joram3000pages",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "homepage": "https://joram3000.github.io/joram3000pages/",
   "type": "module",
