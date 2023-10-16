@@ -12,7 +12,7 @@ const Navbar: FC = () => {
       <div className="navbar-links">
         <ul>
           <li>
-            <Link to="/home" className="navbar-item">
+            <Link to="/" className="navbar-item">
               Home
             </Link>
           </li>
