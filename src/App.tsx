@@ -1,12 +1,12 @@
 import "./App.css";
 import TonePlayer from "./components/TonePlayer/TonePlayer";
-import Videoplayer from "./components/VideoPlayer/Videoplayer";
+import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
 
 function App() {
   return (
     <>
       <TonePlayer />
-      <Videoplayer />
+      <VideoPlayer />
     </>
   );
 }
