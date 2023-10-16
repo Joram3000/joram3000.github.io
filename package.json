@@ -2,13 +2,14 @@
   "name": "joram3000pages",
   "private": false,
   "version": "0.0.0",
-  "homepage": "https://joram3000.github.io/joram3000pages/",
+  "homepage": "https://joram3000.github.io/joram3000",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
