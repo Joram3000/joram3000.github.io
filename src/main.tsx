@@ -7,16 +7,20 @@ import ErrorPage from "./pages/Error";
 import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
 import ContactPage from "./pages/Contact";
 import AboutPage from "./pages/About";
+import HomePage from "./pages/Home";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
+    children: [
+      { path: "/", element: <HomePage /> },
+      { path: "videoplayer", element: <VideoPlayer /> },
+      { path: "contact", element: <ContactPage /> },
+      { path: "about", element: <AboutPage /> },
+    ],
   },
-  { path: "videoplayer", element: <VideoPlayer /> },
-  { path: "contact", element: <ContactPage /> },
-  { path: "about", element: <AboutPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
