@@ -7,13 +7,20 @@ const initialState = {
       [1, 0, 0, 0, 0, 0, 0, 0],
     ],
   },
-
+  seqPatternBool: {
+    name: "Boolit deBoolit",
+    color: "blue",
+    pattern: [
+      [false, false, false, false, true, false, false, false],
+      [true, false, false, false, false, false, false, false],
+    ],
+  },
   Settings: {
     seqSoundSelected: "Loud",
     seqSettingsvol: -32,
   },
 
-  Transportstate: "",
+  // Transportstate: "",
 };
 
 export default function reducer(state = initialState, action) {
@@ -28,12 +35,12 @@ export default function reducer(state = initialState, action) {
       };
     }
 
-    case "Transportupdater": {
-      return {
-        ...state,
-        Transportstate: action.payload,
-      };
-    }
+    // case "TRANSPORTUPDATER": {
+    //   return {
+    //     ...state,
+    //     Transportstate: action.payload,
+    //   };
+    // }
 
     default:
       return state;

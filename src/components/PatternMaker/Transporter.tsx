@@ -1,23 +1,16 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useCallback } from "react";
 import * as Tone from "tone";
-import { useDispatch } from "react-redux";
-import { Transportupdater } from "../../store/seqState/actions";
 import TBREEL from "../../../public/TBREEL.png";
 import TBREELlinks from "../../../public/TBREELlinks.png";
 import TBREELrechts from "../../../public/TBREELrechts.png";
+import { Transport } from "tone";
 
 const Transporter: React.FC = () => {
-  const dispatch = useDispatch();
-
   // Toggle playing / stopped
-  const toggle = useCallback(async () => {
-    await Tone.start();
+  const toggle = useCallback(() => {
+    Tone.start();
     Tone.Transport.toggle();
   }, []);
-
-  useEffect(() => {
-    dispatch(Transportupdater(Tone.Transport.state));
-  }, [dispatch]);
 
   return (
     <div className="tbreel-style">
@@ -29,10 +22,9 @@ const Transporter: React.FC = () => {
         }}
       >
         <img style={{}} src={TBREEL} alt="TBREEL" height="220" />
-
         <div
           style={
-            Tone.Transport.state === "started"
+            Transport.state
               ? { animation: "spin 4s linear infinite" }
               : { animation: "paused" }
           }
@@ -43,7 +35,7 @@ const Transporter: React.FC = () => {
 
         <div
           style={
-            Tone.Transport.state === "started"
+            Transport.state
               ? { animation: "spin 4s linear infinite" }
               : { animation: "paused" }
           }

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import * as Tone from "tone";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectSeqPattern, seqSettings } from "../../store/seqState/selectors";
-import { PatternUpdater } from "../../store/seqState/actions";
+// import { PatternUpdater } from "../../store/seqState/actions";
 
 let notes = ["A1", "B1"];
 
@@ -22,10 +22,10 @@ const samples = new Tone.Sampler({
 }).toDestination();
 
 const PatternMaker: React.FC = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const seqPattern = useSelector(selectSeqPattern);
   const seqSetting = useSelector(seqSettings);
-  const [pattern, updatePattern] = useState(seqPattern.pattern); //INIT BY REDUX STATE
+  const [pattern, updatePattern] = useState<number[][]>(seqPattern.pattern); //INIT BY REDUX STATE
 
   // PATTERN UPDATER FROM SELECT
   useEffect(() => {
@@ -35,7 +35,7 @@ const PatternMaker: React.FC = () => {
   useEffect(() => {
     const loop = new Tone.Sequence(
       (time, col) => {
-        pattern.map((row, noteIndex) => {
+        pattern.map((row: number[], noteIndex: number) => {
           if (row[col]) {
             samples.triggerAttackRelease(notes[noteIndex], "16n", time);
           }
@@ -48,7 +48,15 @@ const PatternMaker: React.FC = () => {
   }, [pattern]);
 
   // Update pattern by making a copy and inverting the value
-  function setPattern({ x, y, value }) {
+  function setPattern({
+    x,
+    y,
+    value,
+  }: {
+    x: number;
+    y: number;
+    value: number;
+  }) {
     const patternCopy = [...pattern];
     patternCopy[y][x] = +!value;
     updatePattern(patternCopy);
@@ -77,10 +85,9 @@ const PatternMaker: React.FC = () => {
         className="pattern-seqrows"
         style={{
           border: `1px solid ${seqPattern.color}`,
-          background: "rgba(1,1,1,0.7)",
         }}
       >
-        {seqPattern.pattern.map((row, y) => (
+        {seqPattern.pattern.map((row: number[], y: number) => (
           <div key={y}>
             {row.map((value, x) => (
               <button
@@ -98,7 +105,7 @@ const PatternMaker: React.FC = () => {
                 }
                 onClick={() => {
                   setPattern({ x, y, value });
-                  dispatch(PatternUpdater(pattern));
+                  // dispatch(PatternUpdater(pattern));
                 }}
               ></button>
             ))}
