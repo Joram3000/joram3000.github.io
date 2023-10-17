@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import * as Tone from "tone";
 import { useDispatch, useSelector } from "react-redux";
+import { selectSeqPattern, seqSettings } from "../../store/seqState/selectors";
 import { PatternUpdater } from "../../store/seqState/actions";
-import {
-  selectSeqPattern,
-  seqSettings,
-} from "../../../store/seqState/selectors";
 
 let notes = ["A1", "B1"];
 
@@ -24,17 +21,9 @@ const samples = new Tone.Sampler({
     "https://res.cloudinary.com/dqqb0ldgk/video/upload/v1651657689/Drumsounds",
 }).toDestination();
 
-const initSeqPattern = {
-  name: "INIT DEPINIT",
-  color: "orange",
-  pattern: [
-    [0, 0, 0, 0, 1, 0, 0, 0],
-    [1, 0, 0, 0, 0, 0, 0, 0],
-  ],
-};
-
 const PatternMaker: React.FC = () => {
   const dispatch = useDispatch();
+
   const seqPattern = useSelector(selectSeqPattern);
   const seqSetting = useSelector(seqSettings);
   const [pattern, updatePattern] = useState(seqPattern.pattern); //INIT BY REDUX STATE
@@ -88,11 +77,11 @@ const PatternMaker: React.FC = () => {
       <div
         className="pattern-seqrows"
         style={{
-          border: `1px solid ${initSeqPattern.color}`,
+          border: `1px solid ${seqPattern.color}`,
           background: "rgba(1,1,1,0.7)",
         }}
       >
-        {initSeqPattern.pattern.map((row, y) => (
+        {seqPattern.pattern.map((row, y) => (
           <div key={y}>
             {row.map((value, x) => (
               <button
@@ -100,12 +89,12 @@ const PatternMaker: React.FC = () => {
                 style={
                   value === 1
                     ? {
-                        background: `linear-gradient(to left, rgba(0,0,0,1), ${initSeqPattern.color})`,
-                        border: initSeqPattern.color,
+                        background: `linear-gradient(to left, rgba(0,0,0,1), ${seqPattern.color})`,
+                        border: seqPattern.color,
                       }
                     : {
-                        background: "rgba(0,0,0,0.0)",
-                        border: initSeqPattern.color,
+                        background: "rgba(0,0,0,0.4)",
+                        border: seqPattern.color,
                       }
                 }
                 onClick={() => {
