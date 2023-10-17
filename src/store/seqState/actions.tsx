@@ -26,7 +26,7 @@ export const PatternSaver = (name, color, pattern) => {
 };
 
 // TRANSPORT UPDATER
-export const Transportupdater = (Payload) => ({
+export const Transportupdater = (Payload: string) => ({
   type: "Transportupdater",
   payload: Payload,
 });
@@ -34,22 +34,5 @@ export const Transportupdater = (Payload) => ({
 // SOUND SETTINGS / SOUNDCHOICE - VOL -DELAY
 export const SeqSoundSetter = (Payload) => ({
   type: "seqSettingsSound",
-  payload: Payload,
-});
-export const seqSettingsVolaction = (Payload) => ({
-  type: "seqSettingsvol",
-  payload: Payload,
-});
-export const seqSettingsDelayaction = (Payload) => ({
-  type: "seqSettingsdel",
-  payload: Payload,
-});
-export const seqSettingsfilteraction = (Payload) => ({
-  type: "seqSettingsfilter",
-  payload: Payload,
-});
-
-export const seqSettingsDelayfeedbackaction = (Payload) => ({
-  type: "seqSettingsdelFeedback",
   payload: Payload,
 });

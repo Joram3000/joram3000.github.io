@@ -23,7 +23,6 @@ const samples = new Tone.Sampler({
 
 const PatternMaker: React.FC = () => {
   const dispatch = useDispatch();
-
   const seqPattern = useSelector(selectSeqPattern);
   const seqSetting = useSelector(seqSettings);
   const [pattern, updatePattern] = useState(seqPattern.pattern); //INIT BY REDUX STATE

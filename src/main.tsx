@@ -6,7 +6,7 @@ import ErrorPage from "./pages/Error";
 import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
 import ContactPage from "./pages/Contact";
 import AboutPage from "./pages/About";
-import HomePage from "./pages/Home";
+import PatternMakerPage from "./pages/PatternMakerPage";
 import { Provider } from "react-redux";
 import store from "./store";
 
@@ -16,8 +16,7 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/", element: <HomePage /> },
-      { path: "/*", element: <HomePage /> },
+      { path: "/", element: <PatternMakerPage /> },
       { path: "/videoplayer", element: <VideoPlayer /> },
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },

@@ -11,13 +11,16 @@ import TBREEL from "../../../public/TBREEL.png";
 import TBREELlinks from "../../../public/TBREELlinks.png";
 import TBREELrechts from "../../../public/TBREELrechts.png";
 
-const HomePage: React.FC = () => {
+const PatternMakerPage: React.FC = () => {
   const [playState, setPlayState] = useState(Tone.Transport.state);
   const dispatch = useDispatch();
 
   // Toggle playing / stopped
-  const toggle = useCallback(() => {
-    Tone.start();
+  const toggle = useCallback(async () => {
+    // Start the AudioContext
+    await Tone.start();
+
+    // Toggle playing / stopped
     Tone.Transport.toggle();
     setPlayState(Tone.Transport.state);
   }, []);
@@ -28,8 +31,7 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      <h1>Homepaginaaalalala</h1>
-      <button>kadaver</button>
+      <h1>Patternmaker, click on the TapeReel and let's go!</h1>
 
       <PatternMaker />
 
@@ -70,4 +72,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default PatternMakerPage;
