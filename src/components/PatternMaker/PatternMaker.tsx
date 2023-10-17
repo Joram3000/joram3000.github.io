@@ -47,7 +47,7 @@ const PatternMaker: React.FC = () => {
     return () => loop.dispose();
   }, [pattern]);
 
-  // Update pattern by making a copy and inverting the value :S WHYYY??????
+  // Update pattern by making a copy and inverting the value
   function setPattern({ x, y, value }) {
     const patternCopy = [...pattern];
     patternCopy[y][x] = +!value;

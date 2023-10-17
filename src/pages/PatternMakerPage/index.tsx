@@ -1,73 +1,13 @@
-import React, { useEffect, useCallback, useState } from "react";
-import * as Tone from "tone";
-
+import React from "react";
 import PatternMaker from "../../components/PatternMaker/PatternMaker";
+import Transporter from "../../components/PatternMaker/Transporter";
 import "./style.css";
-import { useDispatch } from "react-redux";
-import { Transportupdater } from "../../store/seqState/actions";
-
-//TB REEL
-import TBREEL from "../../../public/TBREEL.png";
-import TBREELlinks from "../../../public/TBREELlinks.png";
-import TBREELrechts from "../../../public/TBREELrechts.png";
 
 const PatternMakerPage: React.FC = () => {
-  const [playState, setPlayState] = useState(Tone.Transport.state);
-  const dispatch = useDispatch();
-
-  // Toggle playing / stopped
-  const toggle = useCallback(async () => {
-    // Start the AudioContext
-    await Tone.start();
-
-    // Toggle playing / stopped
-    Tone.Transport.toggle();
-    setPlayState(Tone.Transport.state);
-  }, []);
-
-  useEffect(() => {
-    dispatch(Transportupdater(Tone.Transport.state));
-  }, [dispatch]);
-
   return (
     <>
-      <h1>Patternmaker, click on the TapeReel and let's go!</h1>
-
       <PatternMaker />
-
-      <div className="tbreel-style">
-        <button
-          style={{ backgroundColor: "rgba(0,0,0,0)", border: "none" }}
-          type="button"
-          onClick={() => {
-            toggle();
-          }}
-        >
-          <img style={{}} src={TBREEL} alt="TBREEL" height="220" />
-
-          <div
-            style={
-              playState === "started"
-                ? { animation: "spin 4s linear infinite" }
-                : { animation: "paused" }
-            }
-            className="draaiding1"
-          >
-            <img src={TBREELrechts} alt="TBREELrechts" />
-          </div>
-
-          <div
-            style={
-              playState === "started"
-                ? { animation: "spin 4s linear infinite" }
-                : { animation: "paused" }
-            }
-            className="draaiding2"
-          >
-            <img src={TBREELlinks} alt="TBREELlinks" />
-          </div>
-        </button>
-      </div>
+      <Transporter />
     </>
   );
 };
