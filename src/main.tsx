@@ -7,6 +7,7 @@ import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
 import ContactPage from "./pages/Contact";
 import AboutPage from "./pages/About";
 import HomePage from "./pages/Home";
+import Joram3000 from "./pages/Error/indexjoram3000";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       { path: "videoplayer", element: <VideoPlayer /> },
       { path: "contact", element: <ContactPage /> },
       { path: "about", element: <AboutPage /> },
+      { path: "/joram3000", element: <Joram3000 /> },
     ],
   },
 ]);
