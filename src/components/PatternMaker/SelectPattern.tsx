@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SavedPatterns } from "../../store/seqState/selectors";
 import { PatternUpdatewithSelect } from "../../store/seqState/actions";
@@ -9,15 +9,13 @@ const SelectPattern: React.FC = () => {
   const savedPatterns = useSelector(SavedPatterns);
 
   return (
-    <div className="Selector-style">
-      {savedPatterns.map((pattern, i) => (
+    <>
+      {savedPatterns.map((pattern) => (
         <Button
+          m="sm"
           variant="outline"
-          key={i}
-          style={{
-            border: `1px solid ${pattern.color}`,
-            color: `${pattern.color}`,
-          }}
+          key={pattern.name}
+          color={pattern.color}
           onClick={() => {
             dispatch(PatternUpdatewithSelect(pattern));
           }}
@@ -25,7 +23,7 @@ const SelectPattern: React.FC = () => {
           {pattern.name}
         </Button>
       ))}
-    </div>
+    </>
   );
 };
 

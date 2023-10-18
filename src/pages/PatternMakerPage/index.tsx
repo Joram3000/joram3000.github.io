@@ -10,12 +10,12 @@ import { useDispatch } from "react-redux";
 import { SetVolume, SetTempo } from "../../store/seqState/actions";
 import * as Tone from "tone";
 import SelectPattern from "../../components/PatternMaker/SelectPattern";
+import { Box, Group, Text } from "@mantine/core";
 
 const PatternMakerPage: React.FC = () => {
   const seqPattern = useSelector(SelectedPattern);
   const soundSettings = useSelector(StateVolume);
   const dispatch = useDispatch();
-  console.log(soundSettings);
   const output = new Tone.Volume(-12).toDestination();
 
   const sendVolume = (waarde: number) => {
@@ -34,35 +34,44 @@ const PatternMakerPage: React.FC = () => {
 
   return (
     <>
-      <h1>Ritme: {seqPattern.name}</h1>
-      <SelectPattern />
-      <CustomSlider
-        min={-40}
-        max={0}
-        label={"Volume"}
-        color={seqPattern.color}
-        sendValue={sendVolume}
-        initValue={soundSettings.volume}
-      />
-      <CustomSlider
-        min={0}
-        max={20000}
-        label={"Filter"}
-        color={seqPattern.color}
-        sendValue={sendFilter}
-        initValue={soundSettings.filterAmount}
-      />
-      <CustomSlider
-        min={80}
-        max={400}
-        label={"Tempo"}
-        color={seqPattern.color}
-        sendValue={sendTempo}
-        initValue={soundSettings.tempo}
-      />
+      <Text size="xl" fw={700} c={seqPattern.color}>
+        {seqPattern.name}
+      </Text>
 
-      <SelectSound color={seqPattern.color} />
+      <SelectPattern />
       <PatternMaker output={output} />
+      <Group grow m="sm">
+        <SelectSound
+          color={seqPattern.color}
+          selectedSound={seqPattern.sound}
+        />
+        <Box>
+          <CustomSlider
+            min={-40}
+            max={0}
+            label={"Volume"}
+            color={seqPattern.color}
+            sendValue={sendVolume}
+            initValue={soundSettings.volume}
+          />
+          <CustomSlider
+            min={0}
+            max={20000}
+            label={"Filter"}
+            color={seqPattern.color}
+            sendValue={sendFilter}
+            initValue={soundSettings.filterAmount}
+          />
+          <CustomSlider
+            min={80}
+            max={400}
+            label={"Tempo"}
+            color={seqPattern.color}
+            sendValue={sendTempo}
+            initValue={soundSettings.tempo}
+          />
+        </Box>
+      </Group>
 
       <Transporter />
     </>

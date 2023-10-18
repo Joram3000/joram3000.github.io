@@ -86,7 +86,8 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
     <div className="pattern-container">
       <div
         style={{
-          border: `8px solid ${seqPattern.color}`,
+          borderRadius: 8,
+          border: `4px solid ${seqPattern.color}`,
         }}
       >
         {seqPattern.pattern.map((row: boolean[], y: number) => (
@@ -95,12 +96,10 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
               <div
                 key={x}
                 style={{
-                  margin: "1px",
+                  margin: "2px",
                   height: "100px",
                   width: "100%",
-                  backgroundColor: trigger
-                    ? seqPattern.color
-                    : "rgba(0,0,0,0.0)",
+                  backgroundColor: trigger ? seqPattern.color : undefined,
                 }}
                 onClick={() => {
                   setPattern({ x, y, trigger });

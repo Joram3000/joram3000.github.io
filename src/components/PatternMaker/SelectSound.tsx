@@ -5,10 +5,14 @@ import { SegmentedControl } from "@mantine/core";
 
 interface SelectSoundCompProps {
   color: string;
+  selectedSound?: string;
 }
 
-const SelectSound: React.FC<SelectSoundCompProps> = ({ color }) => {
-  const [soundStyle, setSoundStyle] = useState("Loud");
+const SelectSound: React.FC<SelectSoundCompProps> = ({
+  color,
+  selectedSound,
+}) => {
+  const [soundStyle, setSoundStyle] = useState(selectedSound ?? "Loud");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,7 +22,7 @@ const SelectSound: React.FC<SelectSoundCompProps> = ({ color }) => {
   return (
     <SegmentedControl
       // orientation="vertical"
-      value={soundStyle}
+      value={selectedSound}
       onChange={setSoundStyle}
       color={color}
       data={["Loud", "Electronic", "Percussion", "Neo-Soul"]}
