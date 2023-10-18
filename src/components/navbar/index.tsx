@@ -17,6 +17,11 @@ const Navbar: FC = () => {
             </Link>
           </li>
           <li>
+            <Link to="/patternmaker" className="navbar-item">
+              Patternmaker
+            </Link>
+          </li>
+          <li>
             <Link to="/videoplayer" className="navbar-item">
               VideoPlayer
             </Link>

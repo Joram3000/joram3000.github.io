@@ -1,5 +1,8 @@
-export const selectSeqPattern = (state) => state.seqState.seqPattern;
+import { initiaReduxState } from "./types";
 
-// export const Transportstate = (state) => state.seqState.Transportstate;
+// export const selectSeqPattern = (state) => state.seqState.seqPattern;
+export const stateSeqPattern = (state: initiaReduxState) =>
+  state.seqState.seqPattern;
 
-export const seqSettings = (state) => state.seqState.Settings;
+export const stateVolume = (state: initiaReduxState) =>
+  state.seqState.soundSettings;

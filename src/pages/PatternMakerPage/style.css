@@ -1,15 +1,9 @@
 .pattern-container {
-  position: absolute;
-  /* border: 10px solid black; */
+  /* position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
 }
-
-/* .pattern-seqrows button {
-  height: 100px;
-  width: 62.5px;
-} */
 
 /* TRANSPORTER */
 .tbreel-style {

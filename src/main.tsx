@@ -9,6 +9,9 @@ import AboutPage from "./pages/About";
 import PatternMakerPage from "./pages/PatternMakerPage";
 import { Provider } from "react-redux";
 import store from "./store";
+import HomePage from "./pages/Home";
+import "@mantine/core/styles.css";
+import { createTheme, MantineProvider } from "@mantine/core";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +19,9 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/", element: <PatternMakerPage /> },
+      { path: "/", element: <HomePage /> },
+      { path: "/*", element: <HomePage /> },
+      { path: "/patternmaker", element: <PatternMakerPage /> },
       { path: "/videoplayer", element: <VideoPlayer /> },
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },
@@ -24,10 +29,16 @@ const router = createBrowserRouter([
   },
 ]);
 
+const theme = createTheme({
+  /** Your theme override here */
+});
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <MantineProvider theme={theme} forceColorScheme={"dark"}>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </MantineProvider>
   </React.StrictMode>
 );

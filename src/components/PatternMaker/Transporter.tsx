@@ -1,15 +1,17 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import * as Tone from "tone";
-import TBREEL from "../../../public/TBREEL.png";
-import TBREELlinks from "../../../public/TBREELlinks.png";
-import TBREELrechts from "../../../public/TBREELrechts.png";
-import { Transport } from "tone";
+import TBREEL from "../../assets/images/TBREEL.png";
+import TBREELlinks from "../../assets/images/TBREELlinks.png";
+import TBREELrechts from "../../assets/images/TBREELrechts.png";
 
 const Transporter: React.FC = () => {
+  const [playState, setPlayState] = useState(Tone.Transport.state);
+
   // Toggle playing / stopped
   const toggle = useCallback(() => {
     Tone.start();
     Tone.Transport.toggle();
+    setPlayState(Tone.Transport.state);
   }, []);
 
   return (
@@ -24,7 +26,7 @@ const Transporter: React.FC = () => {
         <img style={{}} src={TBREEL} alt="TBREEL" height="220" />
         <div
           style={
-            Transport.state
+            playState === "started"
               ? { animation: "spin 4s linear infinite" }
               : { animation: "paused" }
           }
@@ -35,7 +37,7 @@ const Transporter: React.FC = () => {
 
         <div
           style={
-            Transport.state
+            playState === "started"
               ? { animation: "spin 4s linear infinite" }
               : { animation: "paused" }
           }

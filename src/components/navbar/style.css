@@ -1,5 +1,5 @@
 .navbar {
-  background-color: rgb(16, 109, 191);
+  background-color: rgba(16, 109, 191, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -7,7 +7,6 @@
 
 .navbar-title {
   font-size: 1.5rem;
-  padding: 1rem;
   border: 1px solid black;
 }
 
@@ -28,7 +27,7 @@
 }
 .navbar-item {
   text-decoration: none;
-  padding: 1rem;
+  padding-right: 1rem;
   display: block;
 }
 

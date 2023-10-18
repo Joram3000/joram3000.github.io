@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import * as Tone from "tone";
-import { useSelector } from "react-redux";
-import { selectSeqPattern, seqSettings } from "../../store/seqState/selectors";
-// import { PatternUpdater } from "../../store/seqState/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { stateSeqPattern } from "../../store/seqState/selectors";
+import { PatternUpdater } from "../../store/seqState/actions";
+
+interface PatternMakerProps {
+  output: Tone.Volume;
+}
 
 let notes = ["A1", "B1"];
 
@@ -19,15 +23,14 @@ const samples = new Tone.Sampler({
   },
   baseUrl:
     "https://res.cloudinary.com/dqqb0ldgk/video/upload/v1651657689/Drumsounds",
-}).toDestination();
+});
 
-const PatternMaker: React.FC = () => {
-  // const dispatch = useDispatch();
-  const seqPattern = useSelector(selectSeqPattern);
-  const seqSetting = useSelector(seqSettings);
-  const [pattern, updatePattern] = useState<number[][]>(seqPattern.pattern); //INIT BY REDUX STATE
+const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
+  samples.connect(output);
+  const dispatch = useDispatch();
+  const seqPattern = useSelector(stateSeqPattern);
+  const [pattern, updatePattern] = useState<boolean[][]>(seqPattern.pattern); //INIT BY REDUX STATE
 
-  // PATTERN UPDATER FROM SELECT
   useEffect(() => {
     updatePattern(seqPattern.pattern);
   }, [seqPattern.pattern]);
@@ -35,7 +38,7 @@ const PatternMaker: React.FC = () => {
   useEffect(() => {
     const loop = new Tone.Sequence(
       (time, col) => {
-        pattern.map((row: number[], noteIndex: number) => {
+        pattern.map((row: boolean[], noteIndex: number) => {
           if (row[col]) {
             samples.triggerAttackRelease(notes[noteIndex], "16n", time);
           }
@@ -47,22 +50,22 @@ const PatternMaker: React.FC = () => {
     return () => loop.dispose();
   }, [pattern]);
 
-  // Update pattern by making a copy and inverting the value
   function setPattern({
     x,
     y,
-    value,
+    trigger,
   }: {
     x: number;
     y: number;
-    value: number;
+    trigger: boolean;
   }) {
     const patternCopy = [...pattern];
-    patternCopy[y][x] = +!value;
+    patternCopy[y][x] = !trigger;
     updatePattern(patternCopy);
+    dispatch(PatternUpdater(pattern));
   }
 
-  switch (seqSetting.seqSoundSelected) {
+  switch (seqPattern.sound) {
     case "Loud":
       notes = ["B1", "A1"];
       break;
@@ -80,34 +83,30 @@ const PatternMaker: React.FC = () => {
   }
 
   return (
-    <div className="Pattern-style">
+    <div className="pattern-container">
       <div
         className="pattern-seqrows"
         style={{
-          border: `1px solid ${seqPattern.color}`,
+          border: `8px solid ${seqPattern.color}`,
         }}
       >
-        {seqPattern.pattern.map((row: number[], y: number) => (
-          <div key={y}>
-            {row.map((value, x) => (
-              <button
+        {seqPattern.pattern.map((row: boolean[], y: number) => (
+          <div key={y} style={{ display: "flex" }}>
+            {row.map((trigger, x) => (
+              <div
                 key={x}
-                style={
-                  value === 1
-                    ? {
-                        background: `linear-gradient(to left, rgba(0,0,0,1), ${seqPattern.color})`,
-                        border: seqPattern.color,
-                      }
-                    : {
-                        background: "rgba(0,0,0,0.4)",
-                        border: seqPattern.color,
-                      }
-                }
-                onClick={() => {
-                  setPattern({ x, y, value });
-                  // dispatch(PatternUpdater(pattern));
+                style={{
+                  margin: "1px",
+                  height: "100px",
+                  width: "62.5px",
+                  backgroundColor: trigger
+                    ? seqPattern.color
+                    : "rgba(0,0,0,0.0)",
                 }}
-              ></button>
+                onClick={() => {
+                  setPattern({ x, y, trigger });
+                }}
+              ></div>
             ))}
           </div>
         ))}

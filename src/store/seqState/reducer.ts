@@ -1,26 +1,58 @@
 const initialState = {
+  soundSettings: {
+    volume: -12,
+    tempo: 135,
+    delayAmount: 0,
+    delayFeedback: 0.7,
+    filterAmount: 20000,
+  },
   seqPattern: {
-    name: "INIT DEPINIT",
-    color: "orange",
+    name: "RitmeNaam",
+    color: "green",
+    sound: "Loud",
     pattern: [
-      [0, 0, 0, 0, 1, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0, 0, 0],
+      [true, false, false, false, true, false, true, false],
+      [true, false, true, false, false, false, false, false],
     ],
   },
-  seqPatternBool: {
-    name: "Boolit deBoolit",
-    color: "blue",
-    pattern: [
-      [false, false, false, false, true, false, false, false],
-      [true, false, false, false, false, false, false, false],
-    ],
-  },
-  Settings: {
-    seqSoundSelected: "Loud",
-    seqSettingsvol: -32,
-  },
-
-  // Transportstate: "",
+  savedPatterns: [
+    {
+      name: "Sjohones",
+      color: "red",
+      sound: "Loud",
+      pattern: [
+        [false, false, false, false, true, false, false, false],
+        [true, false, false, true, true, false, false, true],
+      ],
+    },
+    {
+      name: "Donkie",
+      color: "orange",
+      sound: "Electronic",
+      pattern: [
+        [false, false, true, false, false, false, true, false],
+        [true, false, true, false, true, false, true, false],
+      ],
+    },
+    {
+      name: "TURKLE",
+      color: "yellow",
+      sound: "Percussion",
+      pattern: [
+        [false, false, true, false, false, false, true, false],
+        [true, false, false, true, false, true, false, false],
+      ],
+    },
+    {
+      name: "EMPTY",
+      color: "white",
+      sound: "Neo-Soul",
+      pattern: [
+        [false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false],
+      ],
+    },
+  ],
 };
 
 export default function reducer(state = initialState, action) {
@@ -34,14 +66,33 @@ export default function reducer(state = initialState, action) {
         },
       };
     }
-
-    // case "TRANSPORTUPDATER": {
-    //   return {
-    //     ...state,
-    //     Transportstate: action.payload,
-    //   };
-    // }
-
+    case "SELECTDRUMSOUND": {
+      return {
+        ...state,
+        seqPattern: {
+          ...state.seqPattern,
+          sound: action.payload,
+        },
+      };
+    }
+    case "SETTEMPO": {
+      return {
+        ...state,
+        soundSettings: {
+          ...state.soundSettings,
+          tempo: action.payload,
+        },
+      };
+    }
+    case "SETVOLUME": {
+      return {
+        ...state,
+        soundSettings: {
+          ...state.soundSettings,
+          volume: action.payload,
+        },
+      };
+    }
     default:
       return state;
   }

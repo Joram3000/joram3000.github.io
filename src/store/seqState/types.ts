@@ -1,21 +1,20 @@
-export interface InitialState {
-  seqPattern: seqPattern;
-  seqPatternBool: seqPatternBool;
-  Settings: {
-    seqSoundSelected: string;
-    seqSettingsvol: number;
+export interface initiaReduxState {
+  seqState: {
+    soundSettings: {
+      volume: number;
+      tempo: number;
+      delayAmount: number;
+      delayFeedback: number;
+      filterAmount: number;
+    };
+    seqPattern: seqPattern;
+    savedPatterns: seqPattern[];
   };
-  // Transportstate: string;
 }
 
 export interface seqPattern {
   name: string;
   color: string;
-  pattern: number[][];
-}
-
-export interface seqPatternBool {
-  name: string;
-  color: string;
+  sound?: string;
   pattern: boolean[][];
 }
