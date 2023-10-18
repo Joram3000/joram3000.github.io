@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { SelectedPattern } from "../../store/seqState/selectors";
 import { PatternUpdater } from "../../store/seqState/actions";
 
-interface PatternMakerProps {}
+interface PatternMakerProps {
+  output: Tone.Volume;
+}
 
 let notes = ["A1", "B1"];
 
@@ -21,9 +23,10 @@ const samples = new Tone.Sampler({
   },
   baseUrl:
     "https://res.cloudinary.com/dqqb0ldgk/video/upload/v1651657689/Drumsounds",
-}).toDestination();
+});
 
-const PatternMaker: React.FC<PatternMakerProps> = () => {
+const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
+  samples.connect(output);
   const dispatch = useDispatch();
   const seqPattern = useSelector(SelectedPattern);
   const [pattern, updatePattern] = useState<boolean[][]>(seqPattern.pattern); //INIT BY REDUX STATE
@@ -37,14 +40,13 @@ const PatternMaker: React.FC<PatternMakerProps> = () => {
       (time, col) => {
         pattern.map((row: boolean[], noteIndex: number) => {
           if (row[col]) {
-            samples.triggerAttackRelease(notes[noteIndex], "16n", time);
+            samples.triggerAttackRelease(notes[noteIndex], "8n", time);
           }
         });
       },
       [0, 1, 2, 3, 4, 5, 6, 7],
       "8n"
     ).start(0);
-
     // Return a clean-up function
     return () => {
       loop.dispose();

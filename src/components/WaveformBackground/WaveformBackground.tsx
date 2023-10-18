@@ -3,14 +3,14 @@ import { useSelector } from "react-redux";
 import Sketch from "react-p5";
 import * as Tone from "tone";
 
-import { seqPattern } from "../../store/seqState/selectors";
+import { selectSeqPattern } from "../../store/seqState/selectors";
 
 let meter;
 let analyser;
 let playing = true;
 
 export default function CanvasWaveformBackground(props) {
-  const seqPattern = useSelector(seqPattern);
+  const seqPattern = useSelector(selectSeqPattern);
   meter = new Tone.Meter();
   Tone.Destination.connect(meter);
 
@@ -27,6 +27,7 @@ export default function CanvasWaveformBackground(props) {
     analyser = new Tone.Analyser("waveform", 512);
     Tone.Destination.connect(analyser);
   };
+  
   function windowResized(p5, canvasParentRef) {
     p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
   }

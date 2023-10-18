@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PatternMaker from "../../components/PatternMaker/PatternMaker";
 import Transporter from "../../components/PatternMaker/Transporter";
 import { SelectedPattern, StateVolume } from "../../store/seqState/selectors";
@@ -7,19 +7,24 @@ import { useSelector } from "react-redux";
 import SelectSound from "../../components/PatternMaker/SelectSound";
 import CustomSlider from "../../components/PatternMaker/CustomSlider";
 import { useDispatch } from "react-redux";
-import { SetTempo } from "../../store/seqState/actions";
+import { SetTempo, SetVolume } from "../../store/seqState/actions";
 import * as Tone from "tone";
 import SelectPattern from "../../components/PatternMaker/SelectPattern";
 import { Box, Group, Text } from "@mantine/core";
+import P5Canvas from "../../components/P5/p5Canvas";
+import sketchTest from "../../components/P5/sketchTest";
+
+//TODO KAN DIT WORDEN VERPLAATST
+const output = new Tone.Volume(-12).toDestination();
 
 const PatternMakerPage: React.FC = () => {
   const seqPattern = useSelector(SelectedPattern);
+
   const soundSettings = useSelector(StateVolume);
   const dispatch = useDispatch();
 
   const sendVolume = (waarde: number) => {
-    // dispatch(SetVolume(waarde));
-    console.log("waarde", waarde);
+    dispatch(SetVolume(waarde));
   };
 
   const sendFilter = (waarde: number) => {
@@ -31,14 +36,18 @@ const PatternMakerPage: React.FC = () => {
     dispatch(SetTempo(Tone.Transport.bpm.value));
   };
 
+  useEffect(() => {
+    output.volume.value = soundSettings.volume;
+  }, [soundSettings.volume]);
+
   return (
     <>
       <Text size="xl" fw={700} c={seqPattern.color}>
         {seqPattern.name}
       </Text>
-
+      <P5Canvas sketch={sketchTest} />
       <SelectPattern />
-      <PatternMaker />
+      <PatternMaker output={output} />
       <Group grow m="sm">
         <SelectSound
           color={seqPattern.color}
