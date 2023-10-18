@@ -1,63 +1,20 @@
-.pattern-components-style {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: flex-start;
-}
-
-.Sound-style {
-  background-color: rgb(125, 125, 125);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-}
-
-.Recorder-style {
-  display: flex;
-  flex-direction: column;
-  min-width: 70px;
-  background-color: rgb(125, 125, 125);
-}
-
-.Pattern-style {
-  display: flex;
-  flex-direction: column;
+.pattern-container {
   position: absolute;
+  /* border: 10px solid black; */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.pattern-seqrows {
-  height: 208px;
-  width: 508px;
-  border: 4px solid black;
-}
-.pattern-seqrows button {
+
+/* .pattern-seqrows button {
   height: 100px;
   width: 62.5px;
-}
-
-.Save-style {
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  background-color: rgb(125, 125, 125);
-}
-
-.Selector-style button {
-  width: 100%;
-  border-radius: 5px;
-  display: block;
-  height: 40px;
-  text-align: center;
-  text-transform: uppercase;
-  background-color: transparent;
-}
+} */
 
 /* TRANSPORTER */
 .tbreel-style {
   position: absolute;
-  bottom: 0;
+  bottom: 0%;
   left: 50%;
   transform: translate(-50%, 0);
   text-align: center;
