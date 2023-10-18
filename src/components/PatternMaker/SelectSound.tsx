@@ -16,15 +16,13 @@ const SelectSound: React.FC<SelectSoundCompProps> = ({ color }) => {
   }, [dispatch, soundStyle]);
 
   return (
-    <div className="sound-style">
-      <SegmentedControl
-        orientation="vertical"
-        value={soundStyle}
-        onChange={setSoundStyle}
-        color={color}
-        data={["Loud", "Electronic", "Percussion", "Neo-Soul"]}
-      />
-    </div>
+    <SegmentedControl
+      // orientation="vertical"
+      value={soundStyle}
+      onChange={setSoundStyle}
+      color={color}
+      data={["Loud", "Electronic", "Percussion", "Neo-Soul"]}
+    />
   );
 };
 export default SelectSound;

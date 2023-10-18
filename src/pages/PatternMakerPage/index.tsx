@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PatternMaker from "../../components/PatternMaker/PatternMaker";
 import Transporter from "../../components/PatternMaker/Transporter";
-import { stateSeqPattern, stateVolume } from "../../store/seqState/selectors";
+import { SelectedPattern, StateVolume } from "../../store/seqState/selectors";
 import "./style.css";
 import { useSelector } from "react-redux";
 import SelectSound from "../../components/PatternMaker/SelectSound";
@@ -9,10 +9,11 @@ import CustomSlider from "../../components/PatternMaker/CustomSlider";
 import { useDispatch } from "react-redux";
 import { SetVolume, SetTempo } from "../../store/seqState/actions";
 import * as Tone from "tone";
+import SelectPattern from "../../components/PatternMaker/SelectPattern";
 
 const PatternMakerPage: React.FC = () => {
-  const seqPattern = useSelector(stateSeqPattern);
-  const soundSettings = useSelector(stateVolume);
+  const seqPattern = useSelector(SelectedPattern);
+  const soundSettings = useSelector(StateVolume);
   const dispatch = useDispatch();
   console.log(soundSettings);
   const output = new Tone.Volume(-12).toDestination();
@@ -33,7 +34,8 @@ const PatternMakerPage: React.FC = () => {
 
   return (
     <>
-      <p>Ritme: {seqPattern.color}</p>
+      <h1>Ritme: {seqPattern.name}</h1>
+      <SelectPattern />
       <CustomSlider
         min={-40}
         max={0}
@@ -58,6 +60,7 @@ const PatternMakerPage: React.FC = () => {
         sendValue={sendTempo}
         initValue={soundSettings.tempo}
       />
+
       <SelectSound color={seqPattern.color} />
       <PatternMaker output={output} />
 

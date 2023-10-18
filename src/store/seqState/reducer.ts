@@ -45,7 +45,7 @@ const initialState = {
     },
     {
       name: "EMPTY",
-      color: "white",
+      color: "purple",
       sound: "Neo-Soul",
       pattern: [
         [false, false, false, false, false, false, false, false],
@@ -66,6 +66,13 @@ export default function reducer(state = initialState, action) {
         },
       };
     }
+    case "PATTERNUPDATESELECTOR": {
+      return {
+        ...state,
+        seqPattern: action.payload,
+      };
+    }
+
     case "SELECTDRUMSOUND": {
       return {
         ...state,

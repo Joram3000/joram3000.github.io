@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as Tone from "tone";
 import { useDispatch, useSelector } from "react-redux";
-import { stateSeqPattern } from "../../store/seqState/selectors";
+import { SelectedPattern } from "../../store/seqState/selectors";
 import { PatternUpdater } from "../../store/seqState/actions";
 
 interface PatternMakerProps {
@@ -28,7 +28,7 @@ const samples = new Tone.Sampler({
 const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
   samples.connect(output);
   const dispatch = useDispatch();
-  const seqPattern = useSelector(stateSeqPattern);
+  const seqPattern = useSelector(SelectedPattern);
   const [pattern, updatePattern] = useState<boolean[][]>(seqPattern.pattern); //INIT BY REDUX STATE
 
   useEffect(() => {
@@ -85,7 +85,6 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
   return (
     <div className="pattern-container">
       <div
-        className="pattern-seqrows"
         style={{
           border: `8px solid ${seqPattern.color}`,
         }}
@@ -98,7 +97,7 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
                 style={{
                   margin: "1px",
                   height: "100px",
-                  width: "62.5px",
+                  width: "100%",
                   backgroundColor: trigger
                     ? seqPattern.color
                     : "rgba(0,0,0,0.0)",

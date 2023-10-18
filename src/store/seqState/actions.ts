@@ -1,5 +1,12 @@
+import { seqPattern } from "./types";
+
 export const PatternUpdater = (Payload: boolean[][]) => ({
   type: "PATTERNUPDATER",
+  payload: Payload,
+});
+
+export const PatternUpdatewithSelect = (Payload: seqPattern) => ({
+  type: "PATTERNUPDATESELECTOR",
   payload: Payload,
 });
 
