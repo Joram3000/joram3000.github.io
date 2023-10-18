@@ -15,7 +15,7 @@ const PatternMakerPage: React.FC = () => {
   const soundSettings = useSelector(stateVolume);
   const dispatch = useDispatch();
   console.log(soundSettings);
-  const output = new Tone.Volume().toDestination();
+  const output = new Tone.Volume(-12).toDestination();
 
   const sendVolume = (waarde: number) => {
     dispatch(SetVolume(waarde));
