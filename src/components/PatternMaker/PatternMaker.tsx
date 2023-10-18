@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SelectedPattern } from "../../store/seqState/selectors";
 import { PatternUpdater } from "../../store/seqState/actions";
 
-interface PatternMakerProps {
-  output: Tone.Volume;
-}
+interface PatternMakerProps {}
 
 let notes = ["A1", "B1"];
 
@@ -23,10 +21,9 @@ const samples = new Tone.Sampler({
   },
   baseUrl:
     "https://res.cloudinary.com/dqqb0ldgk/video/upload/v1651657689/Drumsounds",
-});
+}).toDestination();
 
-const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
-  samples.connect(output);
+const PatternMaker: React.FC<PatternMakerProps> = () => {
   const dispatch = useDispatch();
   const seqPattern = useSelector(SelectedPattern);
   const [pattern, updatePattern] = useState<boolean[][]>(seqPattern.pattern); //INIT BY REDUX STATE
@@ -47,7 +44,11 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
       [0, 1, 2, 3, 4, 5, 6, 7],
       "8n"
     ).start(0);
-    return () => loop.dispose();
+
+    // Return a clean-up function
+    return () => {
+      loop.dispose();
+    };
   }, [pattern]);
 
   function setPattern({
@@ -99,7 +100,9 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
                   margin: "2px",
                   height: "100px",
                   width: "100%",
-                  backgroundColor: trigger ? seqPattern.color : undefined,
+                  background: trigger
+                    ? `linear-gradient(to right, ${seqPattern.color}, transparent)`
+                    : "transparent",
                 }}
                 onClick={() => {
                   setPattern({ x, y, trigger });
