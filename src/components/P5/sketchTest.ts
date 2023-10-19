@@ -7,7 +7,7 @@ let meter;
 let analyser: Tone.InputNode | Tone.Analyser;
 const playing = true;
 
-const sketchTest = (p: p5, canvasRef: HTMLDivElement, color: string) => {
+const sketchTest = (p: p5, canvasRef: HTMLDivElement) => {
   // const seqPattern = useSelector(SelectedPattern);
   // console.log(seqPattern.color "halo hier is");
   meter = new Tone.Meter();
@@ -34,7 +34,7 @@ const sketchTest = (p: p5, canvasRef: HTMLDivElement, color: string) => {
     const dim = Math.min(p.width, p.height);
 
     p.strokeWeight(dim * 0.0025);
-    p.stroke(color); // Use the provided color
+    p.stroke("pink"); // Use the provided color
     p.noFill();
 
     if (playing) {
