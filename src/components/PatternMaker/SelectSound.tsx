@@ -21,7 +21,7 @@ const SelectSound: React.FC<SelectSoundCompProps> = ({
 
   return (
     <SegmentedControl
-      // orientation="vertical"
+      orientation="vertical"
       value={selectedSound}
       onChange={setSoundStyle}
       color={color}
