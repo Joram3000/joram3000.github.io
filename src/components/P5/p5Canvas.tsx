@@ -9,7 +9,7 @@ interface P5CanvasProps {
 
 const P5Canvas: React.FC<P5CanvasProps> = ({ sketch }) => {
   const seqPattern = useSelector(SelectedPattern);
-  const [color, setColor] = useState(seqPattern.color);
+  const [color, setColor] = useState("");
   const canvasRef = useRef<HTMLDivElement>(null);
   let p5Instance: p5 | null = null;
 
@@ -35,7 +35,9 @@ const P5Canvas: React.FC<P5CanvasProps> = ({ sketch }) => {
     };
   }, [sketch, seqPattern.color]);
 
-  return <div className="p5-canvas" ref={canvasRef}></div>;
+  return (
+    <div style={{ zIndex: -1, position: "absolute" }} ref={canvasRef}></div>
+  );
 };
 
 export default P5Canvas;

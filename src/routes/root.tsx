@@ -8,22 +8,21 @@ import { AppShell, Group } from "@mantine/core"; //Burger Skeleton
 
 export default function Root() {
   const [opened, { toggle }] = useDisclosure();
-  console.log(toggle);
   return (
     <AppShell
-      header={{ height: 60 }}
-      // footer={{ height: 60 }}
-      // navbar={{
-      //   width: 300,
-      //   breakpoint: "sm",
-      //   collapsed: { mobile: !opened },
-      // }}
-      // aside={{
-      //   width: 300,
-      //   breakpoint: "md",
-      //   collapsed: { desktop: false, mobile: true },
-      // }}
-      // padding="md"
+    // header={{ height: 60 }}
+    // footer={{ height: 60 }}
+    // navbar={{
+    //   width: 300,
+    //   breakpoint: "sm",
+    //   collapsed: { mobile: !opened },
+    // }}
+    // aside={{
+    //   width: 300,
+    //   breakpoint: "md",
+    //   collapsed: { desktop: false, mobile: true },
+    // }}
+    // padding="md"
     >
       <AppShell.Header>
         {/* <HeaderSimple /> */}

@@ -1,21 +1,32 @@
 import p5 from "p5";
 import * as Tone from "tone";
+// import { useSelector } from "react-redux";
+// import { SelectedPattern } from "../../store/seqState/selectors";
 
 let meter;
 let analyser: Tone.InputNode | Tone.Analyser;
 const playing = true;
 
 const sketchTest = (p: p5, canvasRef: HTMLDivElement, color: string) => {
+  // const seqPattern = useSelector(SelectedPattern);
+  // console.log(seqPattern.color "halo hier is");
   meter = new Tone.Meter();
   Tone.Destination.connect(meter);
 
   p.setup = () => {
     const cnv = p.createCanvas(p.windowWidth, p.windowHeight).parent(canvasRef);
+
+    cnv.position(0, 0);
+
     p.background(0);
     p.fill(230);
     cnv.style("z-index", "-1");
     analyser = new Tone.Analyser("waveform", 512);
     Tone.Destination.connect(analyser);
+  };
+
+  p.windowResized = () => {
+    p.resizeCanvas(p.windowWidth, p.windowHeight);
   };
 
   p.draw = () => {
@@ -27,7 +38,6 @@ const sketchTest = (p: p5, canvasRef: HTMLDivElement, color: string) => {
     p.noFill();
 
     if (playing) {
-      // @ts-ignore
       const values = analyser.getValue();
 
       p.beginShape();
