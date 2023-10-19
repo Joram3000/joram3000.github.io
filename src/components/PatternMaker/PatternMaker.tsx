@@ -5,7 +5,7 @@ import { SelectedPattern } from "../../store/seqState/selectors";
 import { PatternUpdater } from "../../store/seqState/actions";
 
 interface PatternMakerProps {
-  output: Tone.Volume;
+  output: Tone.OutputNode;
 }
 
 let notes = ["A1", "B1"];

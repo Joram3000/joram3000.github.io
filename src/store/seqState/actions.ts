@@ -24,3 +24,8 @@ export const SetVolume = (Payload: number) => ({
   type: "SETVOLUME",
   payload: Payload,
 });
+
+export const SetFilters = (Payload: [number, number]) => ({
+  type: "SETFILTERS",
+  payload: Payload,
+});

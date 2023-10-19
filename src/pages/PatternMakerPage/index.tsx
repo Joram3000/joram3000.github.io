@@ -6,28 +6,32 @@ import { useSelector } from "react-redux";
 import SelectSound from "../../components/PatternMaker/SelectSound";
 import CustomSlider from "../../components/PatternMaker/CustomSlider";
 import { useDispatch } from "react-redux";
-import { SetTempo, SetVolume } from "../../store/seqState/actions";
+import { SetTempo, SetVolume, SetFilters } from "../../store/seqState/actions";
 import * as Tone from "tone";
 import SelectPattern from "../../components/PatternMaker/SelectPattern";
 import { Box, Container, Group, Text } from "@mantine/core";
-import P5Canvas from "../../components/P5/p5Canvas";
-import sketchTest from "../../components/P5/sketchTest";
 import "./style.css";
+import { P5CanvasDynamic } from "../../components/P5/P5CanvasDynamic";
+import CustomDoubleSlider from "../../components/PatternMaker/CustomDoubleSlider";
 
 //TODO KAN DIT WORDEN VERPLAATST?
 const output = new Tone.Volume(-12).toDestination();
+const lpFilter = new Tone.Filter(1500, "lowpass").connect(output);
+const hpFilter = new Tone.Filter(34, "highpass").connect(lpFilter);
 
 const PatternMakerPage: React.FC = () => {
+  const dispatch = useDispatch();
   const seqPattern = useSelector(SelectedPattern);
   const soundSettings = useSelector(StateVolume);
-  const dispatch = useDispatch();
 
   const sendVolume = (waarde: number) => {
     dispatch(SetVolume(waarde));
   };
 
-  const sendFilter = (waarde: number) => {
-    console.log("sendFilter op de patternMakerPage", waarde);
+  const sendFilters = (waarde: [number, number]) => {
+    dispatch(SetFilters(waarde));
+    lpFilter.frequency.value = waarde[1];
+    hpFilter.frequency.value = waarde[0];
   };
 
   const sendTempo = (waarde: number) => {
@@ -41,7 +45,8 @@ const PatternMakerPage: React.FC = () => {
 
   return (
     <div>
-      <P5Canvas sketch={sketchTest} />
+      <P5CanvasDynamic />
+
       <Text size="xl" fw={700} c={seqPattern.color}>
         {seqPattern.name}
       </Text>
@@ -62,13 +67,13 @@ const PatternMakerPage: React.FC = () => {
               sendValue={sendVolume}
               initValue={soundSettings.volume}
             />
-            <CustomSlider
+            <CustomDoubleSlider
               min={0}
-              max={20000}
-              label={"Filter"}
+              max={12000}
+              label={["HPFilter", "LPFilter"]}
               color={seqPattern.color}
-              sendValue={sendFilter}
-              initValue={soundSettings.filterAmount}
+              sendValue={sendFilters}
+              initValue={soundSettings.filtersAmount}
             />
             <CustomSlider
               min={80}
@@ -80,9 +85,11 @@ const PatternMakerPage: React.FC = () => {
             />
           </Box>
         </Group>
-        <PatternMaker output={output} />
       </Container>
-      <Transporter />
+      <PatternMaker output={hpFilter} />
+      <div className="transporter">
+        <Transporter />
+      </div>
     </div>
   );
 };

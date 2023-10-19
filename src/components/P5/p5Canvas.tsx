@@ -1,15 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import p5 from "p5";
-// import { useSelector } from "react-redux";
-// import { SelectedPattern } from "../../store/seqState/selectors";
 
 interface P5CanvasProps {
-  sketch: (p: p5, canvasRef: HTMLDivElement) => void;
+  color: string;
+  sketch: (p: p5, canvasRef: HTMLDivElement, color: string) => void;
 }
 
-const P5Canvas: React.FC<P5CanvasProps> = ({ sketch }) => {
-  // const seqPattern = useSelector(SelectedPattern);
-  // const [color, setColor] = useState("");
+const P5Canvas: React.FC<P5CanvasProps> = ({ color = "red", sketch }) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   let p5Instance: p5 | null = null;
 
@@ -21,7 +18,8 @@ const P5Canvas: React.FC<P5CanvasProps> = ({ sketch }) => {
       //   p5Instance.remove();
       // }
 
-      p5Instance = new p5((p) => sketch(p, canvasRef.current));
+      // @ts-ignore
+      p5Instance = new p5((p) => sketch(p, canvasRef.current, color));
     }
 
     // Cleanup when the component unmounts
@@ -32,9 +30,7 @@ const P5Canvas: React.FC<P5CanvasProps> = ({ sketch }) => {
     // };
   }, [sketch]);
 
-  return (
-    <div style={{ zIndex: -1, position: "absolute" }} ref={canvasRef}></div>
-  );
+  return <div ref={canvasRef}></div>;
 };
 
 export default P5Canvas;

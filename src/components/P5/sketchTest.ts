@@ -1,15 +1,11 @@
 import p5 from "p5";
 import * as Tone from "tone";
-// import { useSelector } from "react-redux";
-// import { SelectedPattern } from "../../store/seqState/selectors";
 
 let meter;
-let analyser: Tone.InputNode | Tone.Analyser;
+let analyser: Tone.Analyser;
 const playing = true;
 
-const sketchTest = (p: p5, canvasRef: HTMLDivElement) => {
-  // const seqPattern = useSelector(SelectedPattern);
-  // console.log(seqPattern.color "halo hier is");
+const sketchTest = (p: p5, canvasRef: HTMLDivElement, color: string) => {
   meter = new Tone.Meter();
   Tone.Destination.connect(meter);
 
@@ -32,13 +28,13 @@ const sketchTest = (p: p5, canvasRef: HTMLDivElement) => {
   p.draw = () => {
     p.clear(0, 0, 0, 0); // Clear the entire canvas.
     const dim = Math.min(p.width, p.height);
-
     p.strokeWeight(dim * 0.0025);
-    p.stroke("pink"); // Use the provided color
+    p.stroke(color); // Use the provided color
     p.noFill();
 
     if (playing) {
-      const values = analyser.getValue();
+      const values =
+        (analyser.getValue() as Float32Array) || new Float32Array(512);
 
       p.beginShape();
       for (let i = 0; i < values.length; i++) {

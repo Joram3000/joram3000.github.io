@@ -4,7 +4,7 @@ const initialState = {
     tempo: 135,
     delayAmount: 0,
     delayFeedback: 0.7,
-    filterAmount: 20000,
+    filtersAmount: [0, 4898],
   },
   seqPattern: {
     name: "RitmeNaam",
@@ -100,6 +100,16 @@ export default function reducer(state = initialState, action: any) {
         },
       };
     }
+    case "SETFILTERS": {
+      return {
+        ...state,
+        soundSettings: {
+          ...state.soundSettings,
+          filtersAmount: action.payload,
+        },
+      };
+    }
+
     default:
       return state;
   }

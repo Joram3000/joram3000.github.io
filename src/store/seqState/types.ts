@@ -5,7 +5,7 @@ export interface initiaReduxState {
       tempo: number;
       delayAmount: number;
       delayFeedback: number;
-      filterAmount: number;
+      filtersAmount: [number, number];
     };
     seqPattern: seqPattern;
     savedPatterns: seqPattern[];

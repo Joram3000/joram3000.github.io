@@ -1,5 +1,5 @@
+// @ts-ignore
 import { ReactP5Wrapper, Sketch, SketchProps } from "@p5-wrapper/react";
-import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { SelectedPattern } from "../../store/seqState/selectors";
 import * as Tone from "tone";
@@ -12,6 +12,7 @@ let meter;
 let analyser: Tone.Analyser;
 const playing = true;
 let waveColor: string;
+// @ts-ignore
 const sketch: Sketch<MySketchProps> = (p) => {
   meter = new Tone.Meter();
   Tone.Destination.connect(meter);
@@ -25,7 +26,7 @@ const sketch: Sketch<MySketchProps> = (p) => {
     Tone.Destination.connect(analyser);
   };
 
-  p.updateWithProps = (props) => {
+  p.updateWithProps = (props: MySketchProps) => {
     if (props.color) {
       waveColor = props.color;
     }
@@ -36,10 +37,10 @@ const sketch: Sketch<MySketchProps> = (p) => {
   };
 
   p.draw = () => {
-    p.clear(0, 0, 0, 0); // Clear the entire canvas.
+    p.clear(0, 0, 0, 0);
     const dim = Math.min(p.width, p.height);
     p.strokeWeight(dim * 0.0025);
-    p.stroke(waveColor); // Use the provided color
+    p.stroke(waveColor);
     p.noFill();
     if (playing) {
       const values =

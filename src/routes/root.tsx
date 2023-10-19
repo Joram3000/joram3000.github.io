@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/navbar";
-import { useDisclosure } from "@mantine/hooks";
+// import { useDisclosure } from "@mantine/hooks";
 import { AppShell, Group } from "@mantine/core"; //Burger Skeleton
 // import { HeaderSimple } from "../components/navbar/HeaderSimple";
 // import FooterLinks from "../components/FooterLinks/FooterLinks";
 // import { FooterSocial } from "../components/FooterLinks/FooterSocial";
 
 export default function Root() {
-  const [opened, { toggle }] = useDisclosure();
+  // const [opened, { toggle }] = useDisclosure();
   return (
     <AppShell
     // header={{ height: 60 }}

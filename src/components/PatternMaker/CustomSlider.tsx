@@ -6,7 +6,7 @@ interface CustomSliderProps {
   min: number;
   max: number;
   label: string;
-  sendValue: (value: number) => void;
+  sendValue: (value: number, value2?: number) => void;
   initValue: number;
 }
 
