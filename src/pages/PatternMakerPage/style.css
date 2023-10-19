@@ -5,6 +5,12 @@
   transform: translate(-50%, -50%);
 } */
 
+.p5-canvas {
+  z-index: -1;
+  position: absolute;
+  border: 2px solid black;
+}
+
 /* TRANSPORTER */
 .tbreel-style {
   position: absolute;
