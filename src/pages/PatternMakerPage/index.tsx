@@ -58,7 +58,7 @@ const PatternMakerPage: React.FC = () => {
             color={seqPattern.color}
             selectedSound={seqPattern.sound}
           />
-          <Box pt="xl">
+          <Box>
             <CustomSlider
               min={-40}
               max={0}
