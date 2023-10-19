@@ -43,8 +43,7 @@ const sketch: Sketch<MySketchProps> = (p) => {
     p.stroke(waveColor);
     p.noFill();
     if (playing) {
-      const values =
-        (analyser.getValue() as Float32Array) || new Float32Array(512);
+      const values = analyser.getValue() as Float32Array;
 
       p.beginShape();
       for (let i = 0; i < values.length; i++) {
