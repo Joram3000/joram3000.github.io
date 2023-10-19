@@ -8,6 +8,7 @@ import { AppShell, Group } from "@mantine/core"; //Burger Skeleton
 
 export default function Root() {
   const [opened, { toggle }] = useDisclosure();
+  console.log(toggle);
   return (
     <AppShell
       header={{ height: 60 }}

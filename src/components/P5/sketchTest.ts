@@ -27,6 +27,7 @@ const sketchTest = (p: p5, canvasRef: HTMLDivElement, color: string) => {
     p.noFill();
 
     if (playing) {
+      // @ts-ignore
       const values = analyser.getValue();
 
       p.beginShape();
