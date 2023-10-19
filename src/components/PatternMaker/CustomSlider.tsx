@@ -18,23 +18,23 @@ const CustomSlider: React.FC<CustomSliderProps> = ({
   sendValue,
   initValue,
 }) => {
-  const [volume, setVolume] = useState(initValue);
-  const [endValue, setEndValue] = useState(volume);
+  const [value, setValue] = useState(initValue);
+  const [endValue, setEndValue] = useState(value);
 
-  const setEndValuerr = (value: number) => {
-    setEndValue(value);
+  const setAndSend = (value: number) => {
+    setValue(value);
     sendValue(value);
   };
 
   return (
-    <Box maw={400} mx="auto">
+    <Box maw={500} mx="auto">
       <Slider
         color={color}
         min={min}
         max={max}
-        value={volume}
-        onChange={setVolume}
-        onChangeEnd={setEndValuerr}
+        value={value}
+        onChange={setAndSend}
+        onChangeEnd={setEndValue}
       />
 
       <Text mt={5} size="sm">
