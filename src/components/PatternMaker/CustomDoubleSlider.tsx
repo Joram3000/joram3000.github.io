@@ -39,7 +39,7 @@ const CustomDoubleSlider: React.FC<CustomDoubleSliderProps> = ({
 
       <Group justify="space-between">
         {label.map((label, i) => (
-          <Text key={label} mt={5} size="sm">
+          <Text key={label} size="sm">
             {label}: <b>{endValue[i]}</b>
           </Text>
         ))}
