@@ -22,7 +22,6 @@ const P5Canvas: React.FC<P5CanvasProps> = ({ sketch }) => {
       }
 
       p5Instance = new p5((p) =>
-        // @ts-ignore
         sketch(p, canvasRef.current, seqPattern.color)
       );
       setColor(seqPattern.color);
@@ -36,9 +35,7 @@ const P5Canvas: React.FC<P5CanvasProps> = ({ sketch }) => {
     };
   }, [sketch, seqPattern.color]);
 
-  return (
-    <div style={{ zIndex: -1, position: "absolute" }} ref={canvasRef}></div>
-  );
+  return <div className="p5-canvas" ref={canvasRef}></div>;
 };
 
 export default P5Canvas;
