@@ -14,7 +14,7 @@ import { Box, Group, Text } from "@mantine/core";
 import P5Canvas from "../../components/P5/p5Canvas";
 import sketchTest from "../../components/P5/sketchTest";
 
-//TODO KAN DIT WORDEN VERPLAATST
+//TODO KAN DIT WORDEN VERPLAATST?
 const output = new Tone.Volume(-12).toDestination();
 
 const PatternMakerPage: React.FC = () => {
@@ -42,10 +42,11 @@ const PatternMakerPage: React.FC = () => {
 
   return (
     <>
+      <P5Canvas sketch={sketchTest} />
       <Text size="xl" fw={700} c={seqPattern.color}>
         {seqPattern.name}
       </Text>
-      <P5Canvas sketch={sketchTest} />
+
       <SelectPattern />
       <PatternMaker output={output} />
       <Group grow m="sm">
