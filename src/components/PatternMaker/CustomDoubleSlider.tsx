@@ -6,6 +6,7 @@ interface CustomDoubleSliderProps {
   min: number;
   max: number;
   label: string[];
+  valueLabel?: string;
   sendValue: (value: [number, number]) => void;
   initValue: [number, number];
 }
@@ -15,6 +16,7 @@ const CustomDoubleSlider: React.FC<CustomDoubleSliderProps> = ({
   min,
   max,
   label,
+  valueLabel,
   sendValue,
   initValue,
 }) => {
@@ -35,12 +37,20 @@ const CustomDoubleSlider: React.FC<CustomDoubleSliderProps> = ({
         value={value}
         onChange={setAndSend}
         onChangeEnd={setEndValue}
+        labelTransitionProps={{
+          transition: "skew-down",
+          duration: 150,
+          timingFunction: "linear",
+        }}
       />
 
       <Group justify="space-between">
         {label.map((label, i) => (
-          <Text key={label} size="sm">
-            {label}: <b>{endValue[i]}</b>
+          <Text key={label} size="sm" mb="md">
+            {label}:
+            <b>
+              {endValue[i]} {valueLabel}
+            </b>
           </Text>
         ))}
       </Group>
