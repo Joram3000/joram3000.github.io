@@ -3,6 +3,7 @@ import * as Tone from "tone";
 import { useDispatch, useSelector } from "react-redux";
 import { SelectedPattern } from "../../store/seqState/selectors";
 import { PatternUpdater } from "../../store/seqState/actions";
+import { Container, Flex, Group, Stack } from "@mantine/core";
 
 interface PatternMakerProps {
   output: Tone.OutputNode;
@@ -86,35 +87,36 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
   }
 
   return (
-    <div className="pattern-container">
-      <div
-        style={{
-          borderRadius: 8,
-          border: `4px solid ${seqPattern.color}`,
-        }}
-      >
-        {seqPattern.pattern.map((row: boolean[], y: number) => (
-          <div key={y} style={{ display: "flex" }}>
-            {row.map((trigger, x) => (
-              <div
-                key={x}
-                style={{
-                  margin: "2px",
-                  height: "100px",
-                  width: "100%",
-                  background: trigger
-                    ? `linear-gradient(to right, ${seqPattern.color}, transparent)`
-                    : "transparent",
-                }}
-                onClick={() => {
-                  setPattern({ x, y, trigger });
-                }}
-              ></div>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
+    <Container
+      p={0}
+      className="seqPattern"
+      style={{
+        borderRadius: 8,
+        border: `4px solid ${seqPattern.color}`,
+      }}
+    >
+      {seqPattern.pattern.map((row: boolean[], y: number) => (
+        <Flex className="seqRow" key={y}>
+          {row.map((trigger, x) => (
+            <Container
+              className="seqTrigger"
+              key={x}
+              style={{
+                margin: "2px",
+                height: "100px",
+                width: "100%",
+                background: trigger
+                  ? `linear-gradient(to right, ${seqPattern.color}, transparent)`
+                  : "transparent",
+              }}
+              onClick={() => {
+                setPattern({ x, y, trigger });
+              }}
+            />
+          ))}
+        </Flex>
+      ))}
+    </Container>
   );
 };
 
