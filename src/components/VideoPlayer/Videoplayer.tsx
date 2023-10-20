@@ -30,20 +30,14 @@ function VideoPlayer() {
   return (
     <Container p="md">
       <Title pb="md">NarrowCasting Stuff</Title>
+
       <div
         className="background-layer"
         style={{
           borderRadius: 16,
-          overflow: "hidden",
           backgroundColor: color,
         }}
       >
-        {showOverlay && (
-          <div className="overlay-layer">
-            <h1 className="overlay-text">{arrayValues[greetingIndex]}</h1>
-          </div>
-        )}
-
         <ReactPlayer
           playing
           controls
@@ -53,6 +47,11 @@ function VideoPlayer() {
           loop
           onProgress={handleProgress}
         />
+        {
+          <div className="overlay-layer">
+            <h1 className="overlay-text">{arrayValues[greetingIndex]}</h1>
+          </div>
+        }
       </div>
 
       <Stack align="center" m="md">

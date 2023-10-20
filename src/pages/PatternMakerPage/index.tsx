@@ -84,21 +84,22 @@ const PatternMakerPage: React.FC = () => {
           <P5CanvasDynamic />
         </div>
       </div>
-      <div style={{ border: "1px solid pink", height: "90vh" }}>
-        <Group justify="space-between" p="md">
+      <div style={{ border: "1px dotted pink", height: "90vh" }}>
+        <Group justify="space-evenly" grow p="md">
           <Title p="md" c={seqPattern.color}>
             {seqPattern.name}
           </Title>
+
           <SelectPattern />
         </Group>
 
-        <Stack p="md" align="flex-end">
+        <Group justify="space-around" p="md">
           <SelectSound
             color={seqPattern.color}
             selectedSound={seqPattern.sound}
           />
 
-          <Box miw={300} bg="orange">
+          <Box miw={300}>
             <CustomSlider
               min={-40}
               max={0}
@@ -127,7 +128,7 @@ const PatternMakerPage: React.FC = () => {
               initValue={soundSettings.tempo}
             />
           </Box>
-        </Stack>
+        </Group>
         <Transporter />
       </div>
     </div>

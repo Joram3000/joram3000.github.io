@@ -14,35 +14,33 @@ const Transporter: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ position: "relative" }}>
+    <div
+      className="tbreel-style"
+      onClick={() => {
+        toggle();
+      }}
+    >
+      <img style={{}} src={TBREEL} alt="TBREEL" height="220" />
       <div
-        className="tbreel-style"
-        onClick={() => {
-          toggle();
-        }}
+        style={
+          playState === "started"
+            ? { animation: "spin 4s linear infinite" }
+            : { animation: "paused" }
+        }
+        className="draaiding1"
       >
-        <img style={{}} src={TBREEL} alt="TBREEL" height="220" />
-        <div
-          style={
-            playState === "started"
-              ? { animation: "spin 4s linear infinite" }
-              : { animation: "paused" }
-          }
-          className="draaiding1"
-        >
-          <img src={TBREELrechts} alt="TBREELrechts" />
-        </div>
+        <img src={TBREELrechts} alt="TBREELrechts" />
+      </div>
 
-        <div
-          style={
-            playState === "started"
-              ? { animation: "spin 4s linear infinite" }
-              : { animation: "paused" }
-          }
-          className="draaiding2"
-        >
-          <img src={TBREELlinks} alt="TBREELlinks" />
-        </div>
+      <div
+        style={
+          playState === "started"
+            ? { animation: "spin 4s linear infinite" }
+            : { animation: "paused" }
+        }
+        className="draaiding2"
+      >
+        <img src={TBREELlinks} alt="TBREELlinks" />
       </div>
     </div>
   );
