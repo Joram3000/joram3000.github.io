@@ -94,7 +94,7 @@ export default function Root() {
       </AppShell.Header>
 
       <AppShell.Navbar>
-        <NavbarSimple active={active} setActive={(setActive, toggelientje)} />
+        <NavbarSimple active={active} setActive={setActive} />
       </AppShell.Navbar>
 
       <AppShell.Main>
