@@ -9,7 +9,7 @@ const SelectPattern: React.FC = () => {
   const savedPatterns = useSelector(SavedPatterns);
 
   return (
-    <Group>
+    <>
       {savedPatterns.map((pattern) => (
         <Button
           m="sm"
@@ -23,7 +23,7 @@ const SelectPattern: React.FC = () => {
           {pattern.name}
         </Button>
       ))}
-    </Group>
+    </>
   );
 };
 
