@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import PatternMaker from "../../components/PatternMaker/PatternMaker";
-// import Transporter from "../../components/PatternMaker/Transporter";
 import { SelectedPattern, StateVolume } from "../../store/seqState/selectors";
 import { useSelector } from "react-redux";
 import SelectSound from "../../components/PatternMaker/SelectSound";
@@ -49,12 +48,9 @@ const PatternMakerPage: React.FC = () => {
       <div
         className="patternandcanvas"
         style={{
-          // width: "100vw",
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          // justifyContent: "center",
-          // alignItems: "center",
           border: "1px solid orange",
         }}
       >
@@ -85,7 +81,7 @@ const PatternMakerPage: React.FC = () => {
         </div>
       </div>
       <div style={{ border: "1px dotted pink", height: "90vh" }}>
-        <Group justify="space-evenly" grow p="md">
+        <Group justify="space-evenly" px="md">
           <Title p="md" c={seqPattern.color}>
             {seqPattern.name}
           </Title>
@@ -99,7 +95,7 @@ const PatternMakerPage: React.FC = () => {
             selectedSound={seqPattern.sound}
           />
 
-          <Box miw={300}>
+          <Box>
             <CustomSlider
               min={-40}
               max={0}

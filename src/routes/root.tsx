@@ -15,13 +15,12 @@ import NavbarSimple from "../components/navbar/NavbarSimple";
 import { menuData } from "./menuData";
 // import { HeaderSimple } from "../components/navbar/HeaderSimple";
 import classes from "../components/navbar/NavbarSimple.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ThemeSwitch } from "../components/ThemeSwitch";
 import { lorem } from "../helpers/TextFiller";
 
 export default function Root() {
   const [active, setActive] = useState("Home");
-
   const [opened, { toggle: toggelientje }] = useDisclosure();
   const [navbardesktopOpened, { toggle: navbarToggleDesktop }] =
     useDisclosure(true);
@@ -29,6 +28,12 @@ export default function Root() {
   const [asidemobileOpened, { toggle: asidetoggleMobile }] = useDisclosure();
   const [asidedesktopOpened, { toggle: asideToggleDesktop }] =
     useDisclosure(true);
+
+  console.log(opened);
+
+  useEffect(() => {
+    toggelientje;
+  }, [active]);
 
   return (
     <AppShell
@@ -52,36 +57,44 @@ export default function Root() {
       }}
     >
       <AppShell.Header>
-        <Group visibleFrom="sm" justify="space-around" align="center" h={60}>
-          <Text>Welkom op mijn website</Text>
-          {menuData.map((item) => (
-            <Link
-              className={classes.link}
-              data-active={item.label === active || undefined}
-              key={item.label}
-              to={item.link}
-              onClick={() => {
-                setActive(item.label);
-              }}
-            >
-              {item.label}
-            </Link>
-          ))}
-          <ThemeSwitch />
-        </Group>
+        <Group h="100%" align="center" justify="space-between" px="md">
+          <Group
+            visibleFrom="sm"
+            justify="space-between"
+            w="90%"
+            align="center"
+            h={60}
+          >
+            <Text>Welkom op mijn website</Text>
+            {menuData.map((item) => (
+              <Link
+                className={classes.link}
+                data-active={item.label === active || undefined}
+                key={item.label}
+                to={item.link}
+                onClick={() => {
+                  setActive(item.label);
+                }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </Group>
 
-        <Group h="100%" px="md">
-          <Burger
-            opened={opened}
-            onClick={toggelientje}
-            hiddenFrom="sm"
-            size="sm"
-          />
+          <Group h="100%" px="md">
+            <Burger
+              opened={opened}
+              onClick={toggelientje}
+              hiddenFrom="sm"
+              size="sm"
+            />
+          </Group>
+          <ThemeSwitch />
         </Group>
       </AppShell.Header>
 
       <AppShell.Navbar>
-        <NavbarSimple active={active} setActive={setActive} />
+        <NavbarSimple active={active} setActive={(setActive, toggelientje)} />
       </AppShell.Navbar>
 
       <AppShell.Main>
