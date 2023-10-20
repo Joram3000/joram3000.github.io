@@ -61,9 +61,5 @@ const sketch: Sketch<MySketchProps> = (p) => {
 export function P5CanvasDynamic() {
   const seqPattern = useSelector(SelectedPattern);
 
-  return (
-    <div style={{ position: "absolute", zIndex: -1 }}>
-      <ReactP5Wrapper sketch={sketch} color={seqPattern.color} />
-    </div>
-  );
+  return <ReactP5Wrapper sketch={sketch} color={seqPattern.color} />;
 }
