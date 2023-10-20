@@ -1,26 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReactPlayer from "react-player";
-import { useParams } from "react-router-dom";
-import GreetingOverlay from "./GreetingOverlay";
 import "./VideoPlayer.css";
+import {
+  ColorPicker,
+  Container,
+  Stack,
+  TagsInput,
+  Text,
+  Title,
+} from "@mantine/core";
 
 function VideoPlayer() {
   const [color, setColor] = useState<string>("#0000ff");
   const [greetingIndex, setGreetingIndex] = useState(0);
   const [showOverlay, setShowOverlay] = useState(false);
-  const { colorParam } = useParams();
   const [arrayValues, setArrayValues] = useState<string[]>(["Goedesnavels"]);
 
-  const handleArrayValuesChange = (newArrayValues: string[]) => {
-    setArrayValues(newArrayValues);
-  };
-
-  useEffect(() => {
-    if (colorParam) {
-      setColor(`#${colorParam}`);
-    }
-  }, [colorParam]);
-
+  //SHOW WORDS AND TIM IT
   const handleProgress = (progress: { playedSeconds: number }) => {
     if (progress.playedSeconds < 1) {
       setShowOverlay(true);
@@ -31,15 +27,14 @@ function VideoPlayer() {
     }
   };
 
-  const handleChange = (event: any) => {
-    setColor(event.target.value);
-  };
-
   return (
-    <>
+    <Container p="md">
+      <Title pb="md">NarrowCasting Stuff</Title>
       <div
         className="background-layer"
         style={{
+          borderRadius: 16,
+          overflow: "hidden",
           backgroundColor: color,
         }}
       >
@@ -54,31 +49,47 @@ function VideoPlayer() {
           controls
           url="animation09.mp4"
           width={1920 / 2}
-          height={540 / 2}
+          height={1080 / 4}
           loop
           onProgress={handleProgress}
         />
       </div>
 
-      <div className="color-changer">
-        <h2>Kies een achtergrondkleur</h2>
-        <input
-          className="color-input"
-          style={{
-            backgroundColor: color,
-          }}
-          type="color"
+      <Stack align="center" m="md">
+        <Text>Kies een achtergrondkleur:</Text>
+        <ColorPicker
+          onChange={setColor}
+          withPicker={false}
           value={color}
-          onChange={handleChange}
-          placeholder="Enter a color"
+          format="hex"
+          swatches={[
+            "#25262b",
+            "#868e96",
+            "#fa5252",
+            "#e64980",
+            "#be4bdb",
+            "#7950f2",
+            "#4c6ef5",
+            "#228be6",
+            "#15aabf",
+            "#12b886",
+            "#40c057",
+            "#82c91e",
+            "#fab005",
+            "#fd7e14",
+          ]}
         />
 
-        <GreetingOverlay
-          arrayValues={arrayValues}
-          onArrayValuesChange={handleArrayValuesChange}
+        <Text>Type hier je begroetingen:</Text>
+        <TagsInput
+          w={320}
+          value={arrayValues}
+          onChange={setArrayValues}
+          placeholder="Type begroeting"
+          data={["Goedemiddag", "Goedenavond", "Hartelijke snavels"]}
         />
-      </div>
-    </>
+      </Stack>
+    </Container>
   );
 }
 

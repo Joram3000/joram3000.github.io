@@ -11,37 +11,17 @@
   justify-content: center;
   align-items: center;
 }
-
 .overlay-layer {
   width: 50%;
-  height: 80%;
-  right: 8vw;
   position: absolute;
   display: flex;
+  justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .overlay-text {
   font-size: 2vw;
   color: white;
   font-family: "Castoro Italic", sans-serif;
-}
-
-.color-changer {
-  padding-top: 2vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.color-input {
-  width: 50px;
-  height: 50px;
-  padding: 1rem;
-  border-radius: 50%;
-}
-
-input::-webkit-color-swatch {
-  border: none;
 }
