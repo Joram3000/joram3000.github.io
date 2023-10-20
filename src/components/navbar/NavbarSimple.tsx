@@ -1,0 +1,38 @@
+import classes from "./NavbarSimple.module.css";
+import { Link } from "react-router-dom";
+import { menuData } from "../../routes/menuData";
+
+interface NavbarSimpleProps {
+  active: string;
+  setActive: (value: string) => void;
+}
+
+const NavbarSimple: React.FC<NavbarSimpleProps> = ({ active, setActive }) => {
+  const links = menuData.map((item) => (
+    <Link
+      className={classes.link}
+      data-active={item.label === active || undefined}
+      key={item.label}
+      to={item.link}
+      onClick={() => {
+        setActive(item.label);
+      }}
+    >
+      {item.label}
+    </Link>
+  ));
+
+  return (
+    <nav className={classes.navbar}>
+      <div className={classes.navbarMain}>{links}</div>
+
+      {/* <a
+        href="#"
+        className={classes.link}
+        onClick={(event) => event.preventDefault()}
+      ></a> */}
+    </nav>
+  );
+};
+
+export default NavbarSimple;
