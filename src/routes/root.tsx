@@ -1,5 +1,4 @@
 import { Link, Outlet } from "react-router-dom";
-// import Navbar from "../components/navbar";
 import { useDisclosure } from "@mantine/hooks";
 import {
   AppShell,
@@ -10,12 +9,11 @@ import {
   ScrollArea,
   Text,
   Title,
-} from "@mantine/core"; //Burger Skeleton
+} from "@mantine/core";
 import NavbarSimple from "../components/navbar/NavbarSimple";
 import { menuData } from "./menuData";
-// import { HeaderSimple } from "../components/navbar/HeaderSimple";
 import classes from "../components/navbar/NavbarSimple.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ThemeSwitch } from "../components/ThemeSwitch";
 import { lorem } from "../helpers/TextFiller";
 
@@ -30,10 +28,6 @@ export default function Root() {
     useDisclosure(true);
 
   console.log(opened);
-
-  useEffect(() => {
-    toggelientje;
-  }, [active]);
 
   return (
     <AppShell
@@ -52,43 +46,38 @@ export default function Root() {
         breakpoint: "md",
         collapsed: {
           mobile: !asidemobileOpened,
-          desktop: !asidedesktopOpened,
+          desktop: !asidemobileOpened,
         },
       }}
     >
       <AppShell.Header>
-        <Group h="100%" align="center" justify="space-between" px="md">
-          <Group
-            visibleFrom="sm"
-            justify="space-between"
-            w="90%"
-            align="center"
-            h={60}
-          >
-            <Text>Welkom op mijn website</Text>
-            {menuData.map((item) => (
-              <Link
-                className={classes.link}
-                data-active={item.label === active || undefined}
-                key={item.label}
-                to={item.link}
-                onClick={() => {
-                  setActive(item.label);
-                }}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </Group>
+        <Group hiddenFrom="sm" justify="space-between" w="100%" h={60} px="md">
+          <Burger opened={opened} onClick={toggelientje} size="sm" />
+          <ThemeSwitch />
+        </Group>
+        <Group
+          visibleFrom="sm"
+          justify="space-between"
+          align="center" //stretch
+          w="100%"
+          h={60}
+          px="md"
+        >
+          <Text fw={700}>Welkom op mijn website</Text>
+          {menuData.map((item) => (
+            <Link
+              className={classes.link}
+              data-active={item.label === active || undefined}
+              key={item.label}
+              to={item.link}
+              onClick={() => {
+                setActive(item.label);
+              }}
+            >
+              {item.label}
+            </Link>
+          ))}
 
-          <Group h="100%" px="md">
-            <Burger
-              opened={opened}
-              onClick={toggelientje}
-              hiddenFrom="sm"
-              size="sm"
-            />
-          </Group>
           <ThemeSwitch />
         </Group>
       </AppShell.Header>
@@ -119,15 +108,13 @@ export default function Root() {
       <AppShell.Footer>
         <Flex h={60} p="md" justify="space-between" align="center">
           <Button onClick={navbarToggleDesktop} visibleFrom="sm">
-            navbar [visible from SM]
+            {navbardesktopOpened ? "hide navbar" : "show navbar"}
           </Button>
 
           <Text>ik ben een hele mooie footer</Text>
-          <Button onClick={asideToggleDesktop} visibleFrom="sm">
-            aside [visible from SM]
-          </Button>
-          <Button onClick={asidetoggleMobile} hiddenFrom="sm">
-            aside [hidden from SM]
+
+          <Button onClick={asidetoggleMobile}>
+            {!asidemobileOpened ? "hide aside" : "show aside"}
           </Button>
         </Flex>
       </AppShell.Footer>
