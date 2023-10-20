@@ -14,12 +14,10 @@ import {
 import NavbarSimple from "../components/navbar/NavbarSimple";
 import { menuData } from "./menuData";
 // import { HeaderSimple } from "../components/navbar/HeaderSimple";
-
 import classes from "../components/navbar/NavbarSimple.module.css";
 import { useState } from "react";
 import { ThemeSwitch } from "../components/ThemeSwitch";
 import { lorem } from "../helpers/TextFiller";
-import Transporter from "../components/PatternMaker/Transporter";
 
 export default function Root() {
   const [active, setActive] = useState("Home");

@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { SetTempo, SetVolume, SetFilters } from "../../store/seqState/actions";
 import * as Tone from "tone";
 import SelectPattern from "../../components/PatternMaker/SelectPattern";
-import { Box, Center, Group, Stack, Title } from "@mantine/core";
+import { Box, Group, Title } from "@mantine/core";
 import "./style.css";
 import { P5CanvasDynamic } from "../../components/P5/P5CanvasDynamic";
 import CustomDoubleSlider from "../../components/PatternMaker/CustomDoubleSlider";

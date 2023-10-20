@@ -47,11 +47,11 @@ function VideoPlayer() {
           loop
           onProgress={handleProgress}
         />
-        {
+        {showOverlay && (
           <div className="overlay-layer">
             <h1 className="overlay-text">{arrayValues[greetingIndex]}</h1>
           </div>
-        }
+        )}
       </div>
 
       <Stack align="center" m="md">
