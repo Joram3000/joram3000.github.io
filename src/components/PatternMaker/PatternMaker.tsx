@@ -3,7 +3,7 @@ import * as Tone from "tone";
 import { useDispatch, useSelector } from "react-redux";
 import { SelectedPattern } from "../../store/seqState/selectors";
 import { PatternUpdater } from "../../store/seqState/actions";
-import { Container, Flex, Group, Stack } from "@mantine/core";
+import { Container, Flex } from "@mantine/core";
 
 interface PatternMakerProps {
   output: Tone.OutputNode;
