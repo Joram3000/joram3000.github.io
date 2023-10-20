@@ -4,7 +4,7 @@ const initialState = {
     tempo: 135,
     delayAmount: 0,
     delayFeedback: 0.7,
-    filtersAmount: [0, 4898],
+    filtersAmount: [0, 8000],
   },
   seqPattern: {
     name: "RitmeNaam",
