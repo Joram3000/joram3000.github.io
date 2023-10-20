@@ -25,12 +25,6 @@ const NavbarSimple: React.FC<NavbarSimpleProps> = ({ active, setActive }) => {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>{links}</div>
-
-      {/* <a
-        href="#"
-        className={classes.link}
-        onClick={(event) => event.preventDefault()}
-      ></a> */}
     </nav>
   );
 };
