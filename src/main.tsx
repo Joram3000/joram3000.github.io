@@ -35,7 +35,7 @@ const theme = createTheme({
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <MantineProvider theme={theme} forceColorScheme={"dark"}>
+    <MantineProvider theme={theme} defaultColorScheme="dark">
       <Provider store={store}>
         <RouterProvider router={router} />
       </Provider>
