@@ -1,7 +1,7 @@
 export const menuData = [
-  { link: "home", label: "Home" },
-  { link: "patternmaker", label: "Patternmaker" },
-  { link: "videoplayer", label: "Videoplayer" },
-  { link: "about", label: "About" },
-  { link: "contact", label: "Contact" },
+  { link: "home", label: "menu.home" },
+  { link: "patternmaker", label: "menu.patternMaker" },
+  { link: "videoplayer", label: "menu.videoPlayer" },
+  { link: "about", label: "menu.about" },
+  { link: "contact", label: "menu.contact" },
 ];

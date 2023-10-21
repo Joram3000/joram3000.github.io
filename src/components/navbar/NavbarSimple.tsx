@@ -1,6 +1,7 @@
 import classes from "./NavbarSimple.module.css";
 import { Link } from "react-router-dom";
 import { menuData } from "../../routes/menuData";
+import { useTranslation } from "react-i18next";
 
 interface NavbarSimpleProps {
   active: string;
@@ -8,6 +9,8 @@ interface NavbarSimpleProps {
 }
 
 const NavbarSimple: React.FC<NavbarSimpleProps> = ({ active, setActive }) => {
+  const { t } = useTranslation();
+
   const links = menuData.map((item) => (
     <Link
       className={classes.link}
@@ -18,7 +21,7 @@ const NavbarSimple: React.FC<NavbarSimpleProps> = ({ active, setActive }) => {
         setActive(item.label);
       }}
     >
-      {item.label}
+      {t(`${item.label}`)}
     </Link>
   ));
 
