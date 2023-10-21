@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from "react";
 import * as Tone from "tone";
-import TBREEL from "../../assets/images/TBREEL.png";
-import TBREELlinks from "../../assets/images/TBREELlinks.png";
-import TBREELrechts from "../../assets/images/TBREELrechts.png";
+import TBREEL from "../../../assets/images/TBREEL.png";
+import TBREELlinks from "../../../assets/images/TBREELlinks.png";
+import TBREELrechts from "../../../assets/images/TBREELrechts.png";
 
 const Transporter: React.FC = () => {
   const [playState, setPlayState] = useState(Tone.Transport.state);

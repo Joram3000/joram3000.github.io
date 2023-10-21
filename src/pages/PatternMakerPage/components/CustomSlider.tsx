@@ -6,9 +6,9 @@ interface CustomSliderProps {
   min: number;
   max: number;
   label: string;
-  valueLabel?: string;
   sendValue: (value: number, value2?: number) => void;
   initValue: number;
+  valueLabel?: string;
 }
 
 const CustomSlider: React.FC<CustomSliderProps> = ({
@@ -16,9 +16,9 @@ const CustomSlider: React.FC<CustomSliderProps> = ({
   min,
   max,
   label,
-  valueLabel,
   sendValue,
   initValue,
+  valueLabel,
 }) => {
   const [value, setValue] = useState<number>(initValue);
   const [endValue, setEndValue] = useState<number>(value);

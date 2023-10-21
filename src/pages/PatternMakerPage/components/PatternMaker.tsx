@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import * as Tone from "tone";
 import { useDispatch, useSelector } from "react-redux";
-import { SelectedPattern } from "../../store/seqState/selectors";
-import { PatternUpdater } from "../../store/seqState/actions";
+import { SelectedPattern } from "../../../store/seqState/selectors";
+import { PatternUpdater } from "../../../store/seqState/actions";
 import { Container, Flex } from "@mantine/core";
 
 interface PatternMakerProps {

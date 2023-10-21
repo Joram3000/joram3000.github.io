@@ -6,9 +6,9 @@ interface CustomDoubleSliderProps {
   min: number;
   max: number;
   label: string[];
-  valueLabel?: string;
   sendValue: (value: [number, number]) => void;
   initValue: [number, number];
+  valueLabel?: string;
 }
 
 const CustomDoubleSlider: React.FC<CustomDoubleSliderProps> = ({
@@ -16,12 +16,12 @@ const CustomDoubleSlider: React.FC<CustomDoubleSliderProps> = ({
   min,
   max,
   label,
-  valueLabel,
   sendValue,
   initValue,
+  valueLabel,
 }) => {
   const [value, setValue] = useState<[number, number]>(initValue);
-  const [endValue, setEndValue] = useState<[number, number]>(value);
+  const [endValue, setEndValue] = useState(value);
 
   const setAndSend = (value: [number, number]) => {
     setValue(value);

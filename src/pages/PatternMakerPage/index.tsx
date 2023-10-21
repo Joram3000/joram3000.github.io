@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
-import PatternMaker from "../../components/PatternMaker/PatternMaker";
+import PatternMaker from "./components/PatternMaker";
 import { SelectedPattern, StateVolume } from "../../store/seqState/selectors";
 import { useSelector } from "react-redux";
-import SelectSound from "../../components/PatternMaker/SelectSound";
+import SelectSound from "./components/SelectSound";
 // import { useDispatch } from "react-redux";
 // import { SetTempo, SetVolume, SetFilters } from "../../store/seqState/actions";
 import * as Tone from "tone";
-import SelectPattern from "../../components/PatternMaker/SelectPattern";
+import SelectPattern from "./components/SelectPattern";
 import { Group, Title } from "@mantine/core";
 import "./style.css";
 import { P5CanvasDynamic } from "../../components/P5/P5CanvasDynamic";
-import Transporter from "../../components/PatternMaker/Transporter";
+import Transporter from "./components/Transporter";
 
 //TODO KAN DIT WORDEN VERPLAATST?
 const output = new Tone.Volume(-12).toDestination();
