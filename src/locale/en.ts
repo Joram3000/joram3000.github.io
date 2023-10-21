@@ -3,6 +3,7 @@ import { Translation } from "./index";
 const en: Translation = {
   helloWorld: "ENGLISH",
   hello: "THIS IS AN ENGLISH STORY ABOUT INGLAND WAOW WAT DEEN MOOI LAND",
+  header: "Good day or something",
   menu: {
     home: "Home",
     patternMaker: "Patternmaker",

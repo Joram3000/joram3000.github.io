@@ -1,6 +1,7 @@
 import i18next, { InitOptions } from "i18next";
 import nl from "./nl";
 import en from "./en";
+import ar from "./ar";
 import { initReactI18next } from "react-i18next";
 
 export const resources: InitOptions["resources"] = {
@@ -9,6 +10,9 @@ export const resources: InitOptions["resources"] = {
   },
   en: {
     translation: en,
+  },
+  ar: {
+    translation: ar,
   },
 };
 
