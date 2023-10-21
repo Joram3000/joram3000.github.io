@@ -12,7 +12,7 @@ import store from "./store";
 import HomePage from "./pages/Home";
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
-import "./i18n";
+// import "./i18n";
 
 const router = createBrowserRouter([
   {

@@ -7,20 +7,27 @@ export function LanguageSwitch() {
     i18n: { language },
   } = useTranslation();
 
+  const languages = ["nl", "en", "ar"];
+
+  const getButtonText = () => {
+    const currentIndex = languages.indexOf(language);
+    const nextIndex = (currentIndex + 1) % languages.length;
+    return languages[nextIndex];
+  };
+
   const handleClick = async () => {
-    await l.changeLanguage(language === "nl" ? "en" : "nl");
+    const nextLanguage = getButtonText();
+    await l.changeLanguage(nextLanguage);
   };
 
   return (
-    <>
-      <ActionIcon
-        onClick={() => handleClick()}
-        variant="default"
-        size="lg"
-        aria-label="Toggle color scheme"
-      >
-        <Text fw="700">{language === "nl" ? "NL" : "EN"}</Text>
-      </ActionIcon>
-    </>
+    <ActionIcon
+      onClick={() => handleClick()}
+      variant="default"
+      size="lg"
+      aria-label="Toggle color scheme"
+    >
+      <Text fw="700">{getButtonText().toUpperCase()}</Text>
+    </ActionIcon>
   );
 }
