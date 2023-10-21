@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
-import { AppShell, Button, Flex, ScrollArea, Text, Title } from "@mantine/core";
+import { AppShell, Button, Flex, Text } from "@mantine/core";
 import NavbarSimple from "../components/navbar/NavbarSimple";
 import { useEffect, useState } from "react";
-import { lorem } from "../helpers/TextFiller";
 import HeaderSimple from "../components/header/HeaderSimple";
 import { useTranslation } from "react-i18next";
+import AsideComponent from "../components/aside/AsideComponent";
 
 export default function Root() {
   const {
@@ -18,18 +18,14 @@ export default function Root() {
 
   const [active, setActive] = useState("Home");
   const [opened, { toggle: toggelientje }] = useDisclosure(false);
-  const [navbardesktopOpened, { toggle: navbarToggleDesktop }] =
-    useDisclosure(true);
-
-  const [asidemobileOpened, { toggle: asidetoggleMobile }] = useDisclosure();
-  // const [asidedesktopOpened, { toggle: asideToggleDesktop }] =
-  //   useDisclosure(true);
+  const [navbarOpened, { toggle: navbarToggleDesktop }] = useDisclosure(true);
+  const [asideOpened, { toggle: asideToggle }] = useDisclosure();
 
   const menuClick = (waarde: string) => {
-    console.log("er wordt op het menu geljuktt");
     setActive(waarde);
     toggelientje();
   };
+
   return (
     <AppShell
       header={{ height: 60 }}
@@ -39,20 +35,20 @@ export default function Root() {
         breakpoint: "sm",
         collapsed: {
           mobile: !opened,
-          desktop: !navbardesktopOpened,
+          desktop: !navbarOpened,
         },
       }}
       aside={{
         width: 300,
         breakpoint: "md",
         collapsed: {
-          mobile: !asidemobileOpened,
-          desktop: !asidemobileOpened,
+          mobile: !asideOpened,
+          desktop: !asideOpened,
         },
       }}
     >
       <AppShell.Header>
-        <HeaderSimple opened={opened} onClickelientje={toggelientje} />
+        <HeaderSimple opened={opened} onClick={toggelientje} />
       </AppShell.Header>
 
       <AppShell.Navbar>
@@ -64,30 +60,19 @@ export default function Root() {
       </AppShell.Main>
 
       <AppShell.Aside p="md">
-        <Title order={3} pb="md">
-          Extra informatie
-        </Title>
-        <ScrollArea
-          offsetScrollbars
-          scrollbarSize={4}
-          scrollHideDelay={1000}
-          type="never"
-        >
-          <Text pb="md">{lorem.generateParagraphs(1)}</Text>
-          <Text pb="md">{lorem.generateParagraphs(6)}</Text>
-        </ScrollArea>
+        <AsideComponent />
       </AppShell.Aside>
 
       <AppShell.Footer>
         <Flex h={60} p="md" justify="space-between" align="center">
           <Button onClick={navbarToggleDesktop} visibleFrom="sm">
-            {navbardesktopOpened ? "hide navbar" : "show navbar"}
+            {navbarOpened ? "hide navbar" : "show navbar"}
           </Button>
 
-          <Text>ik ben een hele mooie footer</Text>
+          <Text>Footer</Text>
 
-          <Button onClick={asidetoggleMobile}>
-            {!asidemobileOpened ? "hide aside" : "show aside"}
+          <Button onClick={asideToggle}>
+            {asideOpened ? "hide aside" : "show aside"}
           </Button>
         </Flex>
       </AppShell.Footer>

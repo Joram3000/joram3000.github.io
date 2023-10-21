@@ -5,13 +5,10 @@ import { useTranslation } from "react-i18next";
 
 interface HeaderSimpleProps {
   opened: boolean;
-  onClickelientje: () => void;
+  onClick: () => void;
 }
 
-const HeaderSimple: React.FC<HeaderSimpleProps> = ({
-  opened,
-  onClickelientje,
-}) => {
+const HeaderSimple: React.FC<HeaderSimpleProps> = ({ opened, onClick }) => {
   const { t } = useTranslation();
 
   return (
@@ -21,12 +18,7 @@ const HeaderSimple: React.FC<HeaderSimpleProps> = ({
           {t("header")}
         </Text>
 
-        <Burger
-          opened={opened}
-          onClick={onClickelientje}
-          hiddenFrom="sm"
-          size="sm"
-        />
+        <Burger opened={opened} onClick={onClick} hiddenFrom="sm" size="sm" />
 
         <Group>
           <LanguageSwitch />
