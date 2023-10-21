@@ -1,10 +1,14 @@
 import i18next, { InitOptions } from "i18next";
 import nl from "./nl";
+import en from "./en";
 import { initReactI18next } from "react-i18next";
 
 export const resources: InitOptions["resources"] = {
   nl: {
     translation: nl,
+  },
+  en: {
+    translation: en,
   },
 };
 

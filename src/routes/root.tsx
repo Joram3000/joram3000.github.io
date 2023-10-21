@@ -13,11 +13,23 @@ import {
 import NavbarSimple from "../components/navbar/NavbarSimple";
 import { menuData } from "./menuData";
 import classes from "../components/navbar/NavbarSimple.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ThemeSwitch } from "../components/ThemeSwitch";
 import { lorem } from "../helpers/TextFiller";
+import HeaderSimple from "../components/header/HeaderSimple";
+import { useTranslation } from "react-i18next";
 
 export default function Root() {
+  const {
+    i18n: { language: currentLanguage },
+  } = useTranslation();
+
+  useEffect(() => {
+    sessionStorage.setItem("language", currentLanguage);
+  }, [currentLanguage]);
+
+  const { t } = useTranslation();
+
   const [active, setActive] = useState("Home");
   const [opened, { toggle: toggelientje }] = useDisclosure();
   const [navbardesktopOpened, { toggle: navbarToggleDesktop }] =
@@ -26,8 +38,6 @@ export default function Root() {
   const [asidemobileOpened, { toggle: asidetoggleMobile }] = useDisclosure();
   const [asidedesktopOpened, { toggle: asideToggleDesktop }] =
     useDisclosure(true);
-
-  console.log(opened);
 
   return (
     <AppShell
@@ -51,17 +61,20 @@ export default function Root() {
       }}
     >
       <AppShell.Header>
-        <Group hiddenFrom="sm" justify="space-between" w="100%" h={60} px="md">
+        <HeaderSimple active={active} setActive={setActive} />
+
+        {/* <Group hiddenFrom="sm" justify="space-between" w="100%" h={60}>
           <Burger opened={opened} onClick={toggelientje} size="sm" />
+
           <ThemeSwitch />
         </Group>
+
         <Group
           visibleFrom="sm"
           justify="space-between"
           align="center" //stretch
           w="100%"
           h={60}
-          px="md"
         >
           <Text fw={700}>Welkom op mijn website</Text>
           {menuData.map((item) => (
@@ -79,7 +92,7 @@ export default function Root() {
           ))}
 
           <ThemeSwitch />
-        </Group>
+        </Group> */}
       </AppShell.Header>
 
       <AppShell.Navbar>
