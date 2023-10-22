@@ -9,7 +9,10 @@ interface NavbarSimpleProps {
 }
 
 const NavbarSimple: React.FC<NavbarSimpleProps> = ({ active, setActive }) => {
-  const { t } = useTranslation();
+  const {
+    i18n: { language },
+    t,
+  } = useTranslation();
 
   const links = menuData.map((item) => (
     <Link
@@ -27,7 +30,12 @@ const NavbarSimple: React.FC<NavbarSimpleProps> = ({ active, setActive }) => {
 
   return (
     <nav className={classes.navbar}>
-      <div className={classes.navbarMain}>{links}</div>
+      <div
+        className={classes.navbarMain}
+        style={{ alignItems: language === "ar" ? "flex-end" : "" }}
+      >
+        {links}
+      </div>
     </nav>
   );
 };
