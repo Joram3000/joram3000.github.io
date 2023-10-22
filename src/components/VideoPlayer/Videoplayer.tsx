@@ -2,6 +2,7 @@ import { useState } from "react";
 import ReactPlayer from "react-player";
 import "./VideoPlayer.css";
 import {
+  AspectRatio,
   ColorPicker,
   Container,
   Stack,
@@ -16,7 +17,7 @@ function VideoPlayer() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [arrayValues, setArrayValues] = useState<string[]>(["Goedesnavels"]);
 
-  //SHOW WORDS AND TIM IT
+  //SHOW WORDS AND TIME IT
   const handleProgress = (progress: { playedSeconds: number }) => {
     if (progress.playedSeconds < 1) {
       setShowOverlay(true);
@@ -31,29 +32,40 @@ function VideoPlayer() {
     <Container p="md">
       <Title pb="md">NarrowCasting Stuff</Title>
 
-      <div
-        className="background-layer"
-        style={{
-          borderRadius: 16,
-          backgroundColor: color,
-        }}
-      >
-        <ReactPlayer
-          playing
-          controls
-          url="animation09.mp4"
-          width={1920 / 2}
-          height={1080 / 4}
-          loop
-          onProgress={handleProgress}
-        />
-        {showOverlay && (
-          <div className="overlay-layer">
-            <h1 className="overlay-text">{arrayValues[greetingIndex]}</h1>
-          </div>
-        )}
-      </div>
+      <AspectRatio ratio={960 / 270} maw={"100%"} mx="auto">
+        <div
+          className="background-layer"
+          style={{
+            borderRadius: 16,
+            backgroundColor: color,
+            overflow: "hidden",
+          }}
+        >
+          {/* <img
+            src="animation09.gif"
+            width={1920 / 2}
+            height={1080 / 4}
+            alt="GIF"
+            loop
+            onLoad={handleProgress}
+          /> */}
 
+          <ReactPlayer
+            playing
+            controls
+            url="animation09.mp4"
+            width={1920 / 2}
+            height={1080 / 4}
+            loop
+            onProgress={handleProgress}
+          />
+          {showOverlay && (
+            <div className="overlay-layer">
+              <h1 className="overlay-text">{arrayValues[greetingIndex]}</h1>
+            </div>
+          )}
+        </div>
+      </AspectRatio>
       <Stack align="center" m="md">
         <Text>Kies een achtergrondkleur:</Text>
         <ColorPicker
