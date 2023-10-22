@@ -13,10 +13,12 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@mantine/carousel": "^7.1.5",
     "@mantine/core": "^7.1.5",
     "@mantine/hooks": "^7.1.5",
     "@p5-wrapper/react": "^4.2.0",
     "@tabler/icons-react": "^2.39.0",
+    "embla-carousel-react": "^7.0.0-rc14",
     "i18next": "^23.6.0",
     "lorem-ipsum": "^2.0.8",
     "p5": "^1.7.0",
