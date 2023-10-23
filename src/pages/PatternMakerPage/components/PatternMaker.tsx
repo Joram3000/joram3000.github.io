@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import * as Tone from "tone";
 import { useDispatch, useSelector } from "react-redux";
-import { SelectedPattern } from "../../../store/seqState/selectors";
-import { PatternUpdater } from "../../../store/seqState/actions";
+import { SelectedPattern } from "../../../store/patternMakerState/selectors";
+import { PatternUpdater2 } from "../../../store/patternMakerState/actions";
 import { Container, Flex } from "@mantine/core";
 
 interface PatternMakerProps {
@@ -29,17 +29,17 @@ const samples = new Tone.Sampler({
 const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
   samples.connect(output);
   const dispatch = useDispatch();
-  const seqPattern = useSelector(SelectedPattern);
-  const [pattern, updatePattern] = useState<boolean[][]>(seqPattern.pattern); //INIT BY REDUX STATE
+  const reduxSequencerPattern = useSelector(SelectedPattern);
+  const [currentPattern, updateCurrentPattern] = useState<boolean[][]>(
+    reduxSequencerPattern.pattern
+  ); //INIT BY REDUX STATE
+  console.log(currentPattern); // wordt heel de tijd retriggeerd
 
-  useEffect(() => {
-    updatePattern(seqPattern.pattern);
-  }, [seqPattern.pattern]);
-
+  // dit is de loop die speelt
   useEffect(() => {
     const loop = new Tone.Sequence(
       (time, col) => {
-        pattern.map((rowArray: boolean[], rowIndex: number) => {
+        currentPattern.map((rowArray: boolean[], rowIndex: number) => {
           if (rowArray[col]) {
             samples.triggerAttackRelease(notes[rowIndex], "8n", time);
           }
@@ -48,12 +48,12 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
       [0, 1, 2, 3, 4, 5, 6, 7],
       "8n"
     ).start(0);
-    // Return a clean-up function
     return () => {
       loop.dispose();
     };
-  }, [pattern]);
+  }, [currentPattern]);
 
+  // hiermee passen de shit weg
   function setPattern({
     rowIndex,
     rowNumber,
@@ -63,13 +63,19 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
     rowNumber: number;
     trigger: boolean;
   }) {
-    const patternCopy = [...pattern];
-    patternCopy[rowNumber][rowIndex] = !trigger;
-    updatePattern(patternCopy);
-    dispatch(PatternUpdater(pattern));
+    dispatch(PatternUpdater2({ rowIndex, rowNumber, trigger }));
+    const patternCopy = [...currentPattern];
+    patternCopy[rowNumber][rowIndex] = !trigger; //hier mee draai je hem om
+    updateCurrentPattern(patternCopy);
+
+    // dispatch(PatternUpdater(patternCopy));
   }
 
-  switch (seqPattern.sound) {
+  // useEffect(() => {
+  //   updatePattern(seqPattern.pattern);
+  // }, [seqPattern.pattern]);
+
+  switch (reduxSequencerPattern.sound) {
     case "Loud":
       notes = ["B1", "A1"];
       break;
@@ -92,30 +98,32 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
       className="seqPattern"
       style={{
         borderRadius: 8,
-        border: `4px solid ${seqPattern.color}`,
+        border: `4px solid ${reduxSequencerPattern.color}`,
       }}
     >
-      {seqPattern.pattern.map((rowArray: boolean[], rowNumber: number) => (
-        <Flex className="seqRow" key={rowNumber}>
-          {rowArray.map((trigger, rowIndex) => (
-            <Container
-              className="seqTrigger"
-              key={rowIndex}
-              style={{
-                margin: "2px",
-                height: "100px",
-                width: "100%",
-                background: trigger
-                  ? `linear-gradient(to right, ${seqPattern.color}, transparent)`
-                  : "transparent",
-              }}
-              onClick={() => {
-                setPattern({ rowNumber, rowIndex, trigger });
-              }}
-            />
-          ))}
-        </Flex>
-      ))}
+      {reduxSequencerPattern.pattern.map(
+        (rowArray: boolean[], rowNumber: number) => (
+          <Flex className="seqRow" key={rowNumber}>
+            {rowArray.map((trigger, rowIndex) => (
+              <Container
+                className="seqTrigger"
+                key={rowIndex}
+                style={{
+                  margin: "2px",
+                  height: "100px",
+                  width: "100%",
+                  background: trigger
+                    ? `linear-gradient(to right, ${reduxSequencerPattern.color}, transparent)`
+                    : "transparent",
+                }}
+                onClick={() => {
+                  setPattern({ rowIndex, rowNumber, trigger });
+                }}
+              />
+            ))}
+          </Flex>
+        )
+      )}
     </Container>
   );
 };
