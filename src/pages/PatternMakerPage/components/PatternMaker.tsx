@@ -39,9 +39,9 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
   useEffect(() => {
     const loop = new Tone.Sequence(
       (time, col) => {
-        pattern.map((row: boolean[], noteIndex: number) => {
-          if (row[col]) {
-            samples.triggerAttackRelease(notes[noteIndex], "8n", time);
+        pattern.map((rowArray: boolean[], rowIndex: number) => {
+          if (rowArray[col]) {
+            samples.triggerAttackRelease(notes[rowIndex], "8n", time);
           }
         });
       },
@@ -55,16 +55,16 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
   }, [pattern]);
 
   function setPattern({
-    x,
-    y,
+    rowIndex,
+    rowNumber,
     trigger,
   }: {
-    x: number;
-    y: number;
+    rowIndex: number;
+    rowNumber: number;
     trigger: boolean;
   }) {
     const patternCopy = [...pattern];
-    patternCopy[y][x] = !trigger;
+    patternCopy[rowNumber][rowIndex] = !trigger;
     updatePattern(patternCopy);
     dispatch(PatternUpdater(pattern));
   }
@@ -95,12 +95,12 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
         border: `4px solid ${seqPattern.color}`,
       }}
     >
-      {seqPattern.pattern.map((row: boolean[], y: number) => (
-        <Flex className="seqRow" key={y}>
-          {row.map((trigger, x) => (
+      {seqPattern.pattern.map((rowArray: boolean[], rowNumber: number) => (
+        <Flex className="seqRow" key={rowNumber}>
+          {rowArray.map((trigger, rowIndex) => (
             <Container
               className="seqTrigger"
-              key={x}
+              key={rowIndex}
               style={{
                 margin: "2px",
                 height: "100px",
@@ -110,7 +110,7 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
                   : "transparent",
               }}
               onClick={() => {
-                setPattern({ x, y, trigger });
+                setPattern({ rowNumber, rowIndex, trigger });
               }}
             />
           ))}
