@@ -10,6 +10,7 @@ const en: Translation = {
     videoPlayer: "Videoplayer",
     about: "About",
     contact: "Contact",
+    test: "Tester",
   },
 };
 

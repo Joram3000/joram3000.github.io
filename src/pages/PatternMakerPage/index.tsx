@@ -91,14 +91,10 @@ const PatternMakerPage: React.FC = () => {
           style={{
             display: "flex",
             width: "100%",
-            height: "50%",
             flexDirection: "column",
+            flex: 1,
           }}
         >
-          {/* <Group justify="center" align="flex-start">
-            <Title c={seqPattern.color}>{seqPattern.name}</Title>
-          </Group> */}
-
           <Group justify="space-between" align="flex-start" p="md">
             <SelectSound
               color={seqPattern.color}
@@ -111,14 +107,24 @@ const PatternMakerPage: React.FC = () => {
           </Group>
         </div>
         <div
+          className="pattern-controls-mid"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            flex: 1,
+            width: "100%",
+          }}
+        ></div>
+
+        <div
           className="pattern-controls-bottom"
           style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
-
+            flex: 1,
             width: "100%",
-            height: "50%",
           }}
         >
           <Box p="md">
