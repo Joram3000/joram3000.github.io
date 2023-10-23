@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./pages/Error";
-import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
 import ContactPage from "./pages/Contact";
 import AboutPage from "./pages/About";
 import PatternMakerPage from "./pages/PatternMakerPage";
@@ -14,6 +13,7 @@ import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { ParallaxProvider } from "react-scroll-parallax";
 import TestPage from "./pages/test-pages/testpage";
+import VideoPlayer from "./components/VideoPlayer/Videoplayer";
 // import "@mantine/carousel/styles.css";
 
 const router = createBrowserRouter([
