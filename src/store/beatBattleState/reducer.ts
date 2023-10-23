@@ -121,7 +121,6 @@ const reducer: Reducer<beatBattleState> = (
   action
 ) => {
   const { type, payload } = action;
-  console.log(type, payload);
   switch (type) {
     default:
       return state;

@@ -60,7 +60,7 @@ const initialState: patternMakerState = {
 
 const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
   const { type, payload } = action;
-  console.log(action);
+
   switch (type) {
     case patternMakerActionTypes.PATTERNUPDATER: {
       return {

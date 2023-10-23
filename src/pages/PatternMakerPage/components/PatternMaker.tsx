@@ -33,7 +33,8 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
   const [currentPattern, updateCurrentPattern] = useState<boolean[][]>(
     reduxSequencerPattern.pattern
   ); //INIT BY REDUX STATE
-  console.log(currentPattern); // wordt heel de tijd retriggeerd
+
+  // console.log(currentPattern); // wordt heel de tijd retriggeerd
 
   // dit is de loop die speelt
   useEffect(() => {
