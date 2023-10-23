@@ -1,4 +1,7 @@
-const initialState = {
+import { initialReduxState, seqStateActionTypes } from "./types";
+import { Reducer } from "redux";
+
+const initialState: initialReduxState = {
   soundSettings: {
     volume: -12,
     tempo: 135,
@@ -6,6 +9,7 @@ const initialState = {
     delayFeedback: 0.7,
     filtersAmount: [0, 8000],
   },
+
   seqPattern: {
     name: "BeatMaker",
     color: "green",
@@ -15,6 +19,7 @@ const initialState = {
       [true, false, true, false, false, false, false, false],
     ],
   },
+
   savedPatterns: [
     {
       name: "Sjohones",
@@ -55,62 +60,64 @@ const initialState = {
   ],
 };
 
-export default function reducer(state = initialState, action: any) {
-  switch (action.type) {
-    case "PATTERNUPDATER": {
+const reducer: Reducer<initialReduxState> = (state = initialState, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case seqStateActionTypes.PATTERNUPDATER: {
       return {
         ...state,
         seqPattern: {
           ...state.seqPattern,
-          pattern: action.payload,
+          pattern: payload,
         },
       };
     }
-    case "PATTERNUPDATESELECTOR": {
+    case seqStateActionTypes.PATTERNUPDATESELECTOR: {
       return {
         ...state,
-        seqPattern: action.payload,
+        seqPattern: payload,
       };
     }
 
-    case "SELECTDRUMSOUND": {
+    case seqStateActionTypes.SELECTDRUMSOUND: {
       return {
         ...state,
         seqPattern: {
           ...state.seqPattern,
-          sound: action.payload,
+          sound: payload,
         },
       };
     }
-    case "SETTEMPO": {
+    case seqStateActionTypes.SETTEMPO: {
       return {
         ...state,
         soundSettings: {
           ...state.soundSettings,
-          tempo: action.payload,
+          tempo: payload,
         },
       };
     }
-    case "SETVOLUME": {
+    case seqStateActionTypes.SETVOLUME: {
       return {
         ...state,
         soundSettings: {
           ...state.soundSettings,
-          volume: action.payload,
+          volume: payload,
         },
       };
     }
-    case "SETFILTERS": {
+    case seqStateActionTypes.SETFILTERS: {
       return {
         ...state,
         soundSettings: {
           ...state.soundSettings,
-          filtersAmount: action.payload,
+          filtersAmount: payload,
         },
       };
     }
-
     default:
       return state;
   }
-}
+};
+
+export default reducer;
