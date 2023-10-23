@@ -19,6 +19,7 @@
     "@p5-wrapper/react": "^4.2.0",
     "@reduxjs/toolkit": "^1.9.7",
     "@tabler/icons-react": "^2.39.0",
+    "date-fns": "^2.30.0",
     "embla-carousel-react": "^7.0.0-rc14",
     "i18next": "^23.6.0",
     "lorem-ipsum": "^2.0.8",
