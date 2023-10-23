@@ -18,3 +18,12 @@ export interface seqPattern {
   sound?: string;
   pattern: boolean[][];
 }
+
+export enum seqStateActionTypes {
+  PATTERNUPDATER = "PATTERNUPDATER",
+  PATTERNUPDATESELECTOR = "PATTERNUPDATESELECTOR",
+  SELECTDRUMSOUND = "SELECTDRUMSOUND",
+  SETTEMPO = "SETTEMPO",
+  SETVOLUME = "SETVOLUME",
+  SETFILTERS = "SETFILTERS",
+}
