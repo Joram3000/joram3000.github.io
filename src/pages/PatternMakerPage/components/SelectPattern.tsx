@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SavedPatterns } from "../../../store/seqState/selectors";
-import { PatternUpdatewithSelect } from "../../../store/seqState/actions";
+import { SavedPatterns } from "../../../store/patternMakerState/selectors";
+import { PatternUpdatewithSelect } from "../../../store/patternMakerState/actions";
 import { Button, Stack } from "@mantine/core";
 
 const SelectPattern: React.FC = () => {

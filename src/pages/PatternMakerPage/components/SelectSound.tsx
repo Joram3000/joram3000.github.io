@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { SelectDrumSound } from "../../../store/seqState/actions";
+import { SelectDrumSound } from "../../../store/patternMakerState/actions";
 import { SegmentedControl } from "@mantine/core";
 
 interface SelectSoundCompProps {
