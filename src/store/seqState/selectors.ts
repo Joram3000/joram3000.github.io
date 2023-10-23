@@ -1,10 +1,10 @@
-import { initiaReduxState } from "./types";
+import { initialReduxState } from "./types";
 
-export const SelectedPattern = (state: initiaReduxState) =>
+export const SelectedPattern = (state: initialReduxState) =>
   state.seqState.seqPattern;
-
-export const StateVolume = (state: initiaReduxState) =>
+export const StateVolume = (state: initialReduxState) =>
   state.seqState.soundSettings;
-
-export const SavedPatterns = (state: initiaReduxState) =>
+export const SavedPatterns = (state: initialReduxState) =>
   state.seqState.savedPatterns;
+
+export const seqStaterr = (state: initialReduxState) => state;
