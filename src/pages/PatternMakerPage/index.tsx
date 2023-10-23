@@ -50,8 +50,24 @@ const PatternMakerPage: React.FC = () => {
           height: "100%",
           display: "flex",
           flexDirection: "column",
+          // backgroundColor: "rgba(0,0,200,1)",
         }}
       >
+        <div
+          className="5PCanvas"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            backgroundColor: "rgba(100,0,0,0.4)",
+            height: "100%",
+            zIndex: -1,
+          }}
+        >
+          <P5CanvasDynamic />
+        </div>
+
         <div
           style={{
             position: "absolute",
@@ -59,21 +75,10 @@ const PatternMakerPage: React.FC = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1,
+            backgroundColor: "rgba(200,160,0,0.3)",
           }}
         >
           <PatternMaker output={hpFilter} />
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "50%",
-            height: "50%",
-            zIndex: -1,
-          }}
-        >
-          <P5CanvasDynamic />
         </div>
       </div>
 
@@ -93,7 +98,7 @@ const PatternMakerPage: React.FC = () => {
             width: "100%",
             height: "50%",
             flexDirection: "column",
-            flex: 1,
+            // backgroundColor: "rgba(200,220,0,0.2)",
           }}
         >
           <Group justify="space-between" align="flex-start" p="md">
@@ -113,14 +118,14 @@ const PatternMakerPage: React.FC = () => {
             <SelectPattern />
           </Group>
         </div>
-      
+
         <div
           className="pattern-controls-bottom"
           style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
-            flex: 1,
+
             width: "100%",
             height: "50%",
           }}
