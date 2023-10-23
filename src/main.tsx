@@ -8,7 +8,7 @@ import ContactPage from "./pages/Contact";
 import AboutPage from "./pages/About";
 import PatternMakerPage from "./pages/PatternMakerPage";
 import { Provider } from "react-redux";
-import store from "./store";
+import store from "./store/store";
 import HomePage from "./pages/Home";
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
