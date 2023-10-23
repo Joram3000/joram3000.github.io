@@ -446,6 +446,11 @@
   dependencies:
     "@babel/types" "^7.20.7"
 
+"@types/debounce@*":
+  "integrity" "sha512-97mx7gWt4e+kd0wPa1pNEvE4tYGhgBVa4ExWOLcfFohAjF9wERfJ+3qrn7I1e76oHupOvRs4UyYe9xzy0i4TUw=="
+  "resolved" "https://registry.npmjs.org/@types/debounce/-/debounce-1.2.3.tgz"
+  "version" "1.2.3"
+
 "@types/hoist-non-react-statics@^3.3.1":
   "integrity" "sha512-Wny3a2UXn5FEA1l7gc6BbpoV5mD1XijZqgkp4TRgDCDL5r3B5ieOFGUX5h3n78Tr1MEG7BfvoM8qeztdvNU0fw=="
   "resolved" "https://registry.npmjs.org/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.3.tgz"
@@ -499,6 +504,13 @@
   "integrity" "sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA=="
   "resolved" "https://registry.npmjs.org/@types/use-sync-external-store/-/use-sync-external-store-0.0.3.tgz"
   "version" "0.0.3"
+
+"@types/wavesurfer.js@^6.0.10":
+  "integrity" "sha512-LEzDaKM8L/fx8lwh7SQROD8s5MuEtimChhEQ2HwDFJApPmZFALxSwwUMlEj0mT71EstWZuLhijY2uUiNRZtzqg=="
+  "resolved" "https://registry.npmjs.org/@types/wavesurfer.js/-/wavesurfer.js-6.0.10.tgz"
+  "version" "6.0.10"
+  dependencies:
+    "@types/debounce" "*"
 
 "@typescript-eslint/eslint-plugin@^6.0.0":
   "integrity" "sha512-JhtAwTRhOUcP96D0Y6KYnwig/MRQbOoLGXTON2+LlyB/N35SP9j1boai2zzwXb7ypKELXMx3DVk9UTaEq1vHEw=="
@@ -2123,6 +2135,16 @@
   "integrity" "sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w=="
   "resolved" "https://registry.npmjs.org/void-elements/-/void-elements-3.1.0.tgz"
   "version" "3.1.0"
+
+"waveform-data@^4.3.0":
+  "integrity" "sha512-gddZgTV1dM8Mfaqn+mCJjwTAc7O/GbX2LgOrijRCHEGC60ZVdd/qTzrgEcCE5MfBoBPgwQ85huy1icSf5IZY5Q=="
+  "resolved" "https://registry.npmjs.org/waveform-data/-/waveform-data-4.3.0.tgz"
+  "version" "4.3.0"
+
+"wavesurfer.js@^7.4.2":
+  "integrity" "sha512-4pNQ1porOCUBYBmd2F1TqVuBnB2wBPipaw2qI920zYLuPnada0Rd1CURgh8HRuPGKxijj2iyZDFN2UZwsaEuhA=="
+  "resolved" "https://registry.npmjs.org/wavesurfer.js/-/wavesurfer.js-7.4.2.tgz"
+  "version" "7.4.2"
 
 "which@^2.0.1":
   "integrity" "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA=="
