@@ -1,31 +1,31 @@
-import { seqPattern } from "./types";
+import { seqPattern, seqStateActionTypes } from "./types";
 
 export const PatternUpdater = (Payload: boolean[][]) => ({
-  type: "PATTERNUPDATER",
+  type: seqStateActionTypes.PATTERNUPDATER,
   payload: Payload,
 });
 
 export const PatternUpdatewithSelect = (Payload: seqPattern) => ({
-  type: "PATTERNUPDATESELECTOR",
+  type: seqStateActionTypes.PATTERNUPDATESELECTOR,
   payload: Payload,
 });
 
 export const SelectDrumSound = (Payload: string) => ({
-  type: "SELECTDRUMSOUND",
+  type: seqStateActionTypes.SELECTDRUMSOUND,
   payload: Payload,
 });
 
 export const SetTempo = (Payload: number) => ({
-  type: "SETTEMPO",
+  type: seqStateActionTypes.SETTEMPO,
   payload: Payload,
 });
 
 export const SetVolume = (Payload: number) => ({
-  type: "SETVOLUME",
+  type: seqStateActionTypes.SETVOLUME,
   payload: Payload,
 });
 
 export const SetFilters = (Payload: [number, number]) => ({
-  type: "SETFILTERS",
+  type: seqStateActionTypes.SETFILTERS,
   payload: Payload,
 });
