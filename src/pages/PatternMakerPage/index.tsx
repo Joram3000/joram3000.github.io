@@ -1,10 +1,17 @@
 import React, { useEffect } from "react";
 import PatternMaker from "./components/PatternMaker";
-import { SelectedPattern, StateVolume } from "../../store/seqState/selectors";
+import {
+  SelectedPattern,
+  SoundSettings,
+} from "../../store/patternMakerState/selectors";
 import { useSelector } from "react-redux";
 import SelectSound from "./components/SelectSound";
 import { useDispatch } from "react-redux";
-import { SetTempo, SetVolume, SetFilters } from "../../store/seqState/actions";
+import {
+  SetTempo,
+  SetVolume,
+  SetFilters,
+} from "../../store/patternMakerState/actions";
 import * as Tone from "tone";
 import SelectPattern from "./components/SelectPattern";
 import { Group, Title, Box } from "@mantine/core";
@@ -20,9 +27,8 @@ const hpFilter = new Tone.Filter(0, "highpass").connect(lpFilter);
 
 const PatternMakerPage: React.FC = () => {
   const dispatch = useDispatch();
-  const seqPattern = useSelector(SelectedPattern);
-  const soundSettings = useSelector(StateVolume);
-
+  const currentPattern = useSelector(SelectedPattern);
+  const soundSettings = useSelector(SoundSettings);
   const sendVolume = (waarde: number) => {
     dispatch(SetVolume(waarde));
   };
@@ -97,11 +103,11 @@ const PatternMakerPage: React.FC = () => {
         >
           <Group justify="space-between" align="flex-start" p="md">
             <SelectSound
-              color={seqPattern.color}
-              selectedSound={seqPattern.sound}
+              color={currentPattern.color}
+              selectedSound={currentPattern.sound}
             />
-            <Title order={3} c={seqPattern.color}>
-              {seqPattern.name}
+            <Title order={3} c={currentPattern.color}>
+              {currentPattern.name}
             </Title>
             <SelectPattern />
           </Group>
@@ -133,7 +139,7 @@ const PatternMakerPage: React.FC = () => {
               max={0}
               label={"Volume"}
               valueLabel={"dB"}
-              color={seqPattern.color}
+              color={currentPattern.color}
               sendValue={sendVolume}
               initValue={soundSettings.volume}
             />
@@ -142,7 +148,7 @@ const PatternMakerPage: React.FC = () => {
               max={8000}
               label={["HPFilter", "LPFilter"]}
               valueLabel={"Hz"}
-              color={seqPattern.color}
+              color={currentPattern.color}
               sendValue={sendFilters}
               initValue={soundSettings.filtersAmount}
             />
@@ -151,12 +157,12 @@ const PatternMakerPage: React.FC = () => {
               max={400}
               label={"Tempo"}
               valueLabel={"BPM"}
-              color={seqPattern.color}
+              color={currentPattern.color}
               sendValue={sendTempo}
               initValue={soundSettings.tempo}
             />
             <Group justify="center">
-              <TransporterButton color={seqPattern.color} />
+              <TransporterButton color={currentPattern.color} />
             </Group>
           </Box>
         </div>
