@@ -12,7 +12,6 @@ const SelectPattern: React.FC = () => {
     <Stack>
       {savedPatterns.map((pattern) => (
         <Button
-          // m="sm"
           variant="outline"
           key={pattern.name}
           color={pattern.color}

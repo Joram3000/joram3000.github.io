@@ -3,39 +3,40 @@ import PatternMaker from "./components/PatternMaker";
 import { SelectedPattern, StateVolume } from "../../store/seqState/selectors";
 import { useSelector } from "react-redux";
 import SelectSound from "./components/SelectSound";
-// import { useDispatch } from "react-redux";
-// import { SetTempo, SetVolume, SetFilters } from "../../store/seqState/actions";
+import { useDispatch } from "react-redux";
+import { SetTempo, SetVolume, SetFilters } from "../../store/seqState/actions";
 import * as Tone from "tone";
 import SelectPattern from "./components/SelectPattern";
-import { Group, Title } from "@mantine/core";
+import { Group, Title, Box } from "@mantine/core";
 import "./style.css";
 import { P5CanvasDynamic } from "../../components/P5/P5CanvasDynamic";
-import Transporter from "./components/Transporter";
+import CustomDoubleSlider from "./components/CustomDoubleSlider";
+import CustomSlider from "./components/CustomSlider";
+import TransporterButton from "./components/TransporterButton";
 
-//TODO KAN DIT WORDEN VERPLAATST?
 const output = new Tone.Volume(-12).toDestination();
 const lpFilter = new Tone.Filter(8000, "lowpass", -48).connect(output);
 const hpFilter = new Tone.Filter(0, "highpass").connect(lpFilter);
 
 const PatternMakerPage: React.FC = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const seqPattern = useSelector(SelectedPattern);
   const soundSettings = useSelector(StateVolume);
 
-  // const sendVolume = (waarde: number) => {
-  // dispatch(SetVolume(waarde));
-  // };
+  const sendVolume = (waarde: number) => {
+    dispatch(SetVolume(waarde));
+  };
 
-  // const sendFilters = (waarde: [number, number]) => {
-  //   dispatch(SetFilters(waarde));
-  //   lpFilter.frequency.value = waarde[1];
-  //   hpFilter.frequency.value = waarde[0];
-  // };
+  const sendFilters = (waarde: [number, number]) => {
+    dispatch(SetFilters(waarde));
+    lpFilter.frequency.value = waarde[1];
+    hpFilter.frequency.value = waarde[0];
+  };
 
-  // const sendTempo = (waarde: number) => {
-  //   Tone.Transport.bpm.value = waarde;
-  //   dispatch(SetTempo(Tone.Transport.bpm.value));
-  // };
+  const sendTempo = (waarde: number) => {
+    Tone.Transport.bpm.value = waarde;
+    dispatch(SetTempo(Tone.Transport.bpm.value));
+  };
 
   useEffect(() => {
     output.volume.value = soundSettings.volume;
@@ -49,7 +50,6 @@ const PatternMakerPage: React.FC = () => {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          // border: "1px solid orange",
         }}
       >
         <div
@@ -59,9 +59,6 @@ const PatternMakerPage: React.FC = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1,
-            width: "58%",
-            // maxWidth: "60%",
-            // border: "1px solid blue",
           }}
         >
           <PatternMaker output={hpFilter} />
@@ -80,57 +77,84 @@ const PatternMakerPage: React.FC = () => {
         </div>
       </div>
 
-      <Group align="flex-start" justify="space-between" p="md">
-        <SelectSound
-          color={seqPattern.color}
-          selectedSound={seqPattern.sound}
-        />
-        <Title c={seqPattern.color}>{seqPattern.name}</Title>
+      <div
+        className="pattern-controls"
+        style={{
+          height: "calc(100vh - 120px)",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <div
+          className="pattern-controls-top"
+          style={{
+            display: "flex",
+            width: "100%",
+            height: "50%",
+            flexDirection: "column",
+          }}
+        >
+          {/* <Group justify="center" align="flex-start">
+            <Title c={seqPattern.color}>{seqPattern.name}</Title>
+          </Group> */}
 
-        <SelectPattern />
-      </Group>
-      {/* <div style={{ border: "1px dotted pink", height: "90vh" }}>
-        <Group justify="space-evenly" px="md">
-          
- <Box>
-          <CustomSlider
-            min={-40}
-            max={0}
-            label={"Volume"}
-            valueLabel={"dB"}
-            color={seqPattern.color}
-            sendValue={sendVolume}
-            initValue={soundSettings.volume}
-          />
-          <CustomDoubleSlider
-            min={0}
-            max={8000}
-            label={["HPFilter", "LPFilter"]}
-            valueLabel={"Hz"}
-            color={seqPattern.color}
-            sendValue={sendFilters}
-            initValue={soundSettings.filtersAmount}
-          />
-          <CustomSlider
-            min={80}
-            max={400}
-            label={"Tempo"}
-            valueLabel={"BPM"}
-            color={seqPattern.color}
-            sendValue={sendTempo}
-            initValue={soundSettings.tempo}
-          />
-        </Box>
-     
-        </Group>
+          <Group justify="space-between" align="flex-start" p="md">
+            <SelectSound
+              color={seqPattern.color}
+              selectedSound={seqPattern.sound}
+            />
+            <Title order={3} c={seqPattern.color}>
+              {seqPattern.name}
+            </Title>
+            <SelectPattern />
+          </Group>
+        </div>
+        <div
+          className="pattern-controls-bottom"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
 
-        {/* <Group justify="space-around" p="md">
-         
-        
-        
-        </Group> */}
-
-      <Transporter />
+            width: "100%",
+            height: "50%",
+          }}
+        >
+          <Box p="md">
+            <CustomSlider
+              min={-40}
+              max={0}
+              label={"Volume"}
+              valueLabel={"dB"}
+              color={seqPattern.color}
+              sendValue={sendVolume}
+              initValue={soundSettings.volume}
+            />
+            <CustomDoubleSlider
+              min={0}
+              max={8000}
+              label={["HPFilter", "LPFilter"]}
+              valueLabel={"Hz"}
+              color={seqPattern.color}
+              sendValue={sendFilters}
+              initValue={soundSettings.filtersAmount}
+            />
+            <CustomSlider
+              min={80}
+              max={400}
+              label={"Tempo"}
+              valueLabel={"BPM"}
+              color={seqPattern.color}
+              sendValue={sendTempo}
+              initValue={soundSettings.tempo}
+            />
+            <Group justify="center">
+              <TransporterButton color={seqPattern.color} />
+            </Group>
+          </Box>
+        </div>
+      </div>
     </div>
   );
 };
