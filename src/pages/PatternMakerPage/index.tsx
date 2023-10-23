@@ -54,7 +54,7 @@ const PatternMakerPage: React.FC = () => {
       >
         <div
           style={{
-            position: "fixed",
+            position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
@@ -65,7 +65,7 @@ const PatternMakerPage: React.FC = () => {
         </div>
         <div
           style={{
-            position: "fixed",
+            position: "absolute",
             top: 0,
             left: 0,
             width: "50%",
@@ -80,7 +80,7 @@ const PatternMakerPage: React.FC = () => {
       <div
         className="pattern-controls"
         style={{
-          height: "calc(100vh - 120px)",
+          height: "calc(100vdh - 120px)",
           width: "100%",
           display: "flex",
           flexDirection: "column",
