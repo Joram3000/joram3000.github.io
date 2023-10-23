@@ -14,7 +14,8 @@ import { createTheme, MantineProvider } from "@mantine/core";
 import { ParallaxProvider } from "react-scroll-parallax";
 import TestPage from "./pages/test-pages/testpage";
 import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
-// import "@mantine/carousel/styles.css";
+import Beatbattlepage from "./pages/BeatBattle/beatbattlepage";
+import "@mantine/carousel/styles.css";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },
       { path: "/test", element: <TestPage count={32} speed={20} /> },
+      { path: "/beatbattle", element: <Beatbattlepage /> },
     ],
   },
 ]);
