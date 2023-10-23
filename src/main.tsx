@@ -12,12 +12,16 @@ import store from "./store";
 import HomePage from "./pages/Home";
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
+import { ParallaxProvider } from "react-scroll-parallax";
+import TestPage from "./pages/test-pages/testpage";
+// import "@mantine/carousel/styles.css";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
+
     children: [
       { path: "/", element: <HomePage /> },
       { path: "/*", element: <HomePage /> },
@@ -25,6 +29,7 @@ const router = createBrowserRouter([
       { path: "/videoplayer", element: <VideoPlayer /> },
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },
+      { path: "/test", element: <TestPage count={32} speed={20} /> },
     ],
   },
 ]);
@@ -37,7 +42,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <MantineProvider theme={theme} defaultColorScheme="dark">
       <Provider store={store}>
-        <RouterProvider router={router} />
+        <ParallaxProvider>
+          <RouterProvider router={router} />
+        </ParallaxProvider>
       </Provider>
     </MantineProvider>
   </React.StrictMode>
