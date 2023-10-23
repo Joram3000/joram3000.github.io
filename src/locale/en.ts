@@ -11,6 +11,7 @@ const en: Translation = {
     about: "About",
     contact: "Contact",
     test: "Tester",
+    beatbattle: "Beat-Battle",
   },
 };
 
