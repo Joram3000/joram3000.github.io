@@ -14,7 +14,7 @@ import { createTheme, MantineProvider } from "@mantine/core";
 import { ParallaxProvider } from "react-scroll-parallax";
 import TestPage from "./pages/test-pages/testpage";
 import VideoPlayer from "./components/VideoPlayer/Videoplayer";
-// import "@mantine/carousel/styles.css";
+import "@mantine/carousel/styles.css";
 
 const router = createBrowserRouter([
   {
