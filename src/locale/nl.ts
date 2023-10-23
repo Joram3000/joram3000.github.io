@@ -9,6 +9,7 @@ const nl = {
     videoPlayer: "Videospeler",
     about: "Over",
     contact: "Contact",
+    test: "Tester",
   },
 };
 
