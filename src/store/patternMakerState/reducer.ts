@@ -1,16 +1,8 @@
-import { initialReduxState, seqStateActionTypes } from "./types";
+import { patternMakerActionTypes, patternMakerState } from "./types";
 import { Reducer } from "redux";
 
-const initialState: initialReduxState = {
-  soundSettings: {
-    volume: -12,
-    tempo: 135,
-    delayAmount: 0,
-    delayFeedback: 0.7,
-    filtersAmount: [0, 8000],
-  },
-
-  seqPattern: {
+const initialState: patternMakerState = {
+  currentPattern: {
     name: "BeatMaker",
     color: "green",
     sound: "Loud",
@@ -19,7 +11,13 @@ const initialState: initialReduxState = {
       [true, false, true, false, false, false, false, false],
     ],
   },
-
+  soundSettings: {
+    volume: -12,
+    tempo: 135,
+    delayAmount: 0,
+    delayFeedback: 0.7,
+    filtersAmount: [0, 8000],
+  },
   savedPatterns: [
     {
       name: "Sjohones",
@@ -60,35 +58,41 @@ const initialState: initialReduxState = {
   ],
 };
 
-const reducer: Reducer<initialReduxState> = (state = initialState, action) => {
+const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
   const { type, payload } = action;
+  console.log(action);
   switch (type) {
-    case seqStateActionTypes.PATTERNUPDATER: {
+    case patternMakerActionTypes.PATTERNUPDATER: {
       return {
         ...state,
-        seqPattern: {
-          ...state.seqPattern,
+        currentPattern: {
+          ...state.currentPattern,
           pattern: payload,
         },
       };
     }
-    case seqStateActionTypes.PATTERNUPDATESELECTOR: {
+    case patternMakerActionTypes.PATTERNUPDATER2: {
+      console.log(payload);
       return {
         ...state,
-        seqPattern: payload,
       };
     }
-
-    case seqStateActionTypes.SELECTDRUMSOUND: {
+    case patternMakerActionTypes.PATTERNUPDATESELECTOR: {
       return {
         ...state,
-        seqPattern: {
-          ...state.seqPattern,
+        currentPattern: payload,
+      };
+    }
+    case patternMakerActionTypes.SELECTDRUMSOUND: {
+      return {
+        ...state,
+        currentPattern: {
+          ...state.currentPattern,
           sound: payload,
         },
       };
     }
-    case seqStateActionTypes.SETTEMPO: {
+    case patternMakerActionTypes.SETTEMPO: {
       return {
         ...state,
         soundSettings: {
@@ -97,7 +101,7 @@ const reducer: Reducer<initialReduxState> = (state = initialState, action) => {
         },
       };
     }
-    case seqStateActionTypes.SETVOLUME: {
+    case patternMakerActionTypes.SETVOLUME: {
       return {
         ...state,
         soundSettings: {
@@ -106,7 +110,7 @@ const reducer: Reducer<initialReduxState> = (state = initialState, action) => {
         },
       };
     }
-    case seqStateActionTypes.SETFILTERS: {
+    case patternMakerActionTypes.SETFILTERS: {
       return {
         ...state,
         soundSettings: {

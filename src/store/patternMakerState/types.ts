@@ -1,4 +1,5 @@
-export interface initialReduxState {
+export interface patternMakerState {
+  currentPattern: sequencerPattern;
   soundSettings: {
     volume: number;
     tempo: number;
@@ -6,19 +7,19 @@ export interface initialReduxState {
     delayFeedback: number;
     filtersAmount: [number, number];
   };
-  seqPattern: seqPattern;
-  savedPatterns: seqPattern[];
+  savedPatterns: sequencerPattern[];
 }
 
-export interface seqPattern {
+export interface sequencerPattern {
   name: string;
   color: string;
   sound?: string;
   pattern: boolean[][];
 }
 
-export enum seqStateActionTypes {
+export enum patternMakerActionTypes {
   PATTERNUPDATER = "PATTERNUPDATER",
+  PATTERNUPDATER2 = "PATTERNUPDATER2",
   PATTERNUPDATESELECTOR = "PATTERNUPDATESELECTOR",
   SELECTDRUMSOUND = "SELECTDRUMSOUND",
   SETTEMPO = "SETTEMPO",
