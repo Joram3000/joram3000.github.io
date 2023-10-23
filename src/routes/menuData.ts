@@ -4,4 +4,5 @@ export const menuData = [
   { link: "videoplayer", label: "menu.videoPlayer" },
   { link: "about", label: "menu.about" },
   { link: "contact", label: "menu.contact" },
+  { link: "test", label: "menu.test" },
 ];
