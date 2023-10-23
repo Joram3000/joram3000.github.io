@@ -7,7 +7,7 @@ const initialState = {
     filtersAmount: [0, 8000],
   },
   seqPattern: {
-    name: "RitmeNaam",
+    name: "BeatMaker",
     color: "green",
     sound: "Loud",
     pattern: [
@@ -35,7 +35,7 @@ const initialState = {
       ],
     },
     {
-      name: "TURKLE",
+      name: "JOE",
       color: "yellow",
       sound: "Percussion",
       pattern: [
