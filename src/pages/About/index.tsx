@@ -10,8 +10,6 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import image2 from "../../assets/images/prace1bewerkt.jpg.png";
 import image3 from "../../assets/images/unnamed (2).jpg";
-import WaveSurferPlayer from "../test-pages/WaveSurfer";
-import treingv from "../../assets/music/treingv.mp3";
 
 export default function Aboutpage() {
   const [opened, { toggle }] = useDisclosure(false);
@@ -34,14 +32,7 @@ export default function Aboutpage() {
         occaecat culpa. Laboris et dolor veniam. Do tempor commodo ipsum nulla
         exercitation qui non adipisicing.
       </Text>
-      <WaveSurferPlayer
-        waveColor="rgb(200, 0, 200)"
-        progressColor="rgb(100, 0, 100)"
-        minPxPerSec={600}
-        url={treingv}
-        container=""
-        plugins={[]}
-      />
+
       <Collapse p="md" in={opened} transitionDuration={200}>
         <Text>
           Cupidatat nostrud commodo reprehenderit aliquip ipsum commodo quis
