@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { SetTempo, SetVolume, SetFilters } from "../../store/seqState/actions";
 import * as Tone from "tone";
 import SelectPattern from "./components/SelectPattern";
-import { Group, Title, Box } from "@mantine/core";
+import { Group, Title, Box, Stack } from "@mantine/core";
 import "./style.css";
 import { P5CanvasDynamic } from "../../components/P5/P5CanvasDynamic";
 import CustomDoubleSlider from "./components/CustomDoubleSlider";
@@ -80,7 +80,7 @@ const PatternMakerPage: React.FC = () => {
       <div
         className="pattern-controls"
         style={{
-          height: "calc(100vdh - 120px)",
+          height: "calc(100vh - 120px)",
           width: "100%",
           display: "flex",
           flexDirection: "column",
@@ -91,32 +91,32 @@ const PatternMakerPage: React.FC = () => {
           style={{
             display: "flex",
             width: "100%",
+            height: "50%",
             flexDirection: "column",
             flex: 1,
           }}
         >
+          {/* <Group justify="center" align="flex-start">
+            <Title c={seqPattern.color}>{seqPattern.name}</Title>
+          </Group> */}
+
           <Group justify="space-between" align="flex-start" p="md">
             <SelectSound
               color={seqPattern.color}
               selectedSound={seqPattern.sound}
             />
-            <Title order={3} c={seqPattern.color}>
-              {seqPattern.name}
-            </Title>
+            <Stack>
+              <Title order={3} c={seqPattern.color}>
+                {seqPattern.name}
+              </Title>
+              <Group justify="center">
+                <TransporterButton color={seqPattern.color} />
+              </Group>
+            </Stack>
+
             <SelectPattern />
           </Group>
         </div>
-        <div
-          className="pattern-controls-mid"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            flex: 1,
-            width: "100%",
-          }}
-        ></div>
-
         <div
           className="pattern-controls-bottom"
           style={{
@@ -125,6 +125,7 @@ const PatternMakerPage: React.FC = () => {
             justifyContent: "flex-end",
             flex: 1,
             width: "100%",
+            height: "50%",
           }}
         >
           <Box p="md">
@@ -155,9 +156,6 @@ const PatternMakerPage: React.FC = () => {
               sendValue={sendTempo}
               initValue={soundSettings.tempo}
             />
-            <Group justify="center">
-              <TransporterButton color={seqPattern.color} />
-            </Group>
           </Box>
         </div>
       </div>
