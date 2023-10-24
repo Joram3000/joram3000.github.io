@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 import { getAllContests } from "../../store/beatBattleState/selectors";
-import SubmissionCard from "../../components/beatMakerCard/submissionCard";
 import { Title, Text, Stack, Group } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { format } from "date-fns";
+import SubmissionCard from "../../components/beatMakerCard/SubmissionCard";
 
 export default function BeatBattlePage() {
   const getAContest = useSelector(getAllContests)[0];
@@ -37,7 +37,7 @@ export default function BeatBattlePage() {
       <Title px="md">inzendingen:</Title>
       <Carousel withIndicators loop>
         {deelNemers.map((deelnemer) => (
-          <Carousel.Slide>
+          <Carousel.Slide key={deelnemer.url}>
             <SubmissionCard
               name={deelnemer.contestant.name}
               beatName={deelnemer.name}
