@@ -60,23 +60,29 @@ const initialState: patternMakerState = {
 
 const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
   const { type, payload } = action;
-
   switch (type) {
     case patternMakerActionTypes.PATTERNUPDATER: {
+      const { rowNumber, rowIndex, trigger } = payload;
+      const newPattern = state.currentPattern.pattern.map((row, i) => {
+        if (i === rowNumber) {
+          return row.map((cell, j) => {
+            if (j === rowIndex) {
+              return !trigger;
+            }
+            return cell;
+          });
+        }
+        return row;
+      });
       return {
         ...state,
         currentPattern: {
           ...state.currentPattern,
-          pattern: payload,
+          pattern: newPattern,
         },
       };
     }
-    case patternMakerActionTypes.PATTERNUPDATER2: {
-      console.log(payload);
-      return {
-        ...state,
-      };
-    }
+
     case patternMakerActionTypes.PATTERNUPDATESELECTOR: {
       return {
         ...state,
