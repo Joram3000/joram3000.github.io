@@ -4,7 +4,6 @@ import { Group, Button, Text, Stack } from "@mantine/core";
 import React from "react";
 
 // WaveSurfer hook
-// @ts-ignore
 const useWavesurfer = (containerRef: any, options: WaveSurferOptions) => {
   const [wavesurfer, setWavesurfer] = useState<WaveSurfer>();
 
@@ -26,7 +25,7 @@ const useWavesurfer = (containerRef: any, options: WaveSurferOptions) => {
 };
 
 const WaveSurferPlayer = (props: WaveSurferOptions) => {
-  const containerRef = React.useRef();
+  const containerRef: any = React.useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const wavesurfer = useWavesurfer(containerRef, props);

@@ -40,7 +40,7 @@ export default function Aboutpage() {
         progressColor="rgb(100, 0, 100)"
         minPxPerSec={600}
         url={treingv}
-        container=""
+        container={"#waveform"}
         plugins={[]}
       />
 
