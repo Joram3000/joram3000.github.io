@@ -100,7 +100,7 @@ const mockBeatBattleState: beatBattleState = {
           dateAdded: new Date(),
         },
       ],
-      closingDate: new Date("2023-10-31"),
+      closingDate: new Date(),
       numberOfUpvotes: 5,
       reactions: [
         {
@@ -117,15 +117,11 @@ const mockBeatBattleState: beatBattleState = {
 };
 
 const reducer: Reducer<beatBattleState> = (
-  state = mockBeatBattleState,
-  action
+  state = mockBeatBattleState
+  // action
 ) => {
-  const { type, payload } = action;
-  // console.log(type, payload);
-  switch (type) {
-    default:
-      return state;
-  }
+  // const { type, payload } = action;
+  return state;
 };
 
 export default reducer;
