@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import beatReducer from "./beatBattleState/reducer";
+// import beatReducer from "./beatBattleState/reducer";
 import patternMakerState from "./patternMakerState/reducer";
 
 export const store = configureStore({
   reducer: {
-    beatState: beatReducer,
     patternMakerState: patternMakerState,
+    // beatState: beatReducer,
   },
 });
 

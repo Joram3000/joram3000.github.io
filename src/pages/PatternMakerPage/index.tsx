@@ -119,14 +119,13 @@ const PatternMakerPage: React.FC = () => {
             </Title>
 
             <Stack>
-              <Title order={3} c={seqPattern.color}>
-                {seqPattern.name}
+              <Title order={3} c={currentPattern.color}>
+                {currentPattern.name}
               </Title>
               <Group justify="center">
-                <TransporterButton color={seqPattern.color} />
+                <TransporterButton color={currentPattern.color} />
               </Group>
             </Stack>
-
 
             <SelectPattern />
           </Group>
@@ -175,7 +174,6 @@ const PatternMakerPage: React.FC = () => {
             <Group justify="center">
               <TransporterButton color={currentPattern.color} />
             </Group>
-
           </Box>
         </div>
       </div>
