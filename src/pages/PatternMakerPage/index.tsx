@@ -29,6 +29,7 @@ const PatternMakerPage: React.FC = () => {
   const dispatch = useDispatch();
   const currentPattern = useSelector(SelectedPattern);
   const soundSettings = useSelector(SoundSettings);
+
   const sendVolume = (waarde: number) => {
     dispatch(SetVolume(waarde));
   };
@@ -104,7 +105,7 @@ const PatternMakerPage: React.FC = () => {
           <Group justify="space-between" align="flex-start" p="md">
             <SelectSound
               color={currentPattern.color}
-              selectedSound={currentPattern.sound}
+              selectedSound={currentPattern.sound ?? "Neo-Soul"}
             />
             <Title order={3} c={currentPattern.color}>
               {currentPattern.name}
