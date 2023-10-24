@@ -1,13 +1,13 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import WaveSurfer, { WaveSurferOptions } from "wavesurfer.js";
 import { Group, Button, Text, Stack } from "@mantine/core";
+import React from "react";
 
 // WaveSurfer hook
-const useWavesurfer = (containerRef, options: WaveSurferOptions) => {
-  const [wavesurfer, setWavesurfer] = useState(null);
+// @ts-ignore
+const useWavesurfer = (containerRef: any, options: WaveSurferOptions) => {
+  const [wavesurfer, setWavesurfer] = useState<WaveSurfer>();
 
-  // Initialize wavesurfer when the container mounts
-  // or any of the props change
   useEffect(() => {
     if (!containerRef.current) return;
 
@@ -26,13 +26,13 @@ const useWavesurfer = (containerRef, options: WaveSurferOptions) => {
 };
 
 const WaveSurferPlayer = (props: WaveSurferOptions) => {
-  const containerRef = useRef();
+  const containerRef = React.useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const wavesurfer = useWavesurfer(containerRef, props);
 
   const onPlayClick = useCallback(() => {
-    wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer.play();
+    wavesurfer!.isPlaying() ? wavesurfer!.pause() : wavesurfer!.play();
   }, [wavesurfer]);
 
   // Initialize wavesurfer when the container mounts
@@ -56,6 +56,7 @@ const WaveSurferPlayer = (props: WaveSurferOptions) => {
 
   return (
     <Stack m="md" bg="black">
+      // @ts-ignore
       <div ref={containerRef} className="waveFormShower" />
       <Group align="center">
         <Button onClick={onPlayClick}>{isPlaying ? "Pause" : "Play"}</Button>
