@@ -3,11 +3,11 @@ import { getAllContests } from "../../store/beatBattleState/selectors";
 import { Title, Text, Stack, Group } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { format } from "date-fns";
-import SubmissionCard from "../../components/beatMakerCard/SubmissionCard";
+// import SubmissionCard from "../../components/beatMakerCard/SubmissionCard";
 
 export default function BeatBattlePage() {
   const getAContest = useSelector(getAllContests)[0];
-  const deelNemers = getAContest.subMissionList;
+  // const deelNemers = getAContest.subMissionList;
 
   const dateAdded = format(getAContest.sample.dateAdded, "dd-mm-yyyy hh:mm");
 
@@ -36,7 +36,7 @@ export default function BeatBattlePage() {
 
       <Title px="md">inzendingen:</Title>
       <Carousel withIndicators loop>
-        {deelNemers.map((deelnemer) => (
+        {/* {deelNemers.map((deelnemer) => (
           <Carousel.Slide key={deelnemer.url}>
             <SubmissionCard
               name={deelnemer.contestant.name}
@@ -47,7 +47,7 @@ export default function BeatBattlePage() {
               reactions={deelnemer.reactions}
             />
           </Carousel.Slide>
-        ))}
+        ))} */}
       </Carousel>
     </>
   );
