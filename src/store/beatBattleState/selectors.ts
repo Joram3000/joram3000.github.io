@@ -1,5 +1,6 @@
-// export const getAllContestans = (state: RootState) =>
-//   state.beatBattleState.contestants;
+import { RootState } from "../store";
 
-// export const getAllContests = (state: RootState) =>
-//   state.beatBattleState.contests;
+export const getAllContestans = (state: RootState) =>
+  state.beatState.contestants;
+
+export const getAllContests = (state: RootState) => state.beatState.contests;
