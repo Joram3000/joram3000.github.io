@@ -64,11 +64,11 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
     rowNumber: number;
     trigger: boolean;
   }) {
-    dispatch(PatternUpdater2({ rowIndex, rowNumber, trigger }));
+    //
     const patternCopy = [...currentPattern];
     patternCopy[rowNumber][rowIndex] = !trigger; //hier mee draai je hem om
     updateCurrentPattern(patternCopy);
-
+    dispatch(PatternUpdater2({ rowIndex, rowNumber, trigger }));
     // dispatch(PatternUpdater(patternCopy));
   }
 

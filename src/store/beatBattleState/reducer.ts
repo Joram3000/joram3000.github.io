@@ -33,10 +33,10 @@ const mockBeatBattleState: beatBattleState = {
               name: "John Doe",
               role: role.regular,
             },
-            dateAdded: new Date(),
+            dateAdded: "new Date()",
           },
         ],
-        dateAdded: new Date(),
+        dateAdded: "new Date()",
       },
       subMissionList: [
         {
@@ -54,10 +54,10 @@ const mockBeatBattleState: beatBattleState = {
                 name: "Jane Doe",
                 role: role.regular,
               },
-              dateAdded: new Date(),
+              dateAdded: "new Date()",
             },
           ],
-          dateAdded: new Date(),
+          dateAdded: "new Date()",
         },
         {
           name: "Te Gekke Beat",
@@ -69,47 +69,47 @@ const mockBeatBattleState: beatBattleState = {
           numberOfUpvotes: 10,
           reactions: [
             {
-              contents: "This beat is sick!",
+              contents: "This gdabeat is sick!",
               contestant: {
                 name: "MC Hammer",
                 role: role.regular,
               },
-              dateAdded: new Date(),
+              dateAdded: "new Date()",
             },
           ],
-          dateAdded: new Date(),
+          dateAdded: "new Date()",
         },
         {
           name: "Te Gekke Beat",
           contestant: {
-            name: "Jane Doe",
+            name: "Jane Dofasdfge",
             role: role.regular,
           },
           url: "https://example.com/submissions/jane-doe-beat-battle-1.mp3",
           numberOfUpvotes: 3,
           reactions: [
             {
-              contents: "This beat is fire!",
+              contents: "This badsfeat is fire!",
               contestant: {
                 name: "John Doe",
                 role: role.regular,
               },
-              dateAdded: new Date(),
+              dateAdded: "new Date()",
             },
           ],
-          dateAdded: new Date(),
+          dateAdded: "new Date()",
         },
       ],
       closingDate: new Date("2023-10-31"),
       numberOfUpvotes: 5,
       reactions: [
         {
-          contents: "This is a great beat!",
+          contents: "This is asdfa great beat!",
           contestant: {
-            name: "Jane Doe",
+            name: "Jane asdfDoe",
             role: role.regular,
           },
-          dateAdded: new Date(),
+          dateAdded: "new Date()",
         },
       ],
     },
@@ -121,6 +121,7 @@ const reducer: Reducer<beatBattleState> = (
   action
 ) => {
   const { type, payload } = action;
+  console.log(type, payload);
   switch (type) {
     default:
       return state;
