@@ -14,12 +14,11 @@ export interface sequencerPattern {
   name: string;
   color: string;
   sound?: string;
-  pattern: boolean[][];
+  pattern: [boolean[], boolean[]];
 }
 
 export enum patternMakerActionTypes {
   PATTERNUPDATER = "PATTERNUPDATER",
-  PATTERNUPDATER2 = "PATTERNUPDATER2",
   PATTERNUPDATESELECTOR = "PATTERNUPDATESELECTOR",
   SELECTDRUMSOUND = "SELECTDRUMSOUND",
   SETTEMPO = "SETTEMPO",
