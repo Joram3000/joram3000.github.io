@@ -50,7 +50,7 @@ export interface canBeReactedTo {
 }
 
 export interface hasDateAdded {
-  dateAdded: string;
+  dateAdded: any;
 }
 
 export interface hasUrl {
