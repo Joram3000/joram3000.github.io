@@ -1,10 +1,10 @@
-/* @font-face {
+@font-face {
   font-family: "Castoro Italic";
-  src: url("./fonts/Castoro-Italic.ttf") format("ttf"),
-    url("./fonts/Castoro-Italic.ttf") format("ttf");
+  src: url("../../assets/fonts/Castoro-Italic.ttf") format("ttf"),
+    url("../../assets/fonts/Castoro-Italic.ttf") format("ttf");
   font-weight: normal;
   font-style: italic;
-} */
+}
 
 .background-layer {
   display: flex;
@@ -12,16 +12,12 @@
   align-items: center;
 }
 .overlay-layer {
-  width: 50%;
   position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  left: 40%;
+  margin: 16px;
 }
 
 .overlay-text {
-  font-size: 2vw;
   color: white;
   font-family: "Castoro Italic", sans-serif;
 }

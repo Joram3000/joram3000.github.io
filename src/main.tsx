@@ -17,6 +17,7 @@ import "@mantine/carousel/styles.css";
 import VideoPlayer from "./components/VideoPlayer/Videoplayer";
 import Beatbattlepage from "./pages/BeatBattle/Beatbattlepage";
 
+
 const router = createBrowserRouter([
   {
     path: "/",

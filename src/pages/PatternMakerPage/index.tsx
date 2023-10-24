@@ -14,7 +14,7 @@ import {
 } from "../../store/patternMakerState/actions";
 import * as Tone from "tone";
 import SelectPattern from "./components/SelectPattern";
-import { Group, Title, Box } from "@mantine/core";
+import { Group, Title, Box, Stack } from "@mantine/core";
 import "./style.css";
 import { P5CanvasDynamic } from "../../components/P5/P5CanvasDynamic";
 import CustomDoubleSlider from "./components/CustomDoubleSlider";
@@ -57,8 +57,24 @@ const PatternMakerPage: React.FC = () => {
           height: "100%",
           display: "flex",
           flexDirection: "column",
+          // backgroundColor: "rgba(0,0,200,1)",
         }}
       >
+        <div
+          className="5PCanvas"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            backgroundColor: "rgba(100,0,0,0.4)",
+            height: "100%",
+            zIndex: -1,
+          }}
+        >
+          <P5CanvasDynamic />
+        </div>
+
         <div
           style={{
             position: "absolute",
@@ -66,21 +82,10 @@ const PatternMakerPage: React.FC = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1,
+            backgroundColor: "rgba(200,160,0,0.3)",
           }}
         >
           <PatternMaker output={hpFilter} />
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "50%",
-            height: "50%",
-            zIndex: -1,
-          }}
-        >
-          <P5CanvasDynamic />
         </div>
       </div>
 
@@ -98,8 +103,9 @@ const PatternMakerPage: React.FC = () => {
           style={{
             display: "flex",
             width: "100%",
+            height: "50%",
             flexDirection: "column",
-            flex: 1,
+            // backgroundColor: "rgba(200,220,0,0.2)",
           }}
         >
           <Group justify="space-between" align="flex-start" p="md">
@@ -107,22 +113,24 @@ const PatternMakerPage: React.FC = () => {
               color={currentPattern.color}
               selectedSound={currentPattern.sound ?? "Neo-Soul"}
             />
+
             <Title order={3} c={currentPattern.color}>
               {currentPattern.name}
             </Title>
+
+            <Stack>
+              <Title order={3} c={seqPattern.color}>
+                {seqPattern.name}
+              </Title>
+              <Group justify="center">
+                <TransporterButton color={seqPattern.color} />
+              </Group>
+            </Stack>
+
+
             <SelectPattern />
           </Group>
         </div>
-        <div
-          className="pattern-controls-mid"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            flex: 1,
-            width: "100%",
-          }}
-        ></div>
 
         <div
           className="pattern-controls-bottom"
@@ -130,8 +138,9 @@ const PatternMakerPage: React.FC = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
-            flex: 1,
+
             width: "100%",
+            height: "50%",
           }}
         >
           <Box p="md">
@@ -162,9 +171,11 @@ const PatternMakerPage: React.FC = () => {
               sendValue={sendTempo}
               initValue={soundSettings.tempo}
             />
+
             <Group justify="center">
               <TransporterButton color={currentPattern.color} />
             </Group>
+
           </Box>
         </div>
       </div>

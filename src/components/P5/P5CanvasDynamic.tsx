@@ -19,7 +19,7 @@ const sketch: Sketch<MySketchProps> = (p) => {
   p.setup = () => {
     const cnv = p.createCanvas(p.windowWidth, p.windowHeight);
     cnv.position(0, 0);
-    p.background(0);
+    // p.background(0);
     p.fill(0);
 
     analyser = new Tone.Analyser("waveform", 512);
