@@ -55,7 +55,6 @@ const WaveSurferPlayer = (props: WaveSurferOptions) => {
 
   return (
     <Stack m="md" bg="black">
-      // @ts-ignore
       <div ref={containerRef} className="waveFormShower" />
       <Group align="center">
         <Button onClick={onPlayClick}>{isPlaying ? "Pause" : "Play"}</Button>
