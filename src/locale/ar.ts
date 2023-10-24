@@ -10,7 +10,8 @@ const ar: Translation = {
     videoPlayer: "مشغل فديوهات",
     about: "عن",
     contact: "اتصال",
-    test: "tostie"
+    test: "امتحان",
+    beatbattle: "يهزم",
   },
 };
 

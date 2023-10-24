@@ -1,13 +1,20 @@
 import React, { useEffect } from "react";
 import PatternMaker from "./components/PatternMaker";
-import { SelectedPattern, StateVolume } from "../../store/seqState/selectors";
+import {
+  SelectedPattern,
+  SoundSettings,
+} from "../../store/patternMakerState/selectors";
 import { useSelector } from "react-redux";
 import SelectSound from "./components/SelectSound";
 import { useDispatch } from "react-redux";
-import { SetTempo, SetVolume, SetFilters } from "../../store/seqState/actions";
+import {
+  SetTempo,
+  SetVolume,
+  SetFilters,
+} from "../../store/patternMakerState/actions";
 import * as Tone from "tone";
 import SelectPattern from "./components/SelectPattern";
-import { Group, Title, Box } from "@mantine/core";
+import { Group, Title, Box, Stack } from "@mantine/core";
 import "./style.css";
 import { P5CanvasDynamic } from "../../components/P5/P5CanvasDynamic";
 import CustomDoubleSlider from "./components/CustomDoubleSlider";
@@ -20,8 +27,8 @@ const hpFilter = new Tone.Filter(0, "highpass").connect(lpFilter);
 
 const PatternMakerPage: React.FC = () => {
   const dispatch = useDispatch();
-  const seqPattern = useSelector(SelectedPattern);
-  const soundSettings = useSelector(StateVolume);
+  const currentPattern = useSelector(SelectedPattern);
+  const soundSettings = useSelector(SoundSettings);
 
   const sendVolume = (waarde: number) => {
     dispatch(SetVolume(waarde));
@@ -50,8 +57,24 @@ const PatternMakerPage: React.FC = () => {
           height: "100%",
           display: "flex",
           flexDirection: "column",
+          // backgroundColor: "rgba(0,0,200,1)",
         }}
       >
+        <div
+          className="5PCanvas"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            backgroundColor: "rgba(100,0,0,0.4)",
+            height: "100%",
+            zIndex: -1,
+          }}
+        >
+          <P5CanvasDynamic />
+        </div>
+
         <div
           style={{
             position: "absolute",
@@ -59,21 +82,10 @@ const PatternMakerPage: React.FC = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 1,
+            backgroundColor: "rgba(200,160,0,0.3)",
           }}
         >
           <PatternMaker output={hpFilter} />
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "50%",
-            height: "50%",
-            zIndex: -1,
-          }}
-        >
-          <P5CanvasDynamic />
         </div>
       </div>
 
@@ -91,31 +103,33 @@ const PatternMakerPage: React.FC = () => {
           style={{
             display: "flex",
             width: "100%",
+            height: "50%",
             flexDirection: "column",
-            flex: 1,
+            // backgroundColor: "rgba(200,220,0,0.2)",
           }}
         >
           <Group justify="space-between" align="flex-start" p="md">
             <SelectSound
-              color={seqPattern.color}
-              selectedSound={seqPattern.sound}
+              color={currentPattern.color}
+              selectedSound={currentPattern.sound ?? "Neo-Soul"}
             />
-            <Title order={3} c={seqPattern.color}>
-              {seqPattern.name}
+
+            <Title order={3} c={currentPattern.color}>
+              {currentPattern.name}
             </Title>
+
+            <Stack>
+              <Title order={3} c={currentPattern.color}>
+                {currentPattern.name}
+              </Title>
+              <Group justify="center">
+                <TransporterButton color={currentPattern.color} />
+              </Group>
+            </Stack>
+
             <SelectPattern />
           </Group>
         </div>
-        <div
-          className="pattern-controls-mid"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            flex: 1,
-            width: "100%",
-          }}
-        ></div>
 
         <div
           className="pattern-controls-bottom"
@@ -123,8 +137,9 @@ const PatternMakerPage: React.FC = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
-            flex: 1,
+
             width: "100%",
+            height: "50%",
           }}
         >
           <Box p="md">
@@ -133,7 +148,7 @@ const PatternMakerPage: React.FC = () => {
               max={0}
               label={"Volume"}
               valueLabel={"dB"}
-              color={seqPattern.color}
+              color={currentPattern.color}
               sendValue={sendVolume}
               initValue={soundSettings.volume}
             />
@@ -142,7 +157,7 @@ const PatternMakerPage: React.FC = () => {
               max={8000}
               label={["HPFilter", "LPFilter"]}
               valueLabel={"Hz"}
-              color={seqPattern.color}
+              color={currentPattern.color}
               sendValue={sendFilters}
               initValue={soundSettings.filtersAmount}
             />
@@ -151,12 +166,13 @@ const PatternMakerPage: React.FC = () => {
               max={400}
               label={"Tempo"}
               valueLabel={"BPM"}
-              color={seqPattern.color}
+              color={currentPattern.color}
               sendValue={sendTempo}
               initValue={soundSettings.tempo}
             />
+
             <Group justify="center">
-              <TransporterButton color={seqPattern.color} />
+              <TransporterButton color={currentPattern.color} />
             </Group>
           </Box>
         </div>

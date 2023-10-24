@@ -1,7 +1,7 @@
 // @ts-ignore
 import { ReactP5Wrapper, Sketch, SketchProps } from "@p5-wrapper/react";
 import { useSelector } from "react-redux";
-import { SelectedPattern } from "../../store/seqState/selectors";
+import { SelectedPattern } from "../../store/patternMakerState/selectors";
 import * as Tone from "tone";
 
 type MySketchProps = SketchProps & {
@@ -19,7 +19,7 @@ const sketch: Sketch<MySketchProps> = (p) => {
   p.setup = () => {
     const cnv = p.createCanvas(p.windowWidth, p.windowHeight);
     cnv.position(0, 0);
-    p.background(0);
+    // p.background(0);
     p.fill(0);
 
     analyser = new Tone.Analyser("waveform", 512);

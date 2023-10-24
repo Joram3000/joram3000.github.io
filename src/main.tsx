@@ -3,18 +3,19 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./pages/Error";
-import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
 import ContactPage from "./pages/Contact";
 import AboutPage from "./pages/About";
 import PatternMakerPage from "./pages/PatternMakerPage";
 import { Provider } from "react-redux";
-import store from "./store";
+import { store } from "./store/store";
 import HomePage from "./pages/Home";
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { ParallaxProvider } from "react-scroll-parallax";
 import TestPage from "./pages/test-pages/testpage";
-// import "@mantine/carousel/styles.css";
+import "@mantine/carousel/styles.css";
+import VideoPlayer from "./components/VideoPlayer/Videoplayer";
+// import Beatbattlepage from "./pages/BeatBattle/Beatbattlepage";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },
       { path: "/test", element: <TestPage count={32} speed={20} /> },
+      { path: "/beatbattle", element: <AboutPage /> },
     ],
   },
 ]);

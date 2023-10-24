@@ -1,12 +1,8 @@
-const initialState = {
-  soundSettings: {
-    volume: -12,
-    tempo: 135,
-    delayAmount: 0,
-    delayFeedback: 0.7,
-    filtersAmount: [0, 8000],
-  },
-  seqPattern: {
+import { patternMakerActionTypes, patternMakerState } from "./types";
+import { Reducer } from "redux";
+
+const initialState: patternMakerState = {
+  currentPattern: {
     name: "BeatMaker",
     color: "green",
     sound: "Loud",
@@ -14,6 +10,13 @@ const initialState = {
       [true, false, false, false, true, false, true, false],
       [true, false, true, false, false, false, false, false],
     ],
+  },
+  soundSettings: {
+    volume: -12,
+    tempo: 135,
+    delayAmount: 0,
+    delayFeedback: 0.7,
+    filtersAmount: [0, 8000],
   },
   savedPatterns: [
     {
@@ -55,62 +58,76 @@ const initialState = {
   ],
 };
 
-export default function reducer(state = initialState, action: any) {
-  switch (action.type) {
-    case "PATTERNUPDATER": {
+const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case patternMakerActionTypes.PATTERNUPDATER: {
+      const { rowNumber, rowIndex, trigger } = payload;
+      const newPattern = state.currentPattern.pattern.map((row, i) => {
+        if (i === rowNumber) {
+          return row.map((cell, j) => {
+            if (j === rowIndex) {
+              return !trigger;
+            }
+            return cell;
+          });
+        }
+        return row;
+      });
       return {
         ...state,
-        seqPattern: {
-          ...state.seqPattern,
-          pattern: action.payload,
-        },
-      };
-    }
-    case "PATTERNUPDATESELECTOR": {
-      return {
-        ...state,
-        seqPattern: action.payload,
-      };
-    }
-
-    case "SELECTDRUMSOUND": {
-      return {
-        ...state,
-        seqPattern: {
-          ...state.seqPattern,
-          sound: action.payload,
-        },
-      };
-    }
-    case "SETTEMPO": {
-      return {
-        ...state,
-        soundSettings: {
-          ...state.soundSettings,
-          tempo: action.payload,
-        },
-      };
-    }
-    case "SETVOLUME": {
-      return {
-        ...state,
-        soundSettings: {
-          ...state.soundSettings,
-          volume: action.payload,
-        },
-      };
-    }
-    case "SETFILTERS": {
-      return {
-        ...state,
-        soundSettings: {
-          ...state.soundSettings,
-          filtersAmount: action.payload,
+        currentPattern: {
+          ...state.currentPattern,
+          pattern: newPattern,
         },
       };
     }
 
+    case patternMakerActionTypes.PATTERNUPDATESELECTOR: {
+      return {
+        ...state,
+        currentPattern: payload,
+      };
+    }
+    case patternMakerActionTypes.SELECTDRUMSOUND: {
+      return {
+        ...state,
+        currentPattern: {
+          ...state.currentPattern,
+          sound: payload,
+        },
+      };
+    }
+    case patternMakerActionTypes.SETTEMPO: {
+      return {
+        ...state,
+        soundSettings: {
+          ...state.soundSettings,
+          tempo: payload,
+        },
+      };
+    }
+    case patternMakerActionTypes.SETVOLUME: {
+      return {
+        ...state,
+        soundSettings: {
+          ...state.soundSettings,
+          volume: payload,
+        },
+      };
+    }
+    case patternMakerActionTypes.SETFILTERS: {
+      return {
+        ...state,
+        soundSettings: {
+          ...state.soundSettings,
+          filtersAmount: payload,
+        },
+      };
+    }
     default:
       return state;
   }
-}
+};
+
+export default reducer;

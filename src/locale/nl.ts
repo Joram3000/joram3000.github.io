@@ -10,6 +10,7 @@ const nl = {
     about: "Over",
     contact: "Contact",
     test: "Tester",
+    beatbattle: "Beat-Battle",
   },
 };
 

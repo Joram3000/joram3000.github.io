@@ -41,15 +41,6 @@ function VideoPlayer() {
             overflow: "hidden",
           }}
         >
-          {/* <img
-            src="animation09.gif"
-            width={1920 / 2}
-            height={1080 / 4}
-            alt="GIF"
-            loop
-            onLoad={handleProgress}
-          /> */}
-
           <ReactPlayer
             playing
             controls
@@ -61,7 +52,7 @@ function VideoPlayer() {
           />
           {showOverlay && (
             <div className="overlay-layer">
-              <h1 className="overlay-text">{arrayValues[greetingIndex]}</h1>
+              <h2 className="overlay-text">{arrayValues[greetingIndex]}</h2>
             </div>
           )}
         </div>
