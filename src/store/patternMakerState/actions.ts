@@ -1,16 +1,11 @@
-import { sequencerPattern, patternMakerActionTypes } from "./types";
+import { patternMakerActionTypes, sequencerPattern } from "./types";
 
-export const PatternUpdater = (Payload: boolean[][]) => ({
-  type: patternMakerActionTypes.PATTERNUPDATER,
-  payload: Payload,
-});
-
-export const PatternUpdater2 = (Payload: {
+export const PatternUpdater = (Payload: {
   rowIndex: number;
   rowNumber: number;
   trigger: boolean;
 }) => ({
-  type: patternMakerActionTypes.PATTERNUPDATER2,
+  type: patternMakerActionTypes.PATTERNUPDATER,
   payload: Payload,
 });
 
