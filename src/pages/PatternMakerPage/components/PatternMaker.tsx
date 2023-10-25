@@ -102,7 +102,7 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
               key={rowIndex}
               style={{
                 margin: "2px",
-                height: "100px",
+                height: "85px",
                 width: "100%",
                 background: trigger
                   ? `linear-gradient(to right, ${reduxSequencerPattern.color}, transparent)`
