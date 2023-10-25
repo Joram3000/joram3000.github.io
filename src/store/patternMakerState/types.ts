@@ -13,8 +13,15 @@ export interface patternMakerState {
 export interface sequencerPattern {
   name: string;
   color: string;
-  sound?: string;
+  sound: soundStyle;
   pattern: [boolean[], boolean[]];
+}
+
+export enum soundStyle {
+  LOUD = "Loud",
+  ELECTRONIC = "Electronic",
+  PERCUSSION = "Percussion",
+  NEOSOUL = "Neo-Soul",
 }
 
 export enum patternMakerActionTypes {

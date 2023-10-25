@@ -1,4 +1,4 @@
-import { patternMakerActionTypes, sequencerPattern } from "./types";
+import { patternMakerActionTypes, sequencerPattern, soundStyle } from "./types";
 
 export const PatternUpdater = (Payload: {
   rowIndex: number;
@@ -14,7 +14,7 @@ export const PatternUpdatewithSelect = (Payload: sequencerPattern) => ({
   payload: Payload,
 });
 
-export const SelectDrumSound = (Payload: string) => ({
+export const SelectDrumSound = (Payload: soundStyle) => ({
   type: patternMakerActionTypes.SELECTDRUMSOUND,
   payload: Payload,
 });

@@ -1,11 +1,15 @@
-import { patternMakerActionTypes, patternMakerState } from "./types";
+import {
+  patternMakerActionTypes,
+  patternMakerState,
+  soundStyle,
+} from "./types";
 import { Reducer } from "redux";
 
 const initialState: patternMakerState = {
   currentPattern: {
     name: "BeatMaker",
     color: "green",
-    sound: "Loud",
+    sound: soundStyle.NEOSOUL,
     pattern: [
       [true, false, false, false, true, false, true, false],
       [true, false, true, false, false, false, false, false],
@@ -22,7 +26,7 @@ const initialState: patternMakerState = {
     {
       name: "Sjohones",
       color: "red",
-      sound: "Loud",
+      sound: soundStyle.ELECTRONIC,
       pattern: [
         [false, false, false, false, true, false, false, false],
         [true, false, false, true, true, false, false, true],
@@ -31,7 +35,7 @@ const initialState: patternMakerState = {
     {
       name: "Donkie",
       color: "orange",
-      sound: "Electronic",
+      sound: soundStyle.ELECTRONIC,
       pattern: [
         [false, false, true, false, false, false, true, false],
         [true, false, true, false, true, false, true, false],
@@ -40,7 +44,7 @@ const initialState: patternMakerState = {
     {
       name: "JOE",
       color: "yellow",
-      sound: "Percussion",
+      sound: soundStyle.PERCUSSION,
       pattern: [
         [false, false, true, false, false, false, true, false],
         [true, false, false, true, false, true, false, false],
@@ -49,7 +53,7 @@ const initialState: patternMakerState = {
     {
       name: "EMPTY",
       color: "purple",
-      sound: "Neo-Soul",
+      sound: soundStyle.NEOSOUL,
       pattern: [
         [false, false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false, false],
@@ -89,6 +93,7 @@ const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
         currentPattern: payload,
       };
     }
+
     case patternMakerActionTypes.SELECTDRUMSOUND: {
       return {
         ...state,
@@ -98,6 +103,7 @@ const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
         },
       };
     }
+
     case patternMakerActionTypes.SETTEMPO: {
       return {
         ...state,
@@ -107,6 +113,7 @@ const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
         },
       };
     }
+
     case patternMakerActionTypes.SETVOLUME: {
       return {
         ...state,
@@ -116,6 +123,7 @@ const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
         },
       };
     }
+
     case patternMakerActionTypes.SETFILTERS: {
       return {
         ...state,
@@ -125,6 +133,7 @@ const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
         },
       };
     }
+
     default:
       return state;
   }
