@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { PatternUpdater } from "../../../store/patternMakerState/actions";
 import { Container, Flex } from "@mantine/core";
 import { SelectedPattern } from "../../../store/patternMakerState/selectors";
+import { soundStyle } from "../../../store/patternMakerState/types";
 
 interface PatternMakerProps {
   output: Tone.OutputNode;
@@ -68,16 +69,16 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
   }, [reduxSequencerPattern]);
 
   switch (reduxSequencerPattern.sound) {
-    case "Loud":
+    case soundStyle.LOUD:
       notes = ["B1", "A1"];
       break;
-    case "Electronic":
+    case soundStyle.ELECTRONIC:
       notes = ["D1", "C1"];
       break;
-    case "Percussion":
+    case soundStyle.PERCUSSION:
       notes = ["F1", "E1"];
       break;
-    case "Neo-Soul":
+    case soundStyle.NEOSOUL:
       notes = ["A2", "G1"];
       break;
     default:
