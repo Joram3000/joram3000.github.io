@@ -6,8 +6,11 @@ import { useEffect, useState } from "react";
 import HeaderSimple from "../components/header/HeaderSimple";
 import { useTranslation } from "react-i18next";
 import AsideComponent from "../components/aside/AsideComponent";
+import { menuToggle } from "../store/uiState/actions";
+import { useDispatch } from "react-redux";
 
 export default function Root() {
+  const dispatch = useDispatch();
   const {
     i18n: { language: currentLanguage },
   } = useTranslation();
@@ -20,6 +23,12 @@ export default function Root() {
   const [opened, { toggle: toggelientje }] = useDisclosure(false);
   const [navbarOpened, { toggle: navbarToggleDesktop }] = useDisclosure(true);
   const [asideOpened, { toggle: asideToggle }] = useDisclosure();
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(menuToggle(navbarOpened));
+    }, 210);
+  }, [navbarOpened]);
 
   const menuClick = (waarde: string) => {
     setActive(waarde);

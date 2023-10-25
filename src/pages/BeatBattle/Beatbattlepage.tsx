@@ -1,28 +1,28 @@
 import { useSelector } from "react-redux";
 import { getBeatState } from "../../store/beatBattleState/selectors";
-import { Title, Text, Stack, Group, Button } from "@mantine/core";
-import { Carousel, Embla, useAnimationOffsetEffect } from "@mantine/carousel";
+import { Title, Text, Stack, Group } from "@mantine/core";
+import { Carousel, Embla } from "@mantine/carousel";
 import { format } from "date-fns";
 import SubmissionCard from "../../components/beatMakerCard/SubmissionCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUIState } from "../../store/uiState/selectors";
 
 export default function BeatBattlePage() {
   const getBeatStatee = useSelector(getBeatState);
+  const getUIstate = useSelector(getUIState);
   const getAContest = getBeatStatee.contests[0];
   const contest1deelnemers = getAContest.subMissionList;
   const date = new Date();
   const dateAdded = format(date, "dd-mm-yyyy hh:mm");
-
-  const onClick = () => {
-    console.log(getAContest.sample.url);
-  };
-
   const [embla, setEmbla] = useState<Embla | null>(null);
-  useAnimationOffsetEffect(embla, 200);
 
-  const onClickEmbla = () => {
+  useEffect(() => {
     if (embla === null) return;
     embla.reInit();
+  }, [getUIstate.menuOpen]);
+
+  const onURLClick = () => {
+    console.log(getAContest.sample.url);
   };
 
   return (
@@ -33,7 +33,7 @@ export default function BeatBattlePage() {
         </Group>
         <Group justify="space-between">
           <Text c="white">Met deze sample:</Text>
-          <Text fw={700} onClick={onClick}>
+          <Text fw={700} onClick={onURLClick}>
             {getAContest.sample.name}
           </Text>
         </Group>
@@ -59,9 +59,6 @@ export default function BeatBattlePage() {
           </Carousel.Slide>
         ))}
       </Carousel>
-      <Button mx="md" onClick={onClickEmbla}>
-        emblaInit
-      </Button>
     </>
   );
 }

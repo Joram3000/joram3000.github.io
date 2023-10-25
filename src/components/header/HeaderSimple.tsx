@@ -14,14 +14,15 @@ const HeaderSimple: React.FC<HeaderSimpleProps> = ({ opened, onClick }) => {
   return (
     <header>
       <Group justify="space-between" align="center" p="md" h={60}>
-        <Text visibleFrom="sm" fw={700}>
+        <Text c="violet" visibleFrom="sm" fw={700}>
           {t("header")}
         </Text>
 
         <Burger opened={opened} onClick={onClick} hiddenFrom="sm" size="sm" />
-        <Text c="indigo" visibleFrom="sm" fw={700}>
-          DesktopSize
-        </Text>
+
+        {/* <Text c="indigo" visibleFrom="sm" fw={700}>
+          Joram Ipsum
+        </Text> */}
         <Text c="violet" hiddenFrom="sm" fw={700}>
           {t("header")}
         </Text>
