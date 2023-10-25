@@ -65,8 +65,6 @@ const PatternMakerPage: React.FC = () => {
 
       <Center pos="absolute" h="calc(100vh - 120px)" w="100%">
         <Flex
-          // bg="rgba(0,0,100,0.2)"
-          // pos="absolute"
           align="center"
           w="100%"
           style={{ transform: "translate(0px ,-3px )", zIndex: 40 }}
@@ -83,7 +81,13 @@ const PatternMakerPage: React.FC = () => {
           width: "100%",
         }}
       >
-        <Stack w="100%" h="50%" justify="flex-start" pt="md">
+        <Stack
+          className="TopKnobs"
+          w="100%"
+          h="50%"
+          justify="flex-start"
+          pt="md"
+        >
           <Group justify="space-between" align="flex-start" px="md">
             <SelectSound
               color={currentPattern.color}
@@ -105,11 +109,13 @@ const PatternMakerPage: React.FC = () => {
         </Stack>
 
         <Stack
+          className="BottomFaders"
           w="100%"
           h="50%"
           px="md"
           justify="flex-end"
-          // bg="rgba(100,0,0,0.1)"
+          align="stretch"
+          bg="rgba(100,0,0,0.5)"
         >
           <Box>
             <CustomSlider
