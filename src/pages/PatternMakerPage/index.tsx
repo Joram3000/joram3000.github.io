@@ -58,19 +58,38 @@ const PatternMakerPage: React.FC = () => {
   }, [soundSettings.volume]);
 
   return (
-    <Container>
-      <Center style={{ position: "absolute", top: 0, right: 0 }}>
+    <Container p={0} h="calc(100vh - 120px)">
+      <Center left={0} pos="absolute" h="calc(100vh - 120px)">
         <P5CanvasDynamic />
       </Center>
+      <Center pos="absolute" h="calc(100vh - 124px)" w="100%">
+        <Flex
+          // bg="rgba(0,0,100,0.5)"
+          pos="absolute"
+          align="center"
+          w="100%"
+          p="md"
+          style={{ transform: "translate(0px ,-2px )", zIndex: 40 }}
+        >
+          <PatternMaker output={hpFilter} />
+        </Flex>
+      </Center>
+
       <Container
+        p={0}
         style={{
           position: "relative",
           height: "calc(100vh - 120px)",
           width: "100%",
         }}
       >
-        <Stack w="100%" h="50%" justify="flex-start">
-          <Group justify="space-between" align="flex-start" p="md">
+        <Stack
+          w="100%"
+          h="50%"
+          justify="flex-start"
+          // bg="rgba(0,200,0,0.1)"
+        >
+          <Group justify="space-between" align="flex-start">
             <SelectSound
               color={currentPattern.color}
               currentSound={currentPattern.sound}
@@ -80,6 +99,7 @@ const PatternMakerPage: React.FC = () => {
               <Title order={3} c={currentPattern.color}>
                 {currentPattern.name}
               </Title>
+
               <Group justify="center">
                 <TransporterButton color={currentPattern.color} />
               </Group>
@@ -89,8 +109,13 @@ const PatternMakerPage: React.FC = () => {
           </Group>
         </Stack>
 
-        <Stack w="100%" h="50%" justify="flex-end">
-          <Box p="md">
+        <Stack
+          w="100%"
+          h="50%"
+          justify="flex-end"
+          // bg="rgba(100,0,0,0.1)"
+        >
+          <Box>
             <CustomSlider
               min={-40}
               max={0}
@@ -120,20 +145,6 @@ const PatternMakerPage: React.FC = () => {
             />
           </Box>
         </Stack>
-      </Container>
-
-      <Container w="100%" bg="blue">
-        <Flex
-          style={{ position: "absolute" }}
-          top={0}
-          h="calc(100vh)"
-          align="center"
-          // bg="red"
-        >
-          <Stack w="100%">
-            <PatternMaker output={hpFilter} />
-          </Stack>
-        </Flex>
       </Container>
     </Container>
   );
