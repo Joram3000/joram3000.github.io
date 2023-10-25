@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
 import { getBeatState } from "../../store/beatBattleState/selectors";
-import { Title, Text, Stack, Group } from "@mantine/core";
-import { Carousel } from "@mantine/carousel";
+import { Title, Text, Stack, Group, Button } from "@mantine/core";
+import { Carousel, Embla, useAnimationOffsetEffect } from "@mantine/carousel";
 import { format } from "date-fns";
 import SubmissionCard from "../../components/beatMakerCard/SubmissionCard";
+import { useState } from "react";
 
 export default function BeatBattlePage() {
   const getBeatStatee = useSelector(getBeatState);
@@ -15,6 +16,9 @@ export default function BeatBattlePage() {
   const onClick = () => {
     console.log(getAContest.sample.url);
   };
+
+  const [embla, setEmbla] = useState<Embla | null>(null);
+  useAnimationOffsetEffect(embla, 200);
 
   return (
     <>
@@ -36,7 +40,7 @@ export default function BeatBattlePage() {
       </Stack>
 
       <Title px="md">inzendingen:</Title>
-      <Carousel withIndicators loop>
+      <Carousel withIndicators getEmblaApi={setEmbla} loop>
         {contest1deelnemers.map((deelnemer) => (
           <Carousel.Slide key={deelnemer.numberOfUpvotes}>
             <SubmissionCard
@@ -50,6 +54,9 @@ export default function BeatBattlePage() {
           </Carousel.Slide>
         ))}
       </Carousel>
+      <Button mx="md" onClick={() => embla.reInit()}>
+        emblaInit
+      </Button>
     </>
   );
 }
