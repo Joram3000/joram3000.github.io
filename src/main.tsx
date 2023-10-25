@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },
       { path: "/test", element: <TestPage count={32} speed={20} /> },
-      { path: "/beatbattle", element: <AboutPage /> },
+      // { path: "/beatbattle", element: <Beatbattlepage /> },
     ],
   },
 ]);
