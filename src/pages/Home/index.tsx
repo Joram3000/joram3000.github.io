@@ -1,7 +1,6 @@
 import { Text, Title } from "@mantine/core";
 import { lorem } from "../../helpers/TextFiller";
 import { useTranslation } from "react-i18next";
-
 export default function HomePage() {
   const { t } = useTranslation();
 
