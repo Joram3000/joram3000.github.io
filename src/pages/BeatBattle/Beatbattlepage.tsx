@@ -20,6 +20,11 @@ export default function BeatBattlePage() {
   const [embla, setEmbla] = useState<Embla | null>(null);
   useAnimationOffsetEffect(embla, 200);
 
+  const onClickEmbla = () => {
+    if (embla === null) return;
+    embla.reInit();
+  };
+
   return (
     <>
       <Stack bg="grape" m="md">
@@ -54,7 +59,7 @@ export default function BeatBattlePage() {
           </Carousel.Slide>
         ))}
       </Carousel>
-      <Button mx="md" onClick={() => embla.reInit()}>
+      <Button mx="md" onClick={onClickEmbla}>
         emblaInit
       </Button>
     </>

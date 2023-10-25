@@ -15,14 +15,13 @@ import { ParallaxProvider } from "react-scroll-parallax";
 import TestPage from "./pages/test-pages/testpage";
 import "@mantine/carousel/styles.css";
 import VideoPlayer from "./components/VideoPlayer/Videoplayer";
- import Beatbattlepage from "./pages/BeatBattle/Beatbattlepage";
+import Beatbattlepage from "./pages/BeatBattle/Beatbattlepage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
-
     children: [
       { path: "/", element: <HomePage /> },
       { path: "/*", element: <HomePage /> },
@@ -31,7 +30,7 @@ const router = createBrowserRouter([
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },
       { path: "/test", element: <TestPage count={32} speed={20} /> },
-     { path: "/beatbattle", element: <Beatbattlepage /> },
+      { path: "/beatbattle", element: <Beatbattlepage /> },
     ],
   },
 ]);
