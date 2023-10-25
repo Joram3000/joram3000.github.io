@@ -111,12 +111,8 @@ const PatternMakerPage: React.FC = () => {
           <Group justify="space-between" align="flex-start" p="md">
             <SelectSound
               color={currentPattern.color}
-              selectedSound={currentPattern.sound ?? "Neo-Soul"}
+              currentSound={currentPattern.sound}
             />
-
-            <Title order={3} c={currentPattern.color}>
-              {currentPattern.name}
-            </Title>
 
             <Stack>
               <Title order={3} c={currentPattern.color}>

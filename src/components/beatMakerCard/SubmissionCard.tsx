@@ -41,7 +41,7 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
           {reactions.map((reactie, i) => (
             <Text key={i}>
               {reactie.contestant.name} : {reactie.contents}
-              {format(reactie.dateAdded, "hh:mm dd-mm-yy")}
+              {format(dateAdded, "hh:mm dd-mm-yy")}
             </Text>
           ))}
         </Group>

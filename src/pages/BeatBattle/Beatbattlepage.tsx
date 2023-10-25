@@ -9,9 +9,8 @@ export default function BeatBattlePage() {
   const getBeatStatee = useSelector(getBeatState);
   const getAContest = getBeatStatee.contests[0];
   const contest1deelnemers = getAContest.subMissionList;
-
-  console.log("hoi ik ben hier ");
-  const dateAdded = format(getAContest.sample.dateAdded, "dd-mm-yyyy hh:mm");
+  const date = new Date();
+  const dateAdded = format(date, "dd-mm-yyyy hh:mm");
 
   const onClick = () => {
     console.log(getAContest.sample.url);
@@ -44,7 +43,7 @@ export default function BeatBattlePage() {
               name={deelnemer.contestant.name}
               beatName={deelnemer.name}
               url={deelnemer.url}
-              dateAdded={deelnemer.dateAdded}
+              dateAdded={date}
               upvotes={deelnemer.numberOfUpvotes}
               reactions={deelnemer.reactions}
             />

@@ -19,24 +19,16 @@ export interface contest extends upvotable, canBeReactedTo {
   closingDate?: Date;
 }
 
-export interface sample
-  extends upvotable,
-    canBeReactedTo,
-    hasDateAdded,
-    hasUrl {
+export interface sample extends upvotable, canBeReactedTo, hasUrl {
   name: string;
 }
 
-export interface submission
-  extends upvotable,
-    canBeReactedTo,
-    hasUrl,
-    hasDateAdded {
+export interface submission extends upvotable, canBeReactedTo, hasUrl {
   name: string;
   contestant: contestant;
 }
 
-export interface reaction extends hasDateAdded {
+export interface reaction {
   contents: string;
   contestant: contestant;
 }
@@ -49,9 +41,9 @@ export interface canBeReactedTo {
   reactions: reaction[];
 }
 
-export interface hasDateAdded {
-  dateAdded: Date;
-}
+// export interface hasDateAdded {
+//   dateAdded: Date;
+// }
 
 export interface hasUrl {
   url: string;
