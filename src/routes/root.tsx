@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import AsideComponent from "../components/aside/AsideComponent";
 import { menuToggle } from "../store/uiState/actions";
 import { useDispatch } from "react-redux";
+import { BrowserView, MobileView } from "react-device-detect";
 
 export default function Root() {
   const dispatch = useDispatch();
@@ -77,8 +78,12 @@ export default function Root() {
           <Button onClick={navbarToggleDesktop} visibleFrom="sm">
             {navbarOpened ? "hide navbar" : "show navbar"}
           </Button>
-
-          <Text>Footer</Text>
+          <BrowserView>
+            <Text>ComputerView</Text>
+          </BrowserView>
+          <MobileView>
+            <Text>MobileView</Text>
+          </MobileView>
 
           <Button onClick={asideToggle}>
             {asideOpened ? "hide aside" : "show aside"}

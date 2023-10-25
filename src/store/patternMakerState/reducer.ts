@@ -9,7 +9,7 @@ const initialState: patternMakerState = {
   currentPattern: {
     name: "BeatMaker",
     color: "green",
-    sound: soundStyle.NEOSOUL,
+    sound: soundStyle.LOUD,
     pattern: [
       [true, false, false, false, true, false, true, false],
       [true, false, true, false, false, false, false, false],
@@ -26,7 +26,7 @@ const initialState: patternMakerState = {
     {
       name: "Sjohones",
       color: "red",
-      sound: soundStyle.ELECTRONIC,
+      sound: soundStyle.LOUD,
       pattern: [
         [false, false, false, false, true, false, false, false],
         [true, false, false, true, true, false, false, true],

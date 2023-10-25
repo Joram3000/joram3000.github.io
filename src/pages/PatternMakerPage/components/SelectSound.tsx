@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { SelectDrumSound } from "../../../store/patternMakerState/actions";
 import { SegmentedControl } from "@mantine/core";
@@ -13,19 +13,18 @@ const SelectSound: React.FC<SelectSoundCompProps> = ({
   color,
   currentSound,
 }) => {
-  const [ssoundStyle, setSoundStyle] = useState<soundStyle>(currentSound);
+  // const [ssoundStyle, setSoundStyle] = useState<soundStyle>(currentSound);
   const dispatch = useDispatch();
 
   // TO DO FIX ANY STRING VS SOUNDSTYLE
   const onClickCHange = (value: any) => {
-    setSoundStyle(value);
     dispatch(SelectDrumSound(value));
   };
 
   return (
     <SegmentedControl
       orientation="vertical"
-      value={ssoundStyle}
+      value={currentSound}
       onChange={onClickCHange}
       color={color}
       data={[
