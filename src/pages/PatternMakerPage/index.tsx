@@ -28,7 +28,6 @@ import { P5CanvasDynamic } from "../../components/P5/P5CanvasDynamic";
 import CustomDoubleSlider from "./components/CustomDoubleSlider";
 import CustomSlider from "./components/CustomSlider";
 import TransporterButton from "./components/TransporterButton";
-import { isMobile } from "react-device-detect";
 
 const output = new Tone.Volume(-12).toDestination();
 const lpFilter = new Tone.Filter(8000, "lowpass", -48).connect(output);
@@ -64,15 +63,30 @@ const PatternMakerPage: React.FC = () => {
         <P5CanvasDynamic />
       </Center>
 
-      <Center pos="absolute" h="calc(100vh - 120px)" w="100%">
+      {/* <Center pos="absolute" h="calc(100vh - 120px)" w="100%"  bg="red">
         <Flex
+          bg="red"
           align="center"
           w="100%"
+             align="center"
+          justify="center"
           style={{ transform: "translate(0px ,-3px )", zIndex: 40 }}
         >
           <PatternMaker output={hpFilter} />
         </Flex>
-      </Center>
+      </Center> */}
+
+      <Container pos="absolute" h="calc(100vh - 120px)" w="100%">
+        <Flex
+          h="100%"
+          w="100%"
+          align="center"
+          justify="center"
+          style={{ transform: "translate(0px ,-3px )", zIndex: 40 }}
+        >
+          <PatternMaker output={hpFilter} />
+        </Flex>
+      </Container>
 
       <Container
         p={0}
