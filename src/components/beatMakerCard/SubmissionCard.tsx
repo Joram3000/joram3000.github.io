@@ -28,46 +28,45 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
 }) => {
   return (
     <Stack bg="red" m="md">
-      <div style={{ border: "1px solid green" }}>
-        <Group align="flex-start" justify="space-between">
-          <Title order={5} p="md">
-            {name} - {beatName}
-          </Title>
+      <Group align="flex-start" justify="space-between" bg="yellow" m="md">
+        <Title order={5} p="md" bg="dark">
+          {name} - {beatName}
+        </Title>
 
-          <Text fw={700} p="md">
-            {format(dateAdded, "dd-mm-yy hh:mm")}
+        <Text fw={700} p="md" bg="dark">
+          {format(dateAdded, "dd-mm-yy hh:mm")}
+        </Text>
+
+        <Title order={5} bg="dark" p="md">
+          {upvotes}🔥
+        </Title>
+      </Group>
+
+      <Stack justify="stretch" bg="grape" p="md">
+        <Text>{url}</Text>
+
+        <WaveSurferPlayer
+          width="100%"
+          normalize={true}
+          waveColor={gradient}
+          progressColor="rgb(100, 0, 100)"
+          fillParent={true}
+          hideScrollbar={true}
+          url={treingv}
+          autoCenter={true}
+          container={"#waveform"}
+          plugins={[]}
+        />
+      </Stack>
+
+      <Group m="md" bg="green" justify="flex-start">
+        {reactions.map((reactie, i) => (
+          <Text key={i}>
+            {reactie.contestant.name} : {reactie.contents}
+            {format(dateAdded, "hh:mm dd-mm-yy")}
           </Text>
-          <Title p="md">{upvotes}</Title>
-        </Group>
-
-        <Group bg="cyan" justify="center">
-          <Stack justify="stretch" bg="grape">
-            <Text>{url}</Text>
-
-            <WaveSurferPlayer
-              width="100%"
-              normalize={true}
-              waveColor={gradient}
-              progressColor="rgb(100, 0, 100)"
-              fillParent={true}
-              hideScrollbar={true}
-              url={treingv}
-              autoCenter={true}
-              container={"#waveform"}
-              plugins={[]}
-            />
-          </Stack>
-        </Group>
-
-        <Group bg="green" justify="flex-end">
-          {reactions.map((reactie, i) => (
-            <Text key={i}>
-              {reactie.contestant.name} : {reactie.contents}
-              {format(dateAdded, "hh:mm dd-mm-yy")}
-            </Text>
-          ))}
-        </Group>
-      </div>
+        ))}
+      </Group>
     </Stack>
   );
 };

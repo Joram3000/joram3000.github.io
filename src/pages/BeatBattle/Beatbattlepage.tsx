@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import SubmissionCard from "../../components/beatMakerCard/SubmissionCard";
 import { useEffect, useState } from "react";
 import { getUIState } from "../../store/uiState/selectors";
+import UseFadeTester from "../../hooks/useFadeTester";
 
 export default function BeatBattlePage() {
   const getBeatStatee = useSelector(getBeatState);
@@ -28,6 +29,7 @@ export default function BeatBattlePage() {
   return (
     <>
       <Stack bg="grape" m="md">
+        <UseFadeTester />
         <Group bg="yellow" justify="space-between">
           <Title c="white">BattleROUND</Title> <Title>[1]</Title>
         </Group>
