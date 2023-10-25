@@ -63,13 +63,13 @@ const PatternMakerPage: React.FC = () => {
         <P5CanvasDynamic />
       </Center>
 
-      <Center pos="absolute" h="calc(100vh - 124px)" w="100%">
+      <Center pos="absolute" h="calc(100vh - 120px)" w="100%">
         <Flex
-          bg="rgba(0,0,100,0.2)"
+          // bg="rgba(0,0,100,0.2)"
           // pos="absolute"
           align="center"
           w="100%"
-          style={{ transform: "translate(0px ,-2px )", zIndex: 40 }}
+          style={{ transform: "translate(0px ,-3px )", zIndex: 40 }}
         >
           <PatternMaker output={hpFilter} />
         </Flex>
@@ -83,12 +83,7 @@ const PatternMakerPage: React.FC = () => {
           width: "100%",
         }}
       >
-        <Stack
-          w="100%"
-          h="50%"
-          justify="flex-start"
-          // bg="rgba(0,200,0,0.1)"
-        >
+        <Stack w="100%" h="50%" justify="flex-start" pt="md">
           <Group justify="space-between" align="flex-start" px="md">
             <SelectSound
               color={currentPattern.color}
