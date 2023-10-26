@@ -59,34 +59,49 @@ const PatternMakerPage: React.FC = () => {
 
   return (
     <Container p={0} h="calc(100vh - 120px)">
-      <Center left={0} pos="absolute" h="calc(100vh - 120px)">
+      <Center
+        left={0}
+        pos="absolute"
+        h="calc(100vh - 120px)"
+        style={{ transform: "translate(0px ,-3px )", zIndex: -20 }}
+      >
         <P5CanvasDynamic />
       </Center>
 
-      {/* <Center pos="absolute" h="calc(100vh - 120px)" w="100%"  bg="red">
-        <Flex
-          bg="red"
-          align="center"
-          w="100%"
-             align="center"
-          justify="center"
-          style={{ transform: "translate(0px ,-3px )", zIndex: 40 }}
-        >
-          <PatternMaker output={hpFilter} />
-        </Flex>
-      </Center> */}
-
-      <Container pos="absolute" h="calc(100vh - 120px)" w="100%">
+      {/* <Container
+        pos="absolute"
+        h="calc(100vh - 120px)"
+        w="100%"
+        style={{ zIndex: 0 }}
+      >
         <Flex
           h="100%"
           w="100%"
           align="center"
           justify="center"
-          style={{ transform: "translate(0px ,-3px )", zIndex: 40 }}
+          style={{ transform: "translate(0px ,-3px )" }}
         >
           <PatternMaker output={hpFilter} />
         </Flex>
-      </Container>
+      </Container> */}
+
+      <Center
+        className="MobileWorking"
+        // bg="blue"
+        pos="absolute"
+        h="calc(100vh - 120px)"
+        w="100%"
+        // style={{ zIndex: 3 }} //
+      >
+        <Flex
+          align="center"
+          w="100%"
+          justify="center"
+          style={{ transform: "translate(0px ,-3px )", zIndex: 30 }} // dit werkt op mibile
+        >
+          <PatternMaker output={hpFilter} />
+        </Flex>
+      </Center>
 
       <Container
         p={0}
@@ -130,7 +145,6 @@ const PatternMakerPage: React.FC = () => {
           px="md"
           justify="flex-end"
           align="stretch"
-          // bg="rgba(100,0,0,0.5)"
         >
           <Box>
             <CustomSlider
