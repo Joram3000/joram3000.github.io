@@ -7,7 +7,7 @@ import { Reducer } from "redux";
 
 const initialState: patternMakerState = {
   currentPattern: {
-    name: "BeatMaker",
+    name: "Press",
     color: "green",
     sound: soundStyle.LOUD,
     pattern: [
