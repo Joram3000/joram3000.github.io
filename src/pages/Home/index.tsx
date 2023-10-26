@@ -1,9 +1,9 @@
-import { Container, Group, Stack, Table, Text, Title } from "@mantine/core";
+import { Container, Group, Table, Text, Title } from "@mantine/core";
 import { lorem } from "../../helpers/TextFiller";
 import { useTranslation } from "react-i18next";
 import { IconUfo } from "@tabler/icons-react";
-import ReactPlayer from "react-player";
-import { Carousel } from "@mantine/carousel";
+// import ReactPlayer from "react-player";
+// import { Carousel } from "@mantine/carousel";
 export default function HomePage() {
   const { t } = useTranslation();
 
@@ -47,7 +47,7 @@ export default function HomePage() {
     {
       name: "React Spring",
       logo: "09",
-      url: "www.url.nl",
+      url: "https://www.react-spring.dev/",
       typeOf: "Animation",
     },
     { name: "P5", logo: "09", url: "https://p5js.org/", typeOf: "Creative" },
@@ -106,12 +106,12 @@ export default function HomePage() {
         cupidatat pariatur ullamco sunt sint.
       </Text>
 
-      <Container>
+      {/* <Container>
         <Carousel withIndicators loop>
           <Carousel.Slide>
             <Stack justify="center" align="center">
               <ReactPlayer
-                control
+                control="true"
                 url="https://www.youtube.com/embed/LhcSagiy81A?si=w9RHo-FQg-p5rtT-"
                 loop
               />
@@ -128,7 +128,8 @@ export default function HomePage() {
             </Stack>
           </Carousel.Slide>
         </Carousel>
-      </Container>
+      </Container> */}
+
       <Title p="md" order={2}>
         {t("helloWorld")}
       </Title>
@@ -138,7 +139,7 @@ export default function HomePage() {
         Tech die gebruikt is:
       </Title>
       <Container>
-        <Table striped highlightOnHover>
+        <Table striped highlightOnHover withTableBorder>
           <Table.Thead>
             <Table.Tr>
               <Table.Th>Naam</Table.Th>
