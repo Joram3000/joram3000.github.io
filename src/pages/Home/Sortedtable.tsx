@@ -51,7 +51,8 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
   );
 }
 
-Table.Th;
+//Table.Th; 
+
 function filterData(data: RowData[], search: string) {
   const query = search.toLowerCase().trim();
   return data.filter((item) =>

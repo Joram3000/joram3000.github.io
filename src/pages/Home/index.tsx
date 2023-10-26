@@ -1,8 +1,9 @@
 import { Container, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "react-i18next";
-import { TableSort } from "./sortedtable";
+
 import { lorem } from "../../helpers/helpers";
 import ReactPlayer from "react-player";
+import { TableSort } from "./Sortedtable";
 
 export default function HomePage() {
   const { t } = useTranslation();
@@ -13,10 +14,7 @@ export default function HomePage() {
       <Text p="md">{t("hello")}</Text>
 
       <Stack justify="center" align="center">
-        <ReactPlayer
-          url="https://www.youtube.com/embed/LhcSagiy81A?si=w9RHo-FQg-p5rtT-"
-          loop
-        />
+        <ReactPlayer url="https://www.youtube.com/embed/LhcSagiy81A?si=w9RHo-FQg-p5rtT-" />
       </Stack>
 
       <Text p="md">
