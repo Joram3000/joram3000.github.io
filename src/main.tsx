@@ -2,18 +2,19 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
+import HomePage from "./pages/home-page";
 import ErrorPage from "./pages/error-page";
 import ContactPage from "./pages/contact-page";
 import AboutPage from "./pages/about-page";
 import PatternMakerPage from "./pages/patternmaker-page";
-import { Provider } from "react-redux";
-import { store } from "./store/store";
-import HomePage from "./pages/home-page";
-import { createTheme, MantineProvider } from "@mantine/core";
-import { ParallaxProvider } from "react-scroll-parallax";
 import VideoPlayer from "./pages/videoplayer-page/Videoplayer";
 import BeatBattlePage from "./pages/beatbattle-page";
 import TestPage from "./pages/test-pages";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+import { createTheme, MantineProvider } from "@mantine/core";
+import { ParallaxProvider } from "react-scroll-parallax";
+
 import "@mantine/carousel/styles.css";
 import "@mantine/core/styles.css";
 
