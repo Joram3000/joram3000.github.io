@@ -1,16 +1,21 @@
-import {  PatternMakerActionTypes, SequencerPattern, SoundStyle } from "./types";
+import { PatternMakerActionTypes, SequencerPattern, SoundStyle } from "./types";
 
-export const PatternUpdater = (Payload: {
+export const CurrentPatternUpdater = (Payload: {
   rowIndex: number;
   rowNumber: number;
   trigger: boolean;
 }) => ({
-  type: PatternMakerActionTypes.PATTERNUPDATER,
+  type: PatternMakerActionTypes.CURRENTPATTERNUPDATER,
   payload: Payload,
 });
 
 export const PatternUpdatewithSelect = (Payload: SequencerPattern) => ({
   type: PatternMakerActionTypes.PATTERNUPDATESELECTOR,
+  payload: Payload,
+});
+
+export const SavePattern = (Payload: SequencerPattern,) => ({
+  type: PatternMakerActionTypes.SAVEPATTERN,
   payload: Payload,
 });
 
