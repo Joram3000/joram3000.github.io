@@ -7,6 +7,7 @@ import SubmissionCard from "../../components/beatMakerCard/SubmissionCard";
 import { useEffect, useState } from "react";
 import { getUIStateSelector } from "../../store/ui/selectors";
 import UseFadeTester from "../../hooks/useFadeTester";
+import { submission } from "../../store/beatbattle/types";
 
 export default function BeatBattlePage() {
   const getBeatStatee = useSelector(getBeatStateSelector);
@@ -48,7 +49,7 @@ export default function BeatBattlePage() {
 
       <Title px="md">inzendingen:</Title>
       <Carousel withIndicators getEmblaApi={setEmbla} loop>
-        {contest1deelnemers.map((deelnemer) => (
+        {contest1deelnemers.map((deelnemer: submission) => (
           <Carousel.Slide key={deelnemer.numberOfUpvotes}>
             <SubmissionCard
               name={deelnemer.contestant.name}

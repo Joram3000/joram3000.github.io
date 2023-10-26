@@ -107,7 +107,7 @@ const mockBeatBattleState: BeatBattleState = {
   ],
 };
 
-const reducer: Reducer<beatBattleState> = (
+const reducer: Reducer<BeatBattleState> = (
   state = mockBeatBattleState
   // action
 ) => {
