@@ -3,7 +3,6 @@ import ReactPlayer from "react-player";
 import "./VideoPlayer.css";
 import {
   AspectRatio,
-  Box,
   ColorPicker,
   Container,
   Stack,
@@ -29,7 +28,7 @@ function VideoPlayer() {
   };
 
   return (
-    <Box p="md">
+    <Container p="md">
       <Title pb="md">Dynamic Video</Title>
 
       <AspectRatio ratio={960 / 270} maw={"100%"} mx="auto">
@@ -91,7 +90,7 @@ function VideoPlayer() {
           data={["Goedemiddag", "Goedenavond", "Hartelijke snavels"]}
         />
       </Stack>
-    </Box>
+    </Container>
   );
 }
 
