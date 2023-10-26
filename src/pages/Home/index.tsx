@@ -8,22 +8,67 @@ export default function HomePage() {
   const { t } = useTranslation();
 
   const usedTech = [
-    { name: "React", logo: "09", url: "www.url.nl", typeOf: "package" },
-    { name: "Typescript", logo: "09", url: "www.url.nl", typeOf: "package" },
-    { name: "Mantine", logo: "09", url: "www.url.nl", typeOf: "package" },
-    { name: "Redux", logo: "09", url: "www.url.nl", typeOf: "package" },
-    { name: "React Query", logo: "09", url: "www.url.nl", typeOf: "package" },
+    {
+      name: "Typescript",
+      logo: "09",
+      url: "https://www.typescriptlang.org/",
+      typeOf: "Language",
+    },
+    {
+      name: "React",
+      logo: "09",
+      url: "https://www.react.dev/",
+      typeOf: "Library",
+    },
+    {
+      name: "Mantine",
+      logo: "09",
+      url: "https://mantine.dev/",
+      typeOf: "UI",
+    },
+    {
+      name: "Redux",
+      logo: "09",
+      url: "https://redux.js.org/",
+      typeOf: "State Management",
+    },
+    {
+      name: "React Query",
+      logo: "09",
+      url: "https://tanstack.com/query",
+      typeOf: "State Management",
+    },
     {
       name: "React Parallax",
       logo: "09",
-      url: "www.url.nl",
-      typeOf: "package",
+      url: "https://parallax-controller.damnthat.tv/",
+      typeOf: "Animation",
     },
-    { name: "React Spring", logo: "09", url: "www.url.nl", typeOf: "package" },
-    { name: "P5", logo: "09", url: "www.url.nl", typeOf: "package" },
-    { name: "Tone.JS", logo: "09", url: "www.url.nl", typeOf: "package" },
-    { name: "Wavesurfer.JS", logo: "09", url: "www.url.nl", typeOf: "package" },
-    { name: "date-fns", logo: "09", url: "www.url.nl", typeOf: "package" },
+    {
+      name: "React Spring",
+      logo: "09",
+      url: "www.url.nl",
+      typeOf: "Animation",
+    },
+    { name: "P5", logo: "09", url: "https://p5js.org/", typeOf: "Creative" },
+    {
+      name: "Tone.js",
+      logo: "09",
+      url: "https://tonejs.github.io/",
+      typeOf: "Audio",
+    },
+    {
+      name: "Wavesurfer.JS",
+      logo: "09",
+      url: "https://wavesurfer.xyz/",
+      typeOf: "Audio",
+    },
+    {
+      name: "date-fns",
+      logo: "09",
+      url: "https://date-fns.org/",
+      typeOf: "Utility",
+    },
   ];
 
   const rows = usedTech.map((element) => (
@@ -35,8 +80,10 @@ export default function HomePage() {
         </Group>
       </Table.Td>
 
-      <Table.Td onClick={() => console.log(element.url)}>
-        <Text> {element.url}</Text>
+      <Table.Td>
+        <a href={element.url} target="_blank">
+          <Text td="underline">{element.url}</Text>
+        </a>
       </Table.Td>
       <Table.Td>
         <Text>{element.typeOf}</Text>
