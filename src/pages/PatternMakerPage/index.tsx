@@ -64,7 +64,7 @@ const PatternMakerPage: React.FC = () => {
         left={0}
         pos="absolute"
         h="calc(100vh - 120px)"
-        style={{ transform: "translate(0px ,-3px )", zIndex: -20 }}
+        style={{ transform: "translate(0px ,-2px )", zIndex: -20 }}
       >
         <P5CanvasDynamic />
       </Center>
