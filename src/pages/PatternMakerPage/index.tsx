@@ -28,6 +28,7 @@ import { P5CanvasDynamic } from "../../components/P5/P5CanvasDynamic";
 import CustomDoubleSlider from "./components/CustomDoubleSlider";
 import CustomSlider from "./components/CustomSlider";
 import TransporterButton from "./components/TransporterButton";
+import { isMobile } from "react-device-detect";
 
 const output = new Tone.Volume(-12).toDestination();
 const lpFilter = new Tone.Filter(8000, "lowpass", -48).connect(output);
@@ -68,40 +69,27 @@ const PatternMakerPage: React.FC = () => {
         <P5CanvasDynamic />
       </Center>
 
-      {/* <Container
-        pos="absolute"
-        h="calc(100vh - 120px)"
-        w="100%"
-        style={{ zIndex: 0 }}
-      >
-        <Flex
-          h="100%"
+      {/* {isMobile ? (
+        <Center
+          className="MobileWorking"
+          // bg="blue"
+          pos="absolute"
+          h="calc(100vh - 120px)"
           w="100%"
-          align="center"
-          justify="center"
-          style={{ transform: "translate(0px ,-3px )" }}
+          // style={{ zIndex: 3 }} //
         >
-          <PatternMaker output={hpFilter} />
-        </Flex>
-      </Container> */}
-
-      <Center
-        className="MobileWorking"
-        // bg="blue"
-        pos="absolute"
-        h="calc(100vh - 120px)"
-        w="100%"
-        // style={{ zIndex: 3 }} //
-      >
-        <Flex
-          align="center"
-          w="100%"
-          justify="center"
-          style={{ transform: "translate(0px ,-3px )", zIndex: 30 }} // dit werkt op mibile
-        >
-          <PatternMaker output={hpFilter} />
-        </Flex>
-      </Center>
+          <Flex
+            align="center"
+            w="100%"
+            justify="center"
+            style={{ transform: "translate(0px ,-3px )", zIndex: 30 }} // dit werkt op mibile
+          >
+            <PatternMaker output={hpFilter} />
+          </Flex>
+        </Center>
+      ) : (
+        <></>
+      )} */}
 
       <Container
         p={0}
@@ -111,6 +99,25 @@ const PatternMakerPage: React.FC = () => {
           width: "100%",
         }}
       >
+        <Container
+          pos="absolute"
+          h="calc(100vh - 120px)"
+          top={0}
+          w="100%"
+          style={{ zIndex: 0 }}
+        >
+          <Flex
+            // bg="blue"
+            h="100%"
+            // w="100%"
+            align="center"
+            justify="center"
+            style={{ transform: "translate(0px ,-5px )" }}
+          >
+            <PatternMaker output={hpFilter} />
+          </Flex>
+        </Container>
+
         <Stack
           className="TopKnobs"
           w="100%"
