@@ -9,6 +9,7 @@ import {
   rem,
   keys,
   Container,
+  Anchor,
 } from "@mantine/core";
 import {
   IconSelector,
@@ -170,11 +171,17 @@ export function TableSort() {
     <Table.Tr key={row.name}>
       <Table.Td>{row.name}</Table.Td>
       <Table.Td>
-        <a href={row.url} target="_blank">
-          <Text td="underline">{truncateHttps(row.url)}</Text>
-        </a>
+        <Anchor href={row.url} target="_blank">
+          <Text lineClamp={1} td="underline">
+            {truncateHttps(row.url)}
+          </Text>
+        </Anchor>
       </Table.Td>
-      <Table.Td>{row.typeOf}</Table.Td>
+      <Table.Td>
+        <Text lineClamp={2} size="sm">
+          {row.typeOf}
+        </Text>
+      </Table.Td>
     </Table.Tr>
   ));
 
@@ -215,7 +222,7 @@ export function TableSort() {
               reversed={reverseSortDirection}
               onSort={() => setSorting("typeOf")}
             >
-              TypeOf
+              Type
             </Th>
           </Table.Tr>
         </Table.Thead>
