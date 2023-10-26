@@ -1,8 +1,7 @@
 const nl = {
   helloWorld: "NEDERLANDS",
-  hello:
-    "nederland is het aller mooiste land dat er ooit geweest is vind je niet? nedelrand!!!",
-  header: "Welkom Hoi",
+  hello: "Welkom op mijn portfolio website",
+  header: "Joram Ipsum",
   menu: {
     home: "Huis",
     patternMaker: "Patroonmaker",
@@ -10,7 +9,7 @@ const nl = {
     about: "Over",
     contact: "Contact",
     test: "Tester",
-    beatbattle: "Beat-Battle",
+    beatbattle: "BeatBattle",
   },
 };
 

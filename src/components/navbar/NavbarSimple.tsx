@@ -4,11 +4,11 @@ import { menuData } from "../../routes/menuData";
 import { useTranslation } from "react-i18next";
 
 interface NavbarSimpleProps {
-  active: string;
+  isActive: string;
   setActive: (value: string) => void;
 }
 
-const NavbarSimple: React.FC<NavbarSimpleProps> = ({ active, setActive }) => {
+const NavbarSimple: React.FC<NavbarSimpleProps> = ({ isActive, setActive }) => {
   const {
     i18n: { language },
     t,
@@ -17,7 +17,7 @@ const NavbarSimple: React.FC<NavbarSimpleProps> = ({ active, setActive }) => {
   const links = menuData.map((item) => (
     <Link
       className={classes.link}
-      data-active={item.label === active || undefined}
+      data-active={item.label === isActive || undefined}
       key={item.label}
       to={item.link}
       onClick={() => {

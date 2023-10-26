@@ -1,8 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-
-import beatReducer from "./beatBattleState/reducer";
-import patternMakerState from "./patternMakerState/reducer";
-import uiState from "./uiState/reducer";
+import beatReducer from "./beatbattle/reducer";
+import patternMakerState from "./patternmaker/reducer";
+import uiState from "./ui/reducer";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),

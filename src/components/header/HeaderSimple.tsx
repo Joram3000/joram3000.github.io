@@ -4,11 +4,11 @@ import { LanguageSwitch } from "../buttons/LanguageSwitch";
 import { useTranslation } from "react-i18next";
 
 interface HeaderSimpleProps {
-  opened: boolean;
+  isOpen: boolean;
   onClick: () => void;
 }
 
-const HeaderSimple: React.FC<HeaderSimpleProps> = ({ opened, onClick }) => {
+const HeaderSimple: React.FC<HeaderSimpleProps> = ({ isOpen, onClick }) => {
   const { t } = useTranslation();
 
   return (
@@ -18,11 +18,8 @@ const HeaderSimple: React.FC<HeaderSimpleProps> = ({ opened, onClick }) => {
           {t("header")}
         </Text>
 
-        <Burger opened={opened} onClick={onClick} hiddenFrom="sm" size="sm" />
+        <Burger opened={isOpen} onClick={onClick} hiddenFrom="sm" size="sm" />
 
-        {/* <Text c="indigo" visibleFrom="sm" fw={700}>
-          Joram Ipsum
-        </Text> */}
         <Text c="violet" hiddenFrom="sm" fw={700}>
           {t("header")}
         </Text>
