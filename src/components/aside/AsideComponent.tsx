@@ -1,6 +1,6 @@
 import { ScrollArea, Text, Title } from "@mantine/core";
+import { lorem } from "../../helpers/helpers";
 // import { useTranslation } from "react-i18next";
-import { lorem } from "../../helpers/TextFiller";
 
 const AsideComponent: React.FC = () => {
   // const { t } = useTranslation();
