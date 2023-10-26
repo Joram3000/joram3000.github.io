@@ -19,7 +19,7 @@ import Beatbattlepage from "./pages/BeatBattle/Beatbattlepage";
 
 const router = createHashRouter([
   {
-    path: "/#",
+    path: "",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [

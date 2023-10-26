@@ -6,6 +6,7 @@ import {
   Image,
   UnstyledButton,
   SimpleGrid,
+  Container,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import image2 from "../../assets/images/prace1bewerkt.jpg.png";
@@ -39,19 +40,21 @@ export default function Aboutpage() {
         exercitation qui non adipisicing.
       </Text>
 
-      <WaveSurferPlayer
-        width="100%"
-        normalize={true}
-        waveColor={gradient}
-        progressColor="rgb(100, 0, 100)"
-        minPxPerSec={600}
-        fillParent={true}
-        hideScrollbar={true}
-        url={treingv}
-        autoCenter={true}
-        container={"#waveform"}
-        plugins={[]}
-      />
+      <Container p="md">
+        <WaveSurferPlayer
+          width="100%"
+          normalize={true}
+          waveColor={gradient}
+          progressColor="rgb(100, 0, 100)"
+          minPxPerSec={600}
+          fillParent={true}
+          hideScrollbar={true}
+          url={treingv}
+          autoCenter={true}
+          container={"#waveform"}
+          plugins={[]}
+        />
+      </Container>
 
       <Collapse p="md" in={opened} transitionDuration={200}>
         <Text>
