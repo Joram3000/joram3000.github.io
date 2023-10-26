@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as Tone from "tone";
 import { useDispatch, useSelector } from "react-redux";
-import { PatternUpdater } from "../../../store/patternmaker/actions";
+import { CurrentPatternUpdater } from "../../../store/patternmaker/actions";
 import { Container, Flex } from "@mantine/core";
 import { selectedPatternSelector } from "../../../store/patternmaker/selectors";
 import { SoundStyle } from "../../../store/patternmaker/types";
@@ -61,7 +61,7 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
     rowNumber: number;
     trigger: boolean;
   }) {
-    dispatch(PatternUpdater({ rowNumber, rowIndex, trigger }));
+    dispatch(CurrentPatternUpdater({ rowNumber, rowIndex, trigger }));
   }
 
   useEffect(() => {
