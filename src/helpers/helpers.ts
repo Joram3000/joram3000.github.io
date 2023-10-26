@@ -10,3 +10,8 @@ export const lorem = new LoremIpsum({
     min: 4,
   },
 });
+
+export const truncateHttps = (string: string) => {
+  const regex = /^https?:\/\/?/i;
+  return string.replace(regex, "");
+};
