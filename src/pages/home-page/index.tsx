@@ -1,20 +1,16 @@
-import { Container, Stack, Text, Title } from "@mantine/core";
+import { Box, Text, Title } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { lorem } from "../../helpers/helpers";
-// import ReactPlayer from "react-player";
+
 import { TableSort } from "./Sortedtable";
 
 export default function HomePage() {
   const { t } = useTranslation();
 
   return (
-    <Container p={0}>
+    <Box p={0}>
       <Title p="md">HomePage</Title>
       <Text p="md">{t("hello")}</Text>
-
-      <Stack justify="center" align="center">
-        {/* <ReactPlayer url="https://www.youtube.com/embed/LhcSagiy81A?si=w9RHo-FQg-p5rtT-" /> */}
-      </Stack>
 
       <Text p="md">
         Joram Ipsum Joram Ipsum Joram Ipsum Voluptate magna laborum labore esse.
@@ -37,6 +33,6 @@ export default function HomePage() {
       </Title>
       <TableSort />
       <Text p="md">{lorem.generateParagraphs(1)}</Text>
-    </Container>
+    </Box>
   );
 }

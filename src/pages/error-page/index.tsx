@@ -1,3 +1,4 @@
+import { Box } from "@mantine/core";
 import { useRouteError } from "react-router-dom";
 
 export default function ErrorPage() {
@@ -6,11 +7,11 @@ export default function ErrorPage() {
 
   // <i>{error.statusText || error.message}</i>;
   return (
-    <div id="error-page">
+    <Box id="error-page">
       <h1>Oopsiewoopsie!</h1>
       <h2>Oopsiewoopsie!</h2>
       <h3>Oopsiewoopsie!</h3>
       <h4>Oopsiewoopsie!</h4>
-    </div>
+    </Box>
   );
 }

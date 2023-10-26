@@ -1,8 +1,8 @@
 import { Stack, Title, Group, Text } from "@mantine/core";
-import { reaction } from "../../store/beatbattle/types";
 import { format } from "date-fns";
-import WaveSurferPlayer from "../../pages/test-pages/WaveSurferPlayer";
-import treingv from "../../assets/music/treingv.mp3";
+import treingv from "../../../assets/music/treingv.mp3";
+import { reaction } from "../../../store/beatbattle/types";
+import WaveSurferPlayer from "../../../components/WaveSurferPlayer/WaveSurferPlayer";
 
 const ctx = document.createElement("canvas").getContext("2d");
 const gradient = ctx!.createLinearGradient(0, 0, 0, 150);
@@ -28,22 +28,22 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
   reactions,
 }) => {
   return (
-    <Stack bg="red" m="md">
-      <Group align="flex-start" justify="space-between" bg="yellow" m="md">
-        <Title order={5} p="md" bg="dark">
+    <Stack m="md" bg="gray">
+      <Group align="flex-start" justify="space-between" m="md">
+        <Title order={5} p="md">
           {name} - {beatName}
         </Title>
 
-        <Text fw={700} p="md" bg="dark">
+        <Text fw={700} p="md">
           {format(dateAdded, "dd-mm-yy hh:mm")}
         </Text>
 
-        <Title order={5} bg="dark" p="md">
+        <Title order={5} p="md">
           {upvotes}🔥
         </Title>
       </Group>
 
-      <Stack justify="stretch" bg="grape" p="md">
+      <Stack justify="stretch" p="md">
         <Text>{url}</Text>
 
         <WaveSurferPlayer
@@ -60,7 +60,7 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
         />
       </Stack>
 
-      <Group m="md" bg="green" justify="flex-start">
+      <Group m="md" justify="flex-start">
         {reactions.map((reaction, i) => (
           <Text key={i}>
             {reaction.contestant.name} : {reaction.contents}

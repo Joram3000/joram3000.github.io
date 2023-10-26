@@ -11,12 +11,11 @@ import { store } from "./store/store";
 import HomePage from "./pages/home-page";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { ParallaxProvider } from "react-scroll-parallax";
-import TestPage from "./pages/test-pages/testpage";
 import VideoPlayer from "./pages/videoplayer-page/Videoplayer";
-
+import BeatBattlePage from "./pages/beatbattle-page";
+import TestPage from "./pages/test-pages";
 import "@mantine/carousel/styles.css";
 import "@mantine/core/styles.css";
-import BeatBattlePage from "./pages/beatbattle-page";
 
 const router = createHashRouter([
   {

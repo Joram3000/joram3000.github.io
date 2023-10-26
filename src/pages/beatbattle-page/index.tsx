@@ -1,43 +1,40 @@
 import { useSelector } from "react-redux";
 import { getBeatStateSelector } from "../../store/beatbattle/selectors";
-import { Title, Text, Stack, Group } from "@mantine/core";
+import { Title, Text, Stack, Group, Box } from "@mantine/core";
 import { Carousel, Embla } from "@mantine/carousel";
 import { format } from "date-fns";
-import SubmissionCard from "../../components/beatMakerCard/SubmissionCard";
 import { useEffect, useState } from "react";
 import { getUIStateSelector } from "../../store/ui/selectors";
-import UseFadeTester from "../../hooks/useFadeTester";
 import { submission } from "../../store/beatbattle/types";
+import SubmissionCard from "./components/SubmissionCard";
 
 export default function BeatBattlePage() {
-  const getBeatStatee = useSelector(getBeatStateSelector);
-  const getUIstate = useSelector(getUIStateSelector);
-  const getAContest = getBeatStatee.contests[0];
-  const contest1deelnemers = getAContest.subMissionList;
-  const date = new Date();
-  const dateAdded = format(date, "dd-mm-yyyy hh:mm");
+  const beatBattleState = useSelector(getBeatStateSelector);
+  const getUIState = useSelector(getUIStateSelector);
+  const getContest = beatBattleState.contests[0];
+  const contestSubmissions = getContest.subMissionList;
+  const dateAdded = format(new Date(), "dd-mm-yyyy hh:mm");
   const [embla, setEmbla] = useState<Embla | null>(null);
 
   useEffect(() => {
     if (embla === null) return;
     embla.reInit();
-  }, [getUIstate.menuOpen]);
+  }, [getUIState.menuOpen]);
 
   const onURLClick = () => {
-    console.log(getAContest.sample.url);
+    console.log(getContest.sample.url);
   };
 
   return (
-    <>
-      <Stack bg="grape" m="md">
-        <UseFadeTester />
-        <Group bg="yellow" justify="space-between">
-          <Title c="white">BattleROUND</Title> <Title>[1]</Title>
+    <Box>
+      <Stack bg="dark" m="md">
+        <Group justify="space-between">
+          <Title c="white">Battle Round</Title> <Title>[1]</Title>
         </Group>
         <Group justify="space-between">
           <Text c="white">Met deze sample:</Text>
           <Text fw={700} onClick={onURLClick}>
-            {getAContest.sample.name}
+            {getContest.sample.name}
           </Text>
         </Group>
 
@@ -45,23 +42,23 @@ export default function BeatBattlePage() {
           <Text>toegevoegd:</Text>
           <Text>{dateAdded}</Text>
         </Group>
-      </Stack>
 
-      <Title px="md">inzendingen:</Title>
-      <Carousel withIndicators getEmblaApi={setEmbla} loop>
-        {contest1deelnemers.map((deelnemer: submission) => (
-          <Carousel.Slide key={deelnemer.numberOfUpvotes}>
-            <SubmissionCard
-              name={deelnemer.contestant.name}
-              beatName={deelnemer.name}
-              url={deelnemer.url}
-              dateAdded={date}
-              upvotes={deelnemer.numberOfUpvotes}
-              reactions={deelnemer.reactions}
-            />
-          </Carousel.Slide>
-        ))}
-      </Carousel>
-    </>
+        <Title px="md">inzendingen:</Title>
+        <Carousel withIndicators getEmblaApi={setEmbla} loop>
+          {contestSubmissions.map((submission: submission) => (
+            <Carousel.Slide key={submission.numberOfUpvotes}>
+              <SubmissionCard
+                name={submission.contestant.name}
+                beatName={submission.name}
+                url={submission.url}
+                dateAdded={new Date()}
+                upvotes={submission.numberOfUpvotes}
+                reactions={submission.reactions}
+              />
+            </Carousel.Slide>
+          ))}
+        </Carousel>
+      </Stack>
+    </Box>
   );
 }

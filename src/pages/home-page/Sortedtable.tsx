@@ -51,7 +51,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
   );
 }
 
-//Table.Th; 
+//Table.Th;
 
 function filterData(data: RowData[], search: string) {
   const query = search.toLowerCase().trim();
@@ -82,7 +82,7 @@ function sortData(
   );
 }
 
-const data = [
+const tableData = [
   {
     name: "Typescript",
     url: "https://typescriptlang.org/",
@@ -143,7 +143,7 @@ const data = [
 
 export function TableSort() {
   const [search, setSearch] = useState("");
-  const [sortedData, setSortedData] = useState(data);
+  const [sortedData, setSortedData] = useState(tableData);
   const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
 
@@ -151,14 +151,18 @@ export function TableSort() {
     const reversed = field === sortBy ? !reverseSortDirection : false;
     setReverseSortDirection(reversed);
     setSortBy(field);
-    setSortedData(sortData(data, { sortBy: field, reversed, search }));
+    setSortedData(sortData(tableData, { sortBy: field, reversed, search }));
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setSearch(value);
     setSortedData(
-      sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
+      sortData(tableData, {
+        sortBy,
+        reversed: reverseSortDirection,
+        search: value,
+      })
     );
   };
 

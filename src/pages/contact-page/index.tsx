@@ -1,8 +1,8 @@
-import { Title, Text, Image } from "@mantine/core";
+import { Title, Text, Image, Box } from "@mantine/core";
 
 export default function ContactPage() {
   return (
-    <>
+    <Box>
       <Title p="md">ContactPage</Title>
 
       <Text p="md">
@@ -53,6 +53,6 @@ export default function ContactPage() {
         in veniam exercitation Lorem duis est non nostrud occaecat qui. Eu quis
         nulla irure pariatur.
       </Text>
-    </>
+    </Box>
   );
 }

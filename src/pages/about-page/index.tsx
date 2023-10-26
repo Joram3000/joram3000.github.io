@@ -12,7 +12,7 @@ import { useDisclosure } from "@mantine/hooks";
 import image2 from "../../assets/images/prace1bewerkt.jpg.png";
 import image3 from "../../assets/images/unnamed (2).jpg";
 import treingv from "../../assets/music/treingv.mp3";
-import WaveSurferPlayer from "../test-pages/WaveSurferPlayer";
+import WaveSurferPlayer from "../../components/WaveSurferPlayer/WaveSurferPlayer";
 
 export default function Aboutpage() {
   const [opened, { toggle }] = useDisclosure(false);
