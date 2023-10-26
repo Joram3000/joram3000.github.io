@@ -8,15 +8,19 @@ interface FadeProps {
 const UseFade: React.FC<FadeProps> = ({ show, children }) => {
   const [shouldRender, setRender] = useState(false);
 
+  // ALS SHOW IS AAN , START ANIMATIE
+
   useEffect(() => {
     if (show) {
       setRender(true);
-    } else {
-      const timeout = setTimeout(() => {
-        setRender(false);
-      }, 190);
-      return () => clearTimeout(timeout);
     }
+
+    // else {
+    //   const timeout = setTimeout(() => {
+    //     setRender(false);
+    //   }, 490);
+    //   return () => clearTimeout(timeout);
+    // }
   }, [show]);
 
   const onAnimationEnd = () => {
@@ -27,7 +31,8 @@ const UseFade: React.FC<FadeProps> = ({ show, children }) => {
     shouldRender && (
       <div
         style={{
-          animation: `${show ? "fadeIn" : "fadeOut"} 200ms`,
+          animation: `${show ? "fadeIn" : "fadeOut"} 250ms`,
+          opacity: !show ? 0 : 1,
         }}
         onAnimationEnd={onAnimationEnd}
       >

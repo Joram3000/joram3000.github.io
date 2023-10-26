@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./pages/Error";
 import ContactPage from "./pages/Contact";
@@ -17,7 +17,7 @@ import "@mantine/carousel/styles.css";
 import VideoPlayer from "./components/VideoPlayer/Videoplayer";
 import Beatbattlepage from "./pages/BeatBattle/Beatbattlepage";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Root />,
