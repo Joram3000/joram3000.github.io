@@ -21,12 +21,7 @@ export function LanguageSwitch() {
   };
 
   return (
-    <ActionIcon
-      onClick={() => handleClick()}
-      variant="default"
-      size="lg"
-      aria-label="Toggle color scheme"
-    >
+    <ActionIcon onClick={() => handleClick()} variant="default" size="lg">
       <Text fw="700">{getButtonText().toUpperCase()}</Text>
     </ActionIcon>
   );

@@ -17,6 +17,7 @@ import WaveSurferPlayer from "../test-pages/WaveSurferPlayer";
 export default function Aboutpage() {
   const [opened, { toggle }] = useDisclosure(false);
   const ctx = document.createElement("canvas").getContext("2d");
+
   const gradient = ctx!.createLinearGradient(0, 0, 0, 150);
   gradient.addColorStop(0, "rgb(0, 0, 200)");
   gradient.addColorStop(0.7, "rgb(100, 0, 100)");

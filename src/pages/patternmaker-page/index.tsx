@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import PatternMaker from "./components/PatternMaker";
 import {
-  SelectedPattern,
-  SoundSettings,
-} from "../../store/patternMakerState/selectors";
+  selectedPatternSelector,
+  soundSettingsSelector,
+} from "../../store/patternmaker/selectors";
 import { useSelector } from "react-redux";
 import SelectSound from "./components/SelectSound";
 import { useDispatch } from "react-redux";
@@ -11,7 +11,7 @@ import {
   SetTempo,
   SetVolume,
   SetFilters,
-} from "../../store/patternMakerState/actions";
+} from "../../store/patternmaker/actions";
 import * as Tone from "tone";
 import SelectPattern from "./components/SelectPattern";
 import {
@@ -23,12 +23,10 @@ import {
   Flex,
   Container,
 } from "@mantine/core";
-import "./style.css";
-import { P5CanvasDynamic } from "../../components/P5/P5CanvasDynamic";
 import CustomDoubleSlider from "./components/CustomDoubleSlider";
 import CustomSlider from "./components/CustomSlider";
 import TransporterButton from "./components/TransporterButton";
-// import { isMobile } from "react-device-detect";
+import { P5WaveFormSketchWrapper } from "./components/P5WaveFormSketchWrapper";
 
 const output = new Tone.Volume(-12).toDestination();
 const lpFilter = new Tone.Filter(8000, "lowpass", -48).connect(output);
@@ -36,21 +34,21 @@ const hpFilter = new Tone.Filter(0, "highpass").connect(lpFilter);
 
 const PatternMakerPage: React.FC = () => {
   const dispatch = useDispatch();
-  const currentPattern = useSelector(SelectedPattern);
-  const soundSettings = useSelector(SoundSettings);
+  const currentPattern = useSelector(selectedPatternSelector);
+  const soundSettings = useSelector(soundSettingsSelector);
 
-  const sendVolume = (waarde: number) => {
-    dispatch(SetVolume(waarde));
+  const sendVolume = (value: number) => {
+    dispatch(SetVolume(value));
   };
 
-  const sendFilters = (waarde: [number, number]) => {
-    dispatch(SetFilters(waarde));
-    lpFilter.frequency.value = waarde[1];
-    hpFilter.frequency.value = waarde[0];
+  const sendFilters = (value: [number, number]) => {
+    dispatch(SetFilters(value));
+    lpFilter.frequency.value = value[1];
+    hpFilter.frequency.value = value[0];
   };
 
-  const sendTempo = (waarde: number) => {
-    Tone.Transport.bpm.value = waarde;
+  const sendTempo = (value: number) => {
+    Tone.Transport.bpm.value = value;
     dispatch(SetTempo(Tone.Transport.bpm.value));
   };
 
@@ -66,30 +64,8 @@ const PatternMakerPage: React.FC = () => {
         h="calc(100vh - 120px)"
         style={{ transform: "translate(0px ,-2px )", zIndex: -20 }}
       >
-        <P5CanvasDynamic />
+        <P5WaveFormSketchWrapper />
       </Center>
-
-      {/* {isMobile ? (
-        <Center
-          className="MobileWorking"
-          // bg="blue"
-          pos="absolute"
-          h="calc(100vh - 120px)"
-          w="100%"
-          // style={{ zIndex: 3 }} //
-        >
-          <Flex
-            align="center"
-            w="100%"
-            justify="center"
-            style={{ transform: "translate(0px ,-3px )", zIndex: 30 }} // dit werkt op mibile
-          >
-            <PatternMaker output={hpFilter} />
-          </Flex>
-        </Center>
-      ) : (
-        <></>
-      )} */}
 
       <Container
         p={0}
@@ -107,9 +83,7 @@ const PatternMakerPage: React.FC = () => {
           style={{ zIndex: 0 }}
         >
           <Flex
-            // bg="blue"
             h="100%"
-            // w="100%"
             align="center"
             justify="center"
             style={{ transform: "translate(0px ,-5px )" }}
@@ -118,13 +92,7 @@ const PatternMakerPage: React.FC = () => {
           </Flex>
         </Container>
 
-        <Stack
-          className="TopKnobs"
-          w="100%"
-          h="50%"
-          justify="flex-start"
-          pt="md"
-        >
+        <Stack w="100%" h="50%" justify="flex-start" pt="md">
           <Group justify="space-between" align="flex-start" px="md">
             <SelectSound
               color={currentPattern.color}
@@ -145,14 +113,7 @@ const PatternMakerPage: React.FC = () => {
           </Group>
         </Stack>
 
-        <Stack
-          className="BottomFaders"
-          w="100%"
-          h="50%"
-          px="md"
-          justify="flex-end"
-          align="stretch"
-        >
+        <Stack w="100%" h="50%" px="md" justify="flex-end" align="stretch">
           <Box>
             <CustomSlider
               min={-40}

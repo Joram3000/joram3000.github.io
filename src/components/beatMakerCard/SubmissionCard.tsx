@@ -1,5 +1,5 @@
 import { Stack, Title, Group, Text } from "@mantine/core";
-import { reaction } from "../../store/beatBattleState/types";
+import { reaction } from "../../store/beatbattle/types";
 import { format } from "date-fns";
 import WaveSurferPlayer from "../../pages/test-pages/WaveSurferPlayer";
 import treingv from "../../assets/music/treingv.mp3";
@@ -9,6 +9,7 @@ const gradient = ctx!.createLinearGradient(0, 0, 0, 150);
 gradient.addColorStop(0, "rgb(0, 0, 200)");
 gradient.addColorStop(0.7, "rgb(100, 0, 100)");
 gradient.addColorStop(1, "rgb(200, 230, 10)");
+
 interface SubmissionCardProps {
   name: string;
   beatName: string;
@@ -60,9 +61,9 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
       </Stack>
 
       <Group m="md" bg="green" justify="flex-start">
-        {reactions.map((reactie, i) => (
+        {reactions.map((reaction, i) => (
           <Text key={i}>
-            {reactie.contestant.name} : {reactie.contents}
+            {reaction.contestant.name} : {reaction.contents}
             {format(dateAdded, "hh:mm dd-mm-yy")}
           </Text>
         ))}

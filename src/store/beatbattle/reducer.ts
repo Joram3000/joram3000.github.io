@@ -1,7 +1,7 @@
 import { Reducer } from "redux";
-import { role, beatBattleState } from "./types";
+import { role, BeatBattleState } from "./types";
 
-const mockBeatBattleState: beatBattleState = {
+const mockBeatBattleState: BeatBattleState = {
   contestants: [
     {
       name: "John Doe",

@@ -1,10 +1,10 @@
 // @ts-ignore
 import { ReactP5Wrapper, Sketch, SketchProps } from "@p5-wrapper/react";
 import { useSelector } from "react-redux";
-import { SelectedPattern } from "../../store/patternMakerState/selectors";
 import * as Tone from "tone";
+import { selectedPatternSelector } from "../../../store/patternmaker/selectors";
 
-type MySketchProps = SketchProps & {
+type waveformSketchProps = SketchProps & {
   color: string;
 };
 
@@ -12,21 +12,19 @@ let meter;
 let analyser: Tone.Analyser;
 const playing = true;
 let waveColor: string;
-// @ts-ignore
-const sketch: Sketch<MySketchProps> = (p) => {
+
+const waveformSketch: Sketch<waveformSketchProps> = (p: any) => {
   meter = new Tone.Meter();
   Tone.Destination.connect(meter);
   p.setup = () => {
-  p.createCanvas(p.windowWidth, p.windowHeight);
-    // cnv.position(0, 0);
-    // p.background(0);
+    p.createCanvas(p.windowWidth, p.windowHeight);
     p.fill(0);
 
     analyser = new Tone.Analyser("waveform", 512);
     Tone.Destination.connect(analyser);
   };
 
-  p.updateWithProps = (props: MySketchProps) => {
+  p.updateWithProps = (props: waveformSketchProps) => {
     if (props.color) {
       waveColor = props.color;
     }
@@ -58,8 +56,8 @@ const sketch: Sketch<MySketchProps> = (p) => {
   };
 };
 
-export function P5CanvasDynamic() {
-  const seqPattern = useSelector(SelectedPattern);
+export function P5WaveFormSketchWrapper() {
+  const seqPattern = useSelector(selectedPatternSelector);
 
-  return <ReactP5Wrapper sketch={sketch} color={seqPattern.color} />;
+  return <ReactP5Wrapper sketch={waveformSketch} color={seqPattern.color} />;
 }

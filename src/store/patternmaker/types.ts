@@ -1,5 +1,5 @@
-export interface patternMakerState {
-  currentPattern: sequencerPattern;
+export interface PatternMakerState {
+  currentPattern: SequencerPattern;
   soundSettings: {
     volume: number;
     tempo: number;
@@ -7,24 +7,24 @@ export interface patternMakerState {
     delayFeedback: number;
     filtersAmount: [number, number];
   };
-  savedPatterns: sequencerPattern[];
+  savedPatterns: SequencerPattern[];
 }
 
-export interface sequencerPattern {
+export interface SequencerPattern {
   name: string;
   color: string;
-  sound: soundStyle;
+  sound: SoundStyle;
   pattern: [boolean[], boolean[]];
 }
 
-export enum soundStyle {
+export enum SoundStyle {
   LOUD = "Loud",
   ELECTRONIC = "Electronic",
   PERCUSSION = "Percussion",
   NEOSOUL = "Neo-Soul",
 }
 
-export enum patternMakerActionTypes {
+export enum PatternMakerActionTypes {
   PATTERNUPDATER = "PATTERNUPDATER",
   PATTERNUPDATESELECTOR = "PATTERNUPDATESELECTOR",
   SELECTDRUMSOUND = "SELECTDRUMSOUND",

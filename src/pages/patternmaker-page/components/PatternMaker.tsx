@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import * as Tone from "tone";
 import { useDispatch, useSelector } from "react-redux";
-import { PatternUpdater } from "../../../store/patternMakerState/actions";
+import { PatternUpdater } from "../../../store/patternmaker/actions";
 import { Container, Flex } from "@mantine/core";
-import { SelectedPattern } from "../../../store/patternMakerState/selectors";
-import { soundStyle } from "../../../store/patternMakerState/types";
+import { selectedPatternSelector } from "../../../store/patternmaker/selectors";
+import { SoundStyle } from "../../../store/patternmaker/types";
 
 interface PatternMakerProps {
   output: Tone.OutputNode;
@@ -30,7 +30,7 @@ const samples = new Tone.Sampler({
 const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
   samples.connect(output);
   const dispatch = useDispatch();
-  const reduxSequencerPattern = useSelector(SelectedPattern);
+  const reduxSequencerPattern = useSelector(selectedPatternSelector);
   const [currentPattern, updateCurrentPattern] = useState<
     [boolean[], boolean[]]
   >(reduxSequencerPattern.pattern);
@@ -69,16 +69,16 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
   }, [reduxSequencerPattern]);
 
   switch (reduxSequencerPattern.sound) {
-    case soundStyle.LOUD:
+    case SoundStyle.LOUD:
       notes = ["B1", "A1"];
       break;
-    case soundStyle.ELECTRONIC:
+    case SoundStyle.ELECTRONIC:
       notes = ["D1", "C1"];
       break;
-    case soundStyle.PERCUSSION:
+    case SoundStyle.PERCUSSION:
       notes = ["F1", "E1"];
       break;
-    case soundStyle.NEOSOUL:
+    case SoundStyle.NEOSOUL:
       notes = ["A2", "G1"];
       break;
     default:

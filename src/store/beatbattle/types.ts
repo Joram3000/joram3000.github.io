@@ -1,4 +1,4 @@
-export interface beatBattleState {
+export interface BeatBattleState {
   contestants: contestant[];
   contests: contest[];
 }

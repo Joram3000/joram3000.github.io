@@ -2,20 +2,21 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
-import ErrorPage from "./pages/Error";
-import ContactPage from "./pages/Contact";
-import AboutPage from "./pages/About";
-import PatternMakerPage from "./pages/PatternMakerPage";
+import ErrorPage from "./pages/error-page";
+import ContactPage from "./pages/contact-page";
+import AboutPage from "./pages/about-page";
+import PatternMakerPage from "./pages/patternmaker-page";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-import HomePage from "./pages/Home";
-import "@mantine/core/styles.css";
+import HomePage from "./pages/home-page";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { ParallaxProvider } from "react-scroll-parallax";
 import TestPage from "./pages/test-pages/testpage";
+import VideoPlayer from "./pages/videoplayer-page/Videoplayer";
+
 import "@mantine/carousel/styles.css";
-import VideoPlayer from "./components/VideoPlayer/Videoplayer";
-import Beatbattlepage from "./pages/BeatBattle/Beatbattlepage";
+import "@mantine/core/styles.css";
+import BeatBattlePage from "./pages/beatbattle-page";
 
 const router = createHashRouter([
   {
@@ -30,14 +31,12 @@ const router = createHashRouter([
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },
       { path: "/test", element: <TestPage count={32} speed={20} /> },
-      { path: "/beatbattle", element: <Beatbattlepage /> },
+      { path: "/beatbattle", element: <BeatBattlePage /> },
     ],
   },
 ]);
 
-const theme = createTheme({
-  /** Your theme override here */
-});
+const theme = createTheme({});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

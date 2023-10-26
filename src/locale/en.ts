@@ -1,9 +1,9 @@
 import { Translation } from "./index";
 
 const en: Translation = {
-  helloWorld: "ENGLISH",
-  hello: "THIS IS AN ENGLISH STORY ABOUT INGLAND WAOW WAT DEEN MOOI LAND",
-  header: "Good day or something",
+  helloWorld: "English version",
+  hello: "Welcome on my portfolio website",
+  header: "Joram 3000",
   menu: {
     home: "Home",
     patternMaker: "Patternmaker",
@@ -11,7 +11,7 @@ const en: Translation = {
     about: "About",
     contact: "Contact",
     test: "Tester",
-    beatbattle: "Beat-Battle",
+    beatbattle: "BeatBattle",
   },
 };
 

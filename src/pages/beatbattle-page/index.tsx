@@ -1,16 +1,16 @@
 import { useSelector } from "react-redux";
-import { getBeatState } from "../../store/beatBattleState/selectors";
+import { getBeatStateSelector } from "../../store/beatbattle/selectors";
 import { Title, Text, Stack, Group } from "@mantine/core";
 import { Carousel, Embla } from "@mantine/carousel";
 import { format } from "date-fns";
 import SubmissionCard from "../../components/beatMakerCard/SubmissionCard";
 import { useEffect, useState } from "react";
-import { getUIState } from "../../store/uiState/selectors";
+import { getUIStateSelector } from "../../store/ui/selectors";
 import UseFadeTester from "../../hooks/useFadeTester";
 
 export default function BeatBattlePage() {
-  const getBeatStatee = useSelector(getBeatState);
-  const getUIstate = useSelector(getUIState);
+  const getBeatStatee = useSelector(getBeatStateSelector);
+  const getUIstate = useSelector(getUIStateSelector);
   const getAContest = getBeatStatee.contests[0];
   const contest1deelnemers = getAContest.subMissionList;
   const date = new Date();

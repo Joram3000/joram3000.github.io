@@ -1,15 +1,15 @@
 import {
-  patternMakerActionTypes,
-  patternMakerState,
-  soundStyle,
+  PatternMakerActionTypes,
+  PatternMakerState,
+  SoundStyle,
 } from "./types";
 import { Reducer } from "redux";
 
-const initialState: patternMakerState = {
+const initialState: PatternMakerState = {
   currentPattern: {
     name: "Press",
     color: "green",
-    sound: soundStyle.LOUD,
+    sound: SoundStyle.LOUD,
     pattern: [
       [true, false, false, false, true, false, true, false],
       [true, false, true, false, false, false, false, false],
@@ -26,7 +26,7 @@ const initialState: patternMakerState = {
     {
       name: "Sjohones",
       color: "red",
-      sound: soundStyle.LOUD,
+      sound: SoundStyle.LOUD,
       pattern: [
         [false, false, false, false, true, false, false, false],
         [true, false, false, true, true, false, false, true],
@@ -35,7 +35,7 @@ const initialState: patternMakerState = {
     {
       name: "Donkie",
       color: "orange",
-      sound: soundStyle.ELECTRONIC,
+      sound: SoundStyle.ELECTRONIC,
       pattern: [
         [false, false, true, false, false, false, true, false],
         [true, false, true, false, true, false, true, false],
@@ -44,7 +44,7 @@ const initialState: patternMakerState = {
     {
       name: "JOE",
       color: "yellow",
-      sound: soundStyle.PERCUSSION,
+      sound: SoundStyle.PERCUSSION,
       pattern: [
         [false, false, true, false, false, false, true, false],
         [true, false, false, true, false, true, false, false],
@@ -53,7 +53,7 @@ const initialState: patternMakerState = {
     {
       name: "EMPTY",
       color: "purple",
-      sound: soundStyle.NEOSOUL,
+      sound: SoundStyle.NEOSOUL,
       pattern: [
         [false, false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false, false],
@@ -62,10 +62,10 @@ const initialState: patternMakerState = {
   ],
 };
 
-const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
+const reducer: Reducer<PatternMakerState> = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case patternMakerActionTypes.PATTERNUPDATER: {
+    case PatternMakerActionTypes.PATTERNUPDATER: {
       const { rowNumber, rowIndex, trigger } = payload;
       const newPattern = state.currentPattern.pattern.map((row, i) => {
         if (i === rowNumber) {
@@ -87,14 +87,14 @@ const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
       };
     }
 
-    case patternMakerActionTypes.PATTERNUPDATESELECTOR: {
+    case PatternMakerActionTypes.PATTERNUPDATESELECTOR: {
       return {
         ...state,
         currentPattern: payload,
       };
     }
 
-    case patternMakerActionTypes.SELECTDRUMSOUND: {
+    case PatternMakerActionTypes.SELECTDRUMSOUND: {
       return {
         ...state,
         currentPattern: {
@@ -104,7 +104,7 @@ const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
       };
     }
 
-    case patternMakerActionTypes.SETTEMPO: {
+    case PatternMakerActionTypes.SETTEMPO: {
       return {
         ...state,
         soundSettings: {
@@ -114,7 +114,7 @@ const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
       };
     }
 
-    case patternMakerActionTypes.SETVOLUME: {
+    case PatternMakerActionTypes.SETVOLUME: {
       return {
         ...state,
         soundSettings: {
@@ -124,7 +124,7 @@ const reducer: Reducer<patternMakerState> = (state = initialState, action) => {
       };
     }
 
-    case patternMakerActionTypes.SETFILTERS: {
+    case PatternMakerActionTypes.SETFILTERS: {
       return {
         ...state,
         soundSettings: {

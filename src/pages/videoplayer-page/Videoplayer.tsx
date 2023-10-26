@@ -17,7 +17,6 @@ function VideoPlayer() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [arrayValues, setArrayValues] = useState<string[]>(["Goedesnavels"]);
 
-  //SHOW WORDS AND TIME IT
   const handleProgress = (progress: { playedSeconds: number }) => {
     if (progress.playedSeconds < 1) {
       setShowOverlay(true);

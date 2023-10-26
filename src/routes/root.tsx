@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import HeaderSimple from "../components/header/HeaderSimple";
 import { useTranslation } from "react-i18next";
 import AsideComponent from "../components/aside/AsideComponent";
-import { menuToggle } from "../store/uiState/actions";
+import { MenuToggle } from "../store/ui/actions";
 import { useDispatch } from "react-redux";
 import { BrowserView, MobileView } from "react-device-detect";
 
@@ -21,19 +21,21 @@ export default function Root() {
   }, [currentLanguage]);
 
   const [active, setActive] = useState("Home");
-  const [opened, { toggle: toggelientje }] = useDisclosure(false);
-  const [navbarOpened, { toggle: navbarToggleDesktop }] = useDisclosure(true);
+  const [navbarMobileOpened, { toggle: navbarMobileToggle }] =
+    useDisclosure(false);
+  const [navbarDesktopOpened, { toggle: navbarDesktopToggle }] =
+    useDisclosure(true);
   const [asideOpened, { toggle: asideToggle }] = useDisclosure();
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch(menuToggle(navbarOpened));
+      dispatch(MenuToggle(navbarDesktopOpened));
     }, 210);
-  }, [navbarOpened]);
+  }, [navbarDesktopOpened]);
 
-  const menuClick = (waarde: string) => {
-    setActive(waarde);
-    toggelientje();
+  const menuClick = (value: string) => {
+    setActive(value);
+    navbarMobileToggle();
   };
 
   return (
@@ -44,8 +46,8 @@ export default function Root() {
         width: 300,
         breakpoint: "sm",
         collapsed: {
-          mobile: !opened,
-          desktop: !navbarOpened,
+          mobile: !navbarMobileOpened,
+          desktop: !navbarDesktopOpened,
         },
       }}
       aside={{
@@ -58,11 +60,14 @@ export default function Root() {
       }}
     >
       <AppShell.Header>
-        <HeaderSimple opened={opened} onClick={toggelientje} />
+        <HeaderSimple
+          isOpen={navbarMobileOpened}
+          onClick={navbarMobileToggle}
+        />
       </AppShell.Header>
 
       <AppShell.Navbar>
-        <NavbarSimple active={active} setActive={menuClick} />
+        <NavbarSimple isActive={active} setActive={menuClick} />
       </AppShell.Navbar>
 
       <AppShell.Main>
@@ -75,8 +80,8 @@ export default function Root() {
 
       <AppShell.Footer>
         <Flex h={60} p="md" justify="space-between" align="center">
-          <Button onClick={navbarToggleDesktop} visibleFrom="sm">
-            {navbarOpened ? "hide navbar" : "show navbar"}
+          <Button onClick={navbarDesktopToggle} visibleFrom="sm">
+            {navbarDesktopOpened ? "hide menu" : "show menu"}
           </Button>
           <BrowserView>
             <Text>ComputerView</Text>
