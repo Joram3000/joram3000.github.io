@@ -87,7 +87,9 @@ const PatternMakerPage: React.FC = () => {
             h="100%"
             align="center"
             justify="center"
-            style={{ transform: "translate(0px ,-5px )" }}
+            style={{
+              transform: "translate(0px ,-5px )",
+            }}
           >
             <PatternMaker output={hpFilter} colorValue={colorValue} />
           </Flex>
@@ -101,7 +103,7 @@ const PatternMakerPage: React.FC = () => {
             />
 
             <Stack>
-              <Title order={3} c={currentPattern.color}>
+              <Title pos="relative" size="h4" c={currentPattern.color}>
                 {currentPattern.name}
               </Title>
               <Group justify="center">

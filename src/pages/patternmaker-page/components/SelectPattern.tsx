@@ -28,7 +28,7 @@ const SelectPattern: React.FC<SelectPatternProps> = ({ setColor, color }) => {
   const savedPatterns = useSelector(savedPatternsSelector);
   const currentPattern = useSelector(selectedPatternSelector);
   const [newPattern, setNewPattern] = useState(false);
-  const [newCOlor, setNewCOlor] = useState<string>("yellow");
+  const [newCOlor, setNewCOlor] = useState<string>("");
   const [titleValue, setTitleValue] = useState("Type maar");
 
   const onChangeColorValue = (value: string) => {
@@ -39,8 +39,8 @@ const SelectPattern: React.FC<SelectPatternProps> = ({ setColor, color }) => {
   const onNewClick = () => {
     dispatch(
       PatternUpdatewithSelect({
-        name: "New",
-        color: "purple",
+        name: "Edit",
+        color: "cyan",
         sound: SoundStyle.NEOSOUL,
         pattern: [
           [false, false, false, false, false, false, false, false],
@@ -115,8 +115,8 @@ const SelectPattern: React.FC<SelectPatternProps> = ({ setColor, color }) => {
                   value={color}
                   format="hex"
                   swatches={[
-                    "#25262b",
-                    "#868e96",
+                    "#FF8787",
+                    "##20c997",
                     "#fa5252",
                     "#e64980",
                     "#be4bdb",

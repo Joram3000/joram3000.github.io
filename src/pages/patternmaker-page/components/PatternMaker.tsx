@@ -92,6 +92,9 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output, colorValue }) => {
       p={0}
       className="seqPattern"
       style={{
+        boxShadow: `0px 0px 10px 0px ${
+          colorValue ?? reduxSequencerPattern.color
+        }`,
         borderRadius: 8,
         border: `4px solid ${colorValue ?? reduxSequencerPattern.color}`,
       }}
