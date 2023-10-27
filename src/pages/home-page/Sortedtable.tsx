@@ -119,7 +119,7 @@ const tableData = [
     url: "https://react-spring.dev",
     typeOf: "Animation",
   },
-  { name: "P5", url: "https://p5js.org/", typeOf: "Creative" },
+  { name: "P5", url: "https://p5js.org", typeOf: "Creative" },
   {
     name: "Tone.js",
     url: "https://tonejs.github.io",
