@@ -14,7 +14,7 @@ export const PatternUpdatewithSelect = (Payload: SequencerPattern) => ({
   payload: Payload,
 });
 
-export const SavePattern = (Payload: SequencerPattern,) => ({
+export const SavePattern = (Payload: SequencerPattern) => ({
   type: PatternMakerActionTypes.SAVEPATTERN,
   payload: Payload,
 });

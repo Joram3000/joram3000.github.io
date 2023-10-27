@@ -94,11 +94,15 @@ const reducer: Reducer<PatternMakerState> = (state = initialState, action) => {
       };
     }
 
-    case PatternMakerActionTypes.SAVEPATTERN:
+    case PatternMakerActionTypes.SAVEPATTERN: {
+      const savedPatterns = [...state.savedPatterns, payload];
+      const currentPattern = payload;
       return {
         ...state,
-        savedPatterns: [...state.savedPatterns, payload],
+        savedPatterns,
+        currentPattern,
       };
+    }
 
     case PatternMakerActionTypes.SELECTDRUMSOUND: {
       return {
