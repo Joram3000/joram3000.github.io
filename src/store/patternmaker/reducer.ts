@@ -42,7 +42,7 @@ const initialState: PatternMakerState = {
       ],
     },
     {
-      name: "Joe",
+      name: "Joey",
       color: "yellow",
       sound: SoundStyle.PERCUSSION,
       pattern: [

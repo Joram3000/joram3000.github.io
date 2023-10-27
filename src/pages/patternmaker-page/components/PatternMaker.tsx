@@ -30,7 +30,6 @@ const samples = new Tone.Sampler({
 
 const PatternMaker: React.FC<PatternMakerProps> = ({ output, colorValue }) => {
   samples.connect(output);
-  console.log(colorValue);
   const dispatch = useDispatch();
   const reduxSequencerPattern = useSelector(selectedPatternSelector);
   const [currentPattern, updateCurrentPattern] = useState<
@@ -92,11 +91,9 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output, colorValue }) => {
       p={0}
       className="seqPattern"
       style={{
-        boxShadow: `0px 0px 10px 0px ${
-          colorValue ?? reduxSequencerPattern.color
-        }`,
+        boxShadow: `0px 0px 10px 0px ${colorValue}`,
         borderRadius: 8,
-        border: `4px solid ${colorValue ?? reduxSequencerPattern.color}`,
+        border: `4px solid ${colorValue}`,
       }}
     >
       {currentPattern.map((rowArray: boolean[], rowNumber: number) => (
@@ -110,9 +107,7 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output, colorValue }) => {
                 height: "85px",
                 width: "100%",
                 background: trigger
-                  ? `linear-gradient(to right, ${
-                      colorValue ?? reduxSequencerPattern.color
-                    }, transparent)`
+                  ? `linear-gradient(to right, ${colorValue}, transparent)`
                   : "transparent",
               }}
               onClick={() => {

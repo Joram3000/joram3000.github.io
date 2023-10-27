@@ -19,20 +19,26 @@ import {
 import { SoundStyle } from "../../../store/patternmaker/types";
 
 interface SelectPatternProps {
-  setColor: Dispatch<SetStateAction<string | undefined>>;
+  setColor: Dispatch<SetStateAction<string>>;
   color?: string;
+  setTitleValue: Dispatch<SetStateAction<string>>;
+  titleValue: string;
 }
 
-const SelectPattern: React.FC<SelectPatternProps> = ({ setColor, color }) => {
+const SelectPattern: React.FC<SelectPatternProps> = ({
+  setColor,
+  color,
+  setTitleValue,
+  titleValue,
+}) => {
   const dispatch = useDispatch();
   const savedPatterns = useSelector(savedPatternsSelector);
   const currentPattern = useSelector(selectedPatternSelector);
-  const [newPattern, setNewPattern] = useState(false);
-  const [newCOlor, setNewCOlor] = useState<string>("");
-  const [titleValue, setTitleValue] = useState("Type maar");
+  const [newPattern, setNewPattern] = useState(false); // kan je hier geen toggle voor gebruiken?
+  const [newColor, setNewColor] = useState<string>("");
 
   const onChangeColorValue = (value: string) => {
-    setNewCOlor(value);
+    setNewColor(value);
     setColor(value);
   };
 
@@ -55,7 +61,7 @@ const SelectPattern: React.FC<SelectPatternProps> = ({ setColor, color }) => {
     dispatch(
       SavePattern({
         name: titleValue,
-        color: newCOlor,
+        color: newColor,
         sound: currentPattern.sound,
         pattern: currentPattern.pattern,
       })
@@ -80,15 +86,15 @@ const SelectPattern: React.FC<SelectPatternProps> = ({ setColor, color }) => {
           </Button>
         ))}
         <Button
-          pos="relative"
           size="xs"
           variant="light"
-          color={newPattern ? "green" : "indigo"}
+          color={newPattern ? "green" : "orange"}
           key="new-pattern"
           onClick={newPattern ? onSaveClick : onNewClick}
         >
           <Text truncate={true}>{newPattern ? "Save" : "New"}</Text>
         </Button>
+
         {newPattern && (
           <Popover trapFocus position="left">
             <Popover.Target>
@@ -116,7 +122,7 @@ const SelectPattern: React.FC<SelectPatternProps> = ({ setColor, color }) => {
                   format="hex"
                   swatches={[
                     "#FF8787",
-                    "##20c997",
+                    "#20c997",
                     "#fa5252",
                     "#e64980",
                     "#be4bdb",
