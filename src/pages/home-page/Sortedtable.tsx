@@ -86,22 +86,22 @@ function sortData(
 const tableData = [
   {
     name: "Typescript",
-    url: "https://typescriptlang.org/",
+    url: "https://typescriptlang.org",
     typeOf: "Language",
   },
   {
     name: "React",
-    url: "https://react.dev/",
+    url: "https://react.dev",
     typeOf: "Library",
   },
   {
     name: "Mantine",
-    url: "https://mantine.dev/",
+    url: "https://mantine.dev",
     typeOf: "UI",
   },
   {
     name: "Redux",
-    url: "https://redux.js.org/",
+    url: "https://redux.js.org",
     typeOf: "State Management",
   },
   {
@@ -111,33 +111,33 @@ const tableData = [
   },
   {
     name: "React Parallax",
-    url: "https://parallax-controller.damnthat.tv/",
+    url: "https://parallax-controller.damnthat.tv",
     typeOf: "Animation",
   },
   {
     name: "React Spring",
-    url: "https://react-spring.dev/",
+    url: "https://react-spring.dev",
     typeOf: "Animation",
   },
   { name: "P5", url: "https://p5js.org/", typeOf: "Creative" },
   {
     name: "Tone.js",
-    url: "https://tonejs.github.io/",
+    url: "https://tonejs.github.io",
     typeOf: "Audio",
   },
   {
     name: "Wavesurfer.JS",
-    url: "https://wavesurfer.xyz/",
+    url: "https://wavesurfer.xyz",
     typeOf: "Audio",
   },
   {
     name: "Date-fns",
-    url: "https://date-fns.org/",
+    url: "https://date-fns.org",
     typeOf: "Utility",
   },
   {
     name: "i18n",
-    url: "https://i18next.com/",
+    url: "https://i18next.com",
     typeOf: "Utility",
   },
 ];
