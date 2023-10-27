@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PatternMaker from "./components/PatternMaker";
 import {
   selectedPatternSelector,
@@ -36,6 +36,7 @@ const PatternMakerPage: React.FC = () => {
   const dispatch = useDispatch();
   const currentPattern = useSelector(selectedPatternSelector);
   const soundSettings = useSelector(soundSettingsSelector);
+  const [colorValue, setColor] = useState<string | undefined>();
 
   const sendVolume = (value: number) => {
     dispatch(SetVolume(value));
@@ -88,7 +89,7 @@ const PatternMakerPage: React.FC = () => {
             justify="center"
             style={{ transform: "translate(0px ,-5px )" }}
           >
-            <PatternMaker output={hpFilter} />
+            <PatternMaker output={hpFilter} colorValue={colorValue} />
           </Flex>
         </Container>
 
@@ -103,13 +104,12 @@ const PatternMakerPage: React.FC = () => {
               <Title order={3} c={currentPattern.color}>
                 {currentPattern.name}
               </Title>
-
               <Group justify="center">
                 <TransporterButton color={currentPattern.color} />
               </Group>
             </Stack>
 
-            <SelectPattern />
+            <SelectPattern setColor={setColor} color={colorValue} />
           </Group>
         </Stack>
 

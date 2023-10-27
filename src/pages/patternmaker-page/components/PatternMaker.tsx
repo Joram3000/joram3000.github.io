@@ -8,6 +8,7 @@ import { SoundStyle } from "../../../store/patternmaker/types";
 
 interface PatternMakerProps {
   output: Tone.OutputNode;
+  colorValue?: string;
 }
 
 let notes: [string, string];
@@ -27,8 +28,9 @@ const samples = new Tone.Sampler({
     "https://res.cloudinary.com/dqqb0ldgk/video/upload/v1651657689/Drumsounds",
 });
 
-const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
+const PatternMaker: React.FC<PatternMakerProps> = ({ output, colorValue }) => {
   samples.connect(output);
+  console.log(colorValue);
   const dispatch = useDispatch();
   const reduxSequencerPattern = useSelector(selectedPatternSelector);
   const [currentPattern, updateCurrentPattern] = useState<
@@ -91,7 +93,7 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
       className="seqPattern"
       style={{
         borderRadius: 8,
-        border: `4px solid ${reduxSequencerPattern.color}`,
+        border: `4px solid ${colorValue ?? reduxSequencerPattern.color}`,
       }}
     >
       {currentPattern.map((rowArray: boolean[], rowNumber: number) => (
@@ -105,7 +107,9 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
                 height: "85px",
                 width: "100%",
                 background: trigger
-                  ? `linear-gradient(to right, ${reduxSequencerPattern.color}, transparent)`
+                  ? `linear-gradient(to right, ${
+                      colorValue ?? reduxSequencerPattern.color
+                    }, transparent)`
                   : "transparent",
               }}
               onClick={() => {
