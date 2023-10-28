@@ -115,6 +115,7 @@ export const WaveSurferPlayert = (props: WaveSurferOptions) => {
       wavesurfer.on("play", () => setIsPlaying(true)),
       wavesurfer.on("pause", () => setIsPlaying(false)),
       wavesurfer.on("timeupdate", (currentTime) => setCurrentTime(currentTime)),
+      // wavesurfer.setPlaybackRate(0.8, false),
     ];
     return () => {
       subscriptions.forEach((unsub) => unsub());
@@ -139,10 +140,11 @@ export const WaveSurferPlayert = (props: WaveSurferOptions) => {
           <Text>Seconds played: {currentTime.toFixed(2)}</Text>
         </Group>
 
-        <Group bg="orange" grow>
-          <IconZoomOut />
+        <Group bg="orange">
+          <IconZoomOut onClick={() => console.log("-")} />
           <Slider
-            min={0}
+            w="30%"
+            min={1}
             max={1000}
             color="pink"
             value={minPxPerSec}
@@ -150,8 +152,11 @@ export const WaveSurferPlayert = (props: WaveSurferOptions) => {
             size="lg"
             showLabelOnHover={false}
           />
-          <IconZoomIn />
-          <Checkbox label="Loop" />
+          <IconZoomIn onClick={() => console.log("+")} />
+
+          <Group bg="blue">
+            <Checkbox label="Loop" />
+          </Group>
         </Group>
       </Stack>
     </Stack>
