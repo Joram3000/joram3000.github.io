@@ -99,7 +99,7 @@ export const WaveSurferPlayert = (props: WaveSurferOptions) => {
     useRef() as RefObject<HTMLDivElement>;
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [minPxPerSec, setMinPxPerSec] = useState(200);
+  // const [minPxPerSec, setMinPxPerSec] = useState(60);
   const wavesurfer = useWavesurfer(containerRef, props);
 
   const onPlayClick = useCallback(() => {
@@ -110,7 +110,7 @@ export const WaveSurferPlayert = (props: WaveSurferOptions) => {
     if (!wavesurfer) return;
     setCurrentTime(0);
     setIsPlaying(false);
-    setMinPxPerSec(200);
+    // setMinPxPerSec(60);
     const subscriptions = [
       wavesurfer.on("play", () => setIsPlaying(true)),
       wavesurfer.on("pause", () => setIsPlaying(false)),
@@ -122,13 +122,13 @@ export const WaveSurferPlayert = (props: WaveSurferOptions) => {
     };
   }, [wavesurfer]);
 
-  const handleZoom = useCallback(
-    (newMinPxPerSec: number) => {
-      setMinPxPerSec(newMinPxPerSec);
-      wavesurfer.zoom(newMinPxPerSec);
-    },
-    [wavesurfer]
-  );
+  // const handleZoom = useCallback(
+  //   (newMinPxPerSec: number) => {
+  //     setMinPxPerSec(newMinPxPerSec);
+  //     wavesurfer.zoom(newMinPxPerSec);
+  //   },
+  //   [wavesurfer]
+  // );
 
   return (
     <Stack style={{ border: "1px dotted white" }}>
@@ -145,7 +145,7 @@ export const WaveSurferPlayert = (props: WaveSurferOptions) => {
         </Group>
 
         <Group bg="orange">
-          <IconZoomOut onClick={() => console.log("-")} />
+          {/* <IconZoomOut onClick={() => console.log("-")} />
           <Slider
             w="30%"
             min={1}
@@ -156,7 +156,7 @@ export const WaveSurferPlayert = (props: WaveSurferOptions) => {
             size="lg"
             showLabelOnHover={false}
           />
-          <IconZoomIn onClick={() => console.log("+")} />
+          <IconZoomIn onClick={() => console.log("+")} /> */}
 
           <Group bg="blue">
             <Checkbox label="Loop" />

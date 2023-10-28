@@ -51,12 +51,13 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
         <Stack justify="stretch" p="md">
           <WaveSurferPlayert
             // containerReffie={containerReffetie}
+            fillParent
             width="100%"
             interact={true}
             normalize
             waveColor={gradient}
             progressColor="rgb(100, 0, 100)"
-            minPxPerSec={60}
+            // minPxPerSec={60}
             dragToSeek
             peaks={[test16bitpxs1000.data]}
             hideScrollbar

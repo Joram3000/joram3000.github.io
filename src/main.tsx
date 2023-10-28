@@ -8,7 +8,7 @@ import ContactPage from "./pages/contact-page";
 import AboutPage from "./pages/about-page";
 import PatternMakerPage from "./pages/patternmaker-page";
 import VideoPlayer from "./pages/videoplayer-page/Videoplayer";
-import BeatBattlePage from "./pages/beatbattle-page";
+import BeatBattleHomePage from "./pages/beatbattle-page/index";
 import TestPage from "./pages/test-pages";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
@@ -17,6 +17,7 @@ import { ParallaxProvider } from "react-scroll-parallax";
 
 import "@mantine/carousel/styles.css";
 import "@mantine/core/styles.css";
+import ContestPage from "./pages/beatbattle-page/ContestPage";
 
 const router = createHashRouter([
   {
@@ -31,8 +32,8 @@ const router = createHashRouter([
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },
       { path: "/test", element: <TestPage count={32} speed={20} /> },
-      { path: "/beatbattle", element: <BeatBattlePage /> },
-      { path: "/beatbattle/:params", element: <BeatBattlePage /> },
+      { path: "/beatbattle", element: <BeatBattleHomePage /> },
+      { path: "/beatbattle/:id", element: <ContestPage /> },
     ],
   },
 ]);
