@@ -5,14 +5,14 @@ import { Carousel, Embla } from "@mantine/carousel";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { getUIStateSelector } from "../../store/ui/selectors";
-import { submission } from "../../store/beatbattle/types";
+import { beat } from "../../store/beatbattle/types";
 import SubmissionCard from "./components/SubmissionCard";
 
 export default function BeatBattlePage() {
   const beatBattleState = useSelector(getBeatStateSelector);
   const getUIState = useSelector(getUIStateSelector);
   const getContest = beatBattleState.contests[0];
-  const contestSubmissions = getContest.subMissionList;
+  const contestSubmissions = getContest.beats;
   const dateAdded = format(new Date(), "dd-mm-yyyy hh:mm");
   const [embla, setEmbla] = useState<Embla | null>(null);
 
@@ -45,10 +45,10 @@ export default function BeatBattlePage() {
 
         <Title px="md">inzendingen:</Title>
         <Carousel withIndicators getEmblaApi={setEmbla} loop>
-          {contestSubmissions.map((submission: submission) => (
+          {contestSubmissions.map((submission: beat) => (
             <Carousel.Slide key={submission.numberOfUpvotes}>
               <SubmissionCard
-                name={submission.contestant.name}
+                name={submission.beatMaker.name}
                 beatName={submission.name}
                 url={submission.url}
                 dateAdded={new Date()}

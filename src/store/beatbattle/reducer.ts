@@ -2,7 +2,7 @@ import { Reducer } from "redux";
 import { role, BeatBattleState } from "./types";
 
 const mockBeatBattleState: BeatBattleState = {
-  contestants: [
+  beatMakers: [
     {
       name: "John Doe",
       role: role.regular,
@@ -22,12 +22,15 @@ const mockBeatBattleState: BeatBattleState = {
   ],
   contests: [
     {
+      dateAdded: "01-02-03",
       sample: {
+        dateAdded: "01-02-03",
         name: "Funky Drum Loop",
         url: "https://example.com/samples/funky-drum-loop.mp3",
         numberOfUpvotes: 10,
         reactions: [
           {
+            dateAdded: "01-02-03",
             contents: "This is a great sample!",
             contestant: {
               name: "John Doe",
@@ -36,10 +39,11 @@ const mockBeatBattleState: BeatBattleState = {
           },
         ],
       },
-      subMissionList: [
+      beats: [
         {
+          dateAdded: "01-02-03",
           name: "Te Gekke Beat",
-          contestant: {
+          beatMaker: {
             name: "John Doe",
             role: role.regular,
           },
@@ -47,6 +51,7 @@ const mockBeatBattleState: BeatBattleState = {
           numberOfUpvotes: 5,
           reactions: [
             {
+              dateAdded: "01-02-03",
               contents: "This is a great beat!",
               contestant: {
                 name: "Jane Doe",
@@ -56,8 +61,9 @@ const mockBeatBattleState: BeatBattleState = {
           ],
         },
         {
+          dateAdded: "01-02-03",
           name: "Te Gekke Beat",
-          contestant: {
+          beatMaker: {
             name: "DJ Scratch",
             role: role.regular,
           },
@@ -65,6 +71,7 @@ const mockBeatBattleState: BeatBattleState = {
           numberOfUpvotes: 10,
           reactions: [
             {
+              dateAdded: "01-02-03",
               contents: "This gdabeat is sick!",
               contestant: {
                 name: "MC Hammer",
@@ -75,8 +82,9 @@ const mockBeatBattleState: BeatBattleState = {
         },
 
         {
+          dateAdded: "01-02-03",
           name: "Te Gekke Beat",
-          contestant: {
+          beatMaker: {
             name: "Jane Dofasdfge",
             role: role.regular,
           },
@@ -84,6 +92,7 @@ const mockBeatBattleState: BeatBattleState = {
           numberOfUpvotes: 3,
           reactions: [
             {
+              dateAdded: "01-02-03",
               contents: "This badsfeat is fire!",
               contestant: {
                 name: "John Doe",
@@ -96,6 +105,7 @@ const mockBeatBattleState: BeatBattleState = {
       numberOfUpvotes: 5,
       reactions: [
         {
+          dateAdded: "01-02-03",
           contents: "This is asdfa great beat!",
           contestant: {
             name: "Jane asdfDoe",

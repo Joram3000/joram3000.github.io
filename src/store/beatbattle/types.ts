@@ -1,5 +1,5 @@
 export interface BeatBattleState {
-  contestants: contestant[];
+  beatMakers: beatMaker[];
   contests: contest[];
 }
 
@@ -8,31 +8,36 @@ export enum role {
   regular = "regular",
 }
 
-export interface contestant {
+export interface beatMaker {
   name: string;
   role: role;
 }
 
-export interface contest extends upvotable, canBeReactedTo {
+export interface contest extends upvotable, canBeReactedTo, hasDateAdded {
   sample: sample;
-  subMissionList: submission[];
+  beats: beat[];
   closingDate?: Date;
 }
 
-export interface sample extends upvotable, canBeReactedTo, hasUrl {
+export interface sample
+  extends upvotable,
+    canBeReactedTo,
+    hasUrl,
+    hasDateAdded {
   name: string;
 }
 
-export interface submission extends upvotable, canBeReactedTo, hasUrl {
+export interface beat extends upvotable, canBeReactedTo, hasUrl, hasDateAdded {
   name: string;
-  contestant: contestant;
+  beatMaker: beatMaker;
 }
 
-export interface reaction {
+export interface reaction extends hasDateAdded {
   contents: string;
-  contestant: contestant;
+  contestant: beatMaker;
 }
 
+//TRAITS
 export interface upvotable {
   numberOfUpvotes: number;
 }
@@ -41,9 +46,9 @@ export interface canBeReactedTo {
   reactions: reaction[];
 }
 
-// export interface hasDateAdded {
-//   dateAdded: Date;
-// }
+export interface hasDateAdded {
+  dateAdded: string;
+}
 
 export interface hasUrl {
   url: string;
