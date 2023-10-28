@@ -32,7 +32,7 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
   url; //TODO DELETE
 
   return (
-    <Stack m="md" bg="gray" miw="100%">
+    <Stack bg="gray" miw="100%">
       <Group align="flex-start" justify="space-between" m="md">
         <Title order={5} p="md">
           {name} - {beatName}

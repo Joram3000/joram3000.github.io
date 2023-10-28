@@ -43,10 +43,14 @@ const ContestPage: React.FC = () => {
                 {getContest.sample.name}
               </Title>
             </Popover.Target>
-            <Popover.Dropdown p="md">
-              <Button onClick={onURLClick}>Download Sample</Button>
+            <Popover.Dropdown>
+              <Stack>
+                <Button size="md" onClick={onURLClick}>
+                  Download Sample
+                </Button>
 
-              <DialogueCard reactions={getContest.sample.reactions} />
+                <DialogueCard reactions={getContest.sample.reactions} />
+              </Stack>
             </Popover.Dropdown>
           </Popover>
         </Group>
@@ -57,7 +61,7 @@ const ContestPage: React.FC = () => {
           <Text>toegevoegd: {dateAdded}</Text>
         </Group>
 
-        <Title px="md">inzendingen:</Title>
+        <Title>inzendingen:</Title>
         <Carousel withIndicators getEmblaApi={setEmbla} loop>
           {contestSubmissions.map((beat: beat) => (
             <Carousel.Slide key={beat.numberOfUpvotes}>
