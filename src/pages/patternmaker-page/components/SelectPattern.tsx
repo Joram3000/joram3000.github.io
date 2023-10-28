@@ -17,6 +17,7 @@ import {
   Text,
 } from "@mantine/core";
 import { SoundStyle } from "../../../store/patternmaker/types";
+import { useForm } from "@mantine/form";
 
 interface SelectPatternProps {
   setColor: Dispatch<SetStateAction<string>>;
@@ -36,6 +37,23 @@ const SelectPattern: React.FC<SelectPatternProps> = ({
   const currentPattern = useSelector(selectedPatternSelector);
   const [newPattern, setNewPattern] = useState(false); // kan je hier geen toggle voor gebruiken?
   const [newColor, setNewColor] = useState<string>("");
+
+  const form = useForm({
+    initialValues: {
+      name: "Edit",
+      color: "cyan",
+      sound: SoundStyle.NEOSOUL,
+      pattern: [
+        [false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false],
+      ],
+    },
+
+    validate: {
+      name: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+    },
+  });
+  console.log(form);
 
   const onChangeColorValue = (value: string) => {
     setNewColor(value);
@@ -74,7 +92,7 @@ const SelectPattern: React.FC<SelectPatternProps> = ({
       <Stack pos="relative">
         {savedPatterns.map((pattern, i) => (
           <Button
-            size="xs"
+            size="xs" //TODO MAKE RESPONSIVE
             variant="outline"
             key={`${pattern.name}-${i}`}
             color={pattern.color}
@@ -99,7 +117,7 @@ const SelectPattern: React.FC<SelectPatternProps> = ({
           <Popover trapFocus position="left">
             <Popover.Target>
               <Button
-                size="xs"
+                size="xs" //TODO MAKE RESPONSIVE
                 variant="light"
                 color="orange"
                 key="edit"
