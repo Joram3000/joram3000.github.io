@@ -32,6 +32,7 @@ const router = createHashRouter([
       { path: "/about", element: <AboutPage /> },
       { path: "/test", element: <TestPage count={32} speed={20} /> },
       { path: "/beatbattle", element: <BeatBattlePage /> },
+      { path: "/beatbattle/:params", element: <BeatBattlePage /> },
     ],
   },
 ]);

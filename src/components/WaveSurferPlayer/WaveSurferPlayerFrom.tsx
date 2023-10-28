@@ -131,8 +131,12 @@ export const WaveSurferPlayert = (props: WaveSurferOptions) => {
   );
 
   return (
-    <Stack style={{ border: "1px dotted white" }} bg="teal">
-      <div ref={containerRef} className="waveFormCanvas" />
+    <Stack style={{ border: "1px dotted white" }}>
+      <div
+        ref={containerRef}
+        className="waveFormCanvas"
+        style={{ border: "1px dotted white" }}
+      />
 
       <Stack style={{ border: "1px dotted white" }} justify="space-between">
         <Group bg="red">

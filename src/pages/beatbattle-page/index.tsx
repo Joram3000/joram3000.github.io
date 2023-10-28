@@ -1,12 +1,13 @@
 import { useSelector } from "react-redux";
 import { getBeatStateSelector } from "../../store/beatbattle/selectors";
-import { Title, Text, Stack, Group, Box } from "@mantine/core";
+import { Title, Text, Stack, Group, Box, Popover, Button } from "@mantine/core";
 import { Carousel, Embla } from "@mantine/carousel";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { getUIStateSelector } from "../../store/ui/selectors";
 import { beat } from "../../store/beatbattle/types";
 import SubmissionCard from "./components/SubmissionCard";
+import DialogueCard from "./components/DialogueCard";
 
 export default function BeatBattlePage() {
   const beatBattleState = useSelector(getBeatStateSelector);
@@ -31,30 +32,40 @@ export default function BeatBattlePage() {
         <Group justify="space-between">
           <Title c="white">Battle Round</Title> <Title>[1]</Title>
         </Group>
-        <Group justify="space-between">
+        <Group>
           <Text c="white">Met deze sample:</Text>
-          <Text fw={700} onClick={onURLClick}>
-            {getContest.sample.name}
-          </Text>
+
+          <Popover position="bottom" withArrow shadow="md">
+            <Popover.Target>
+              <Text fw={700}>{getContest.sample.name}</Text>
+            </Popover.Target>
+            <Popover.Dropdown p="md">
+              <Button onClick={onURLClick}>Download Sample</Button>
+
+              <DialogueCard reactions={getContest.sample.reactions} />
+            </Popover.Dropdown>
+          </Popover>
         </Group>
 
-        <Group justify="space-between">
+        <Group>
           <Text>toegevoegd:</Text>
           <Text>{dateAdded}</Text>
         </Group>
 
         <Title px="md">inzendingen:</Title>
         <Carousel withIndicators getEmblaApi={setEmbla} loop>
-          {contestSubmissions.map((submission: beat) => (
-            <Carousel.Slide key={submission.numberOfUpvotes}>
+          {contestSubmissions.map((beat: beat) => (
+            <Carousel.Slide key={beat.numberOfUpvotes}>
               <SubmissionCard
-                name={submission.beatMaker.name}
-                beatName={submission.name}
-                url={submission.url}
+                name={beat.beatMaker.name}
+                beatName={beat.name}
+                url={beat.url}
                 dateAdded={new Date()}
-                upvotes={submission.numberOfUpvotes}
-                reactions={submission.reactions}
+                upvotes={beat.numberOfUpvotes}
+                reactions={beat.reactions}
               />
+
+              <DialogueCard reactions={beat.reactions} />
             </Carousel.Slide>
           ))}
         </Carousel>

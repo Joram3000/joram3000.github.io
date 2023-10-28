@@ -34,7 +34,7 @@ export interface beat extends upvotable, canBeReactedTo, hasUrl, hasDateAdded {
 
 export interface reaction extends hasDateAdded {
   contents: string;
-  contestant: beatMaker;
+  beatMaker: beatMaker;
 }
 
 //TRAITS

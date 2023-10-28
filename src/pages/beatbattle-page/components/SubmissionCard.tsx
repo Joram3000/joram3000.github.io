@@ -28,8 +28,9 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
   url,
   dateAdded,
   upvotes,
-  reactions,
 }) => {
+  url; //TODO DELETE
+
   return (
     <Stack m="md" bg="gray" miw="100%">
       <Group align="flex-start" justify="space-between" m="md">
@@ -48,7 +49,6 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
 
       <Container p="md">
         <Stack justify="stretch" p="md">
-          <Text>{url}</Text>
           <WaveSurferPlayert
             // containerReffie={containerReffetie}
             width="100%"
@@ -68,15 +68,6 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
           />
         </Stack>
       </Container>
-
-      <Group m="md" justify="flex-start">
-        {reactions.map((reaction, i) => (
-          <Text key={i}>
-            {reaction.contestant.name} : {reaction.contents}
-            {format(dateAdded, "hh:mm dd-mm-yy")}
-          </Text>
-        ))}
-      </Group>
     </Stack>
   );
 };
