@@ -9,12 +9,15 @@ const DialogueCard: React.FC<DialogueCardProps> = ({ reactions }) => {
   return (
     <Container>
       {reactions.map((reaction, i) => (
-        <Group bg="green" key={i}>
-          <Text> {reaction.dateAdded}</Text>
-          <Text fw={700} key={i}>
-            {reaction.beatMaker.name} : {reaction.contents}
-          </Text>
-        </Group>
+        <Container bg="green" key={i}>
+          <Group justify="space-between">
+            <Text fw={700} key={i}>
+              {reaction.beatMaker.name} zegt:
+            </Text>
+            <Text size="xs"> {reaction.dateAdded} </Text>
+          </Group>
+          <Text>{reaction.contents}</Text>
+        </Container>
       ))}
     </Container>
   );

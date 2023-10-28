@@ -36,15 +36,12 @@ const ContestPage: React.FC = () => {
   return (
     <Box>
       <Stack bg="dark" m="md">
-        <Group justify="space-between">
-          <Title c="white">Battle Round</Title> <Title c="lime">{id}</Title>
-        </Group>
         <Group>
-          <Text c="white">Met deze sample:</Text>
-
-          <Popover position="bottom" withArrow shadow="md">
+          <Popover position="bottom" withArrow shadow="md" width={"100%"}>
             <Popover.Target>
-              <Text fw={700}>{getContest.sample.name}</Text>
+              <Title fw={700} c="violet">
+                {getContest.sample.name}
+              </Title>
             </Popover.Target>
             <Popover.Dropdown p="md">
               <Button onClick={onURLClick}>Download Sample</Button>
@@ -53,10 +50,11 @@ const ContestPage: React.FC = () => {
             </Popover.Dropdown>
           </Popover>
         </Group>
-
         <Group>
-          <Text>toegevoegd:</Text>
-          <Text>{dateAdded}</Text>
+          <Text c="white">Battle Round: {id}</Text> <Title c="lime"></Title>
+        </Group>
+        <Group>
+          <Text>toegevoegd: {dateAdded}</Text>
         </Group>
 
         <Title px="md">inzendingen:</Title>
