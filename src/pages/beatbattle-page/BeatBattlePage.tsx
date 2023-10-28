@@ -6,20 +6,24 @@ import { Link } from "react-router-dom";
 const BeatBattlePage: React.FC = () => {
   const beatBattleState = useSelector(getBeatStateSelector);
 
-  console.log(beatBattleState);
-
   return (
     <Container>
       <Title>Entry Page voor Beat battle</Title>
 
-      {beatBattleState.contests.map((contest, i) => (
-        <Link to={`/beatbattle/${i}`}>
-          <Group key={i}>
-            <Text>{contest.sample.name}</Text>
+      <Text>
+        Hoi welkom op deze webzijde hier kan je volgen wat er gebeurd in de beat
+        battle.
+      </Text>
 
-            <Text>{contest.sample.dateAdded}</Text>
-          </Group>
-        </Link>
+      {beatBattleState.contests.map((contest, i) => (
+        <Group key={i} justify="space-between">
+          <Link to={`/beatbattle/${i}`}>
+            <Text>{contest.sample.name}</Text>
+          </Link>
+          <Text>{contest.sample.dateAdded}</Text>
+
+          <Text>{contest.beats.length} inzendingen</Text>
+        </Group>
       ))}
     </Container>
   );

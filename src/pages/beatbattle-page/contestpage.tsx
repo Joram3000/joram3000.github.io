@@ -37,7 +37,7 @@ const ContestPage: React.FC = () => {
     <Box>
       <Stack bg="dark" m="md">
         <Group justify="space-between">
-          <Title c="white">Battle Round</Title> <Title>[1]</Title>
+          <Title c="white">Battle Round</Title> <Title c="lime">{id}</Title>
         </Group>
         <Group>
           <Text c="white">Met deze sample:</Text>
