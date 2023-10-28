@@ -101,7 +101,6 @@ function VideoPlayer() {
           data={["Goedemiddag", "Goedenavond", "Hartelijke snavels"]}
         />
       </Stack>
-
       <Drawer position="right" opened={opened} onClose={close} size="sm">
         <Title order={3} pb="md">
           Extra informatie
@@ -113,6 +112,7 @@ function VideoPlayer() {
       </Drawer>
 
       <Button onClick={open}>Open Drawer</Button>
+
     </Container>
   );
 }
