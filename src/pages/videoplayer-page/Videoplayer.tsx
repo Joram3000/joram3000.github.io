@@ -3,13 +3,20 @@ import ReactPlayer from "react-player";
 import "./VideoPlayer.css";
 import {
   AspectRatio,
+  Button,
   ColorPicker,
   Container,
+  Drawer,
+  ScrollArea,
   Stack,
   TagsInput,
   Text,
   Title,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { lorem } from "../../helpers/helpers";
+import { useSelector } from "react-redux";
+import { getUIStateSelector } from "../../store/ui/selectors";
 
 function VideoPlayer() {
   const [color, setColor] = useState<string>("#0000ff");
@@ -17,6 +24,10 @@ function VideoPlayer() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [arrayValues, setArrayValues] = useState<string[]>(["Goedesnavels"]);
 
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const uiState = useSelector(getUIStateSelector);
+  console.log(uiState.drawerOpen);
   const handleProgress = (progress: { playedSeconds: number }) => {
     if (progress.playedSeconds < 1) {
       setShowOverlay(true);
@@ -90,6 +101,18 @@ function VideoPlayer() {
           data={["Goedemiddag", "Goedenavond", "Hartelijke snavels"]}
         />
       </Stack>
+      <Drawer position="right" opened={opened} onClose={close} size="sm">
+        <Title order={3} pb="md">
+          Extra informatie
+        </Title>
+        <ScrollArea offsetScrollbars type="never">
+          <Text pb="md">{lorem.generateParagraphs(1)}</Text>
+          <Text pb="md">{lorem.generateParagraphs(6)}</Text>
+        </ScrollArea>
+      </Drawer>
+
+      <Button onClick={open}>Open Drawer</Button>
+
     </Container>
   );
 }

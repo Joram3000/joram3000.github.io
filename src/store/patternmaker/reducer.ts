@@ -24,7 +24,7 @@ const initialState: PatternMakerState = {
   },
   savedPatterns: [
     {
-      name: "Sjohones",
+      name: "Heavy",
       color: "red",
       sound: SoundStyle.LOUD,
       pattern: [
@@ -33,7 +33,7 @@ const initialState: PatternMakerState = {
       ],
     },
     {
-      name: "Donkie",
+      name: "Chonkes",
       color: "orange",
       sound: SoundStyle.ELECTRONIC,
       pattern: [
@@ -42,7 +42,7 @@ const initialState: PatternMakerState = {
       ],
     },
     {
-      name: "JOE",
+      name: "Joey",
       color: "yellow",
       sound: SoundStyle.PERCUSSION,
       pattern: [
@@ -51,12 +51,12 @@ const initialState: PatternMakerState = {
       ],
     },
     {
-      name: "EMPTY",
-      color: "purple",
+      name: "Funky",
+      color: "blue",
       sound: SoundStyle.NEOSOUL,
       pattern: [
-        [false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false],
+        [false, false, false, true, false, true, false, false],
+        [true, true, false, false, true, false, true, false],
       ],
     },
   ],
@@ -65,7 +65,7 @@ const initialState: PatternMakerState = {
 const reducer: Reducer<PatternMakerState> = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case PatternMakerActionTypes.PATTERNUPDATER: {
+    case PatternMakerActionTypes.CURRENTPATTERNUPDATER: {
       const { rowNumber, rowIndex, trigger } = payload;
       const newPattern = state.currentPattern.pattern.map((row, i) => {
         if (i === rowNumber) {
@@ -91,6 +91,16 @@ const reducer: Reducer<PatternMakerState> = (state = initialState, action) => {
       return {
         ...state,
         currentPattern: payload,
+      };
+    }
+
+    case PatternMakerActionTypes.SAVEPATTERN: {
+      const savedPatterns = [...state.savedPatterns, payload];
+      const currentPattern = payload;
+      return {
+        ...state,
+        savedPatterns,
+        currentPattern,
       };
     }
 

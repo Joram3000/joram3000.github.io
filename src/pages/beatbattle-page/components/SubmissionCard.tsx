@@ -1,8 +1,9 @@
-import { Stack, Title, Group, Text } from "@mantine/core";
+import { Stack, Title, Group, Text, Container } from "@mantine/core";
 import { format } from "date-fns";
 import treingv from "../../../assets/music/treingv.mp3";
+import test16bitpxs1000 from "../../../assets/music/test16bitpxs1000.json";
 import { reaction } from "../../../store/beatbattle/types";
-import WaveSurferPlayer from "../../../components/WaveSurferPlayer/WaveSurferPlayer";
+import { WaveSurferPlayert } from "../../../components/WaveSurferPlayer/WaveSurferPlayerFrom";
 
 const ctx = document.createElement("canvas").getContext("2d");
 const gradient = ctx!.createLinearGradient(0, 0, 0, 150);
@@ -19,6 +20,8 @@ interface SubmissionCardProps {
   reactions: reaction[];
 }
 
+//audiowaveform -i treingv.mp3 -o test8bit.json --pixels-per-second 20 --bits 8
+
 const SubmissionCard: React.FC<SubmissionCardProps> = ({
   name,
   beatName,
@@ -28,7 +31,7 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
   reactions,
 }) => {
   return (
-    <Stack m="md" bg="gray">
+    <Stack m="md" bg="gray" miw="100%">
       <Group align="flex-start" justify="space-between" m="md">
         <Title order={5} p="md">
           {name} - {beatName}
@@ -43,22 +46,28 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
         </Title>
       </Group>
 
-      <Stack justify="stretch" p="md">
-        <Text>{url}</Text>
-
-        <WaveSurferPlayer
-          width="100%"
-          normalize={true}
-          waveColor={gradient}
-          progressColor="rgb(100, 0, 100)"
-          fillParent={true}
-          hideScrollbar={true}
-          url={treingv}
-          autoCenter={true}
-          container={"#waveform"}
-          plugins={[]}
-        />
-      </Stack>
+      <Container p="md">
+        <Stack justify="stretch" p="md">
+          <Text>{url}</Text>
+          <WaveSurferPlayert
+            // containerReffie={containerReffetie}
+            width="100%"
+            interact={true}
+            normalize
+            waveColor={gradient}
+            progressColor="rgb(100, 0, 100)"
+            minPxPerSec={60}
+            dragToSeek
+            peaks={[test16bitpxs1000.data]}
+            hideScrollbar
+            url={treingv}
+            autoCenter
+            autoScroll
+            plugins={[]}
+            container={"#Waveform"} //HTMLElement | string;
+          />
+        </Stack>
+      </Container>
 
       <Group m="md" justify="flex-start">
         {reactions.map((reaction, i) => (

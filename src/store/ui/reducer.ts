@@ -2,6 +2,8 @@ import { Reducer } from "redux";
 
 const initialState = {
   menuOpen: true,
+  asideOpen: false,
+  drawerOpen: false,
 };
 
 const reducer: Reducer = (state = initialState, action) => {
@@ -11,6 +13,12 @@ const reducer: Reducer = (state = initialState, action) => {
       return {
         ...state,
         menuOpen: payload,
+      };
+    }
+    case "DRAWERTOGGLE": {
+      return {
+        ...state,
+        drawerOpen: payload,
       };
     }
     default:

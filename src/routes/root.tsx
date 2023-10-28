@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import HeaderSimple from "../components/header/HeaderSimple";
 import { useTranslation } from "react-i18next";
 import AsideComponent from "../components/aside/AsideComponent";
-import { MenuToggle } from "../store/ui/actions";
+import { DrawerToggle, MenuToggle } from "../store/ui/actions";
 import { useDispatch } from "react-redux";
 import { BrowserView, MobileView } from "react-device-detect";
 
@@ -32,6 +32,10 @@ export default function Root() {
       dispatch(MenuToggle(navbarDesktopOpened));
     }, 210);
   }, [navbarDesktopOpened]);
+
+  useEffect(() => {
+    dispatch(DrawerToggle(asideOpened));
+  }, [asideOpened]);
 
   const menuClick = (value: string) => {
     setActive(value);

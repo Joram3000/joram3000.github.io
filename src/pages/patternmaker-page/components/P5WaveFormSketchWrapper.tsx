@@ -1,8 +1,6 @@
 // @ts-ignore
 import { ReactP5Wrapper, Sketch, SketchProps } from "@p5-wrapper/react";
-import { useSelector } from "react-redux";
 import * as Tone from "tone";
-import { selectedPatternSelector } from "../../../store/patternmaker/selectors";
 
 type waveformSketchProps = SketchProps & {
   color: string;
@@ -37,7 +35,7 @@ const waveformSketch: Sketch<waveformSketchProps> = (p: any) => {
   p.draw = () => {
     p.clear(0, 0, 0, 0);
     const dim = Math.min(p.width, p.height);
-    p.strokeWeight(dim * 0.0025);
+    p.strokeWeight(dim * 0.003);
     p.stroke(waveColor);
     p.noFill();
     if (playing) {
@@ -56,8 +54,14 @@ const waveformSketch: Sketch<waveformSketchProps> = (p: any) => {
   };
 };
 
-export function P5WaveFormSketchWrapper() {
-  const seqPattern = useSelector(selectedPatternSelector);
-
-  return <ReactP5Wrapper sketch={waveformSketch} color={seqPattern.color} />;
+interface P5WaveFormSketchWrapperProps {
+  colorValue: string;
 }
+
+const P5WaveFormSketchWrapper: React.FC<P5WaveFormSketchWrapperProps> = ({
+  colorValue,
+}) => {
+  return <ReactP5Wrapper sketch={waveformSketch} color={colorValue} />;
+};
+
+export default P5WaveFormSketchWrapper;

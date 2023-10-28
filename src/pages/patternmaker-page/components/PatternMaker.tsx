@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import * as Tone from "tone";
 import { useDispatch, useSelector } from "react-redux";
-import { PatternUpdater } from "../../../store/patternmaker/actions";
+import { CurrentPatternUpdater } from "../../../store/patternmaker/actions";
 import { Container, Flex } from "@mantine/core";
 import { selectedPatternSelector } from "../../../store/patternmaker/selectors";
 import { SoundStyle } from "../../../store/patternmaker/types";
 
 interface PatternMakerProps {
   output: Tone.OutputNode;
+  colorValue?: string;
 }
 
 let notes: [string, string];
@@ -27,7 +28,7 @@ const samples = new Tone.Sampler({
     "https://res.cloudinary.com/dqqb0ldgk/video/upload/v1651657689/Drumsounds",
 });
 
-const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
+const PatternMaker: React.FC<PatternMakerProps> = ({ output, colorValue }) => {
   samples.connect(output);
   const dispatch = useDispatch();
   const reduxSequencerPattern = useSelector(selectedPatternSelector);
@@ -61,7 +62,7 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
     rowNumber: number;
     trigger: boolean;
   }) {
-    dispatch(PatternUpdater({ rowNumber, rowIndex, trigger }));
+    dispatch(CurrentPatternUpdater({ rowNumber, rowIndex, trigger }));
   }
 
   useEffect(() => {
@@ -90,8 +91,9 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
       p={0}
       className="seqPattern"
       style={{
+        boxShadow: `0px 0px 10px 0px ${colorValue}`,
         borderRadius: 8,
-        border: `4px solid ${reduxSequencerPattern.color}`,
+        border: `4px solid ${colorValue}`,
       }}
     >
       {currentPattern.map((rowArray: boolean[], rowNumber: number) => (
@@ -105,7 +107,7 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output }) => {
                 height: "85px",
                 width: "100%",
                 background: trigger
-                  ? `linear-gradient(to right, ${reduxSequencerPattern.color}, transparent)`
+                  ? `linear-gradient(to right, ${colorValue}, transparent)`
                   : "transparent",
               }}
               onClick={() => {
