@@ -10,7 +10,7 @@ const BeatBattlePage: React.FC = () => {
 
   return (
     <Container>
-      <Title>Home page voor de beat batttle</Title>
+      <Title>Entry Page voor Beat battle</Title>
 
       {beatBattleState.contests.map((contest, i) => (
         <Link to={`/beatbattle/${i}`}>

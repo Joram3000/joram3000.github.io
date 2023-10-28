@@ -1,4 +1,4 @@
-import { Button, Checkbox, Group, Slider, Stack, Text } from "@mantine/core";
+import { Button, Checkbox, Group, Stack, Text } from "@mantine/core";
 import { useState, useEffect, useRef, useCallback, RefObject } from "react";
 import WaveSurfer, { WaveSurferOptions } from "wavesurfer.js";
 import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline";
@@ -145,8 +145,9 @@ export const WaveSurferPlayert = (props: WaveSurferOptions) => {
         </Group>
 
         <Group bg="orange">
-          {/* <IconZoomOut onClick={() => console.log("-")} />
-          <Slider
+          <IconZoomOut onClick={() => console.log("-")} />
+
+          {/* <Slider
             w="30%"
             min={1}
             max={1000}
@@ -155,8 +156,9 @@ export const WaveSurferPlayert = (props: WaveSurferOptions) => {
             onChange={handleZoom}
             size="lg"
             showLabelOnHover={false}
-          />
-          <IconZoomIn onClick={() => console.log("+")} /> */}
+          /> */}
+
+          <IconZoomIn onClick={() => console.log("+")} />
 
           <Group bg="blue">
             <Checkbox label="Loop" />

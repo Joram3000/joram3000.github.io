@@ -13,7 +13,7 @@ import DialogueCard from "./components/DialogueCard";
 
 const ContestPage: React.FC = () => {
   const params = useParams();
-  const id = params.id;
+  const id: any = params.id;
   console.log(id);
 
   const beatBattleState = useSelector(getBeatStateSelector);
