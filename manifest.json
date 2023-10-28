@@ -1,0 +1,25 @@
+{
+  "name": "Beatbattle",
+  "short_name": "ReliefBox",
+  "icons": [
+    {
+      "src": "/app-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/app-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/#/beatbattle",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "FFFFFF",
+  "theme_color": "#FFFFFF",
+  "description": "A battle for beatmakers",
+  "dir": "ltr",
+  "lang": "en-US"
+}
