@@ -53,7 +53,7 @@ const SelectPattern: React.FC<SelectPatternProps> = ({
       name: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
     },
   });
-  console.log(form);
+  form;
 
   const onChangeColorValue = (value: string) => {
     setNewColor(value);

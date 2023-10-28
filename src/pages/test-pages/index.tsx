@@ -1,16 +1,5 @@
 import { Parallax } from "react-scroll-parallax";
-
-const generateRandomColor = () => {
-  const r = Math.floor(Math.random() * 256);
-  const g = Math.floor(Math.random() * 256);
-  const b = Math.floor(Math.random() * 256);
-  return `rgb(${r}, ${g}, ${b})`;
-};
-
-const colors = [];
-for (let i = 0; i < 100; i++) {
-  colors.push(generateRandomColor());
-}
+import { randomColor } from "../../helpers/helpers";
 
 interface TestPageProps {
   count: number;
@@ -30,8 +19,8 @@ const TestPage: React.FC<TestPageProps> = ({ count, speed }) => {
           style={{
             width: "30vw",
             height: "30vh",
-            border: `8px solid ${generateRandomColor()}`,
-            backgroundColor: generateRandomColor(),
+            border: `8px solid ${randomColor(1)}`,
+            backgroundColor: randomColor(1),
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",

@@ -14,10 +14,9 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { ParallaxProvider } from "react-scroll-parallax";
-
+import ContestPage from "./pages/beatbattle-page/ContestPage";
 import "@mantine/carousel/styles.css";
 import "@mantine/core/styles.css";
-import ContestPage from "./pages/beatbattle-page/ContestPage";
 
 const router = createHashRouter([
   {
@@ -31,7 +30,7 @@ const router = createHashRouter([
       { path: "/videoplayer", element: <VideoPlayer /> },
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },
-      { path: "/test", element: <TestPage count={32} speed={20} /> },
+      { path: "/test", element: <TestPage count={32} speed={8} /> },
       { path: "/beatbattle", element: <BeatBattleHomePage /> },
       { path: "/beatbattle/:id", element: <ContestPage /> },
     ],
