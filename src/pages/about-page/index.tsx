@@ -8,7 +8,6 @@ import {
   SimpleGrid,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import image2 from "../../assets/images/prace1bewerkt.jpg.png";
 import image3 from "../../assets/images/unnamed (2).jpg";
 import treingv from "../../assets/music/treingv.mp3";
 import test16bitpxs1000 from "../../assets/music/test16bitpxs1000.json";
@@ -86,9 +85,7 @@ export default function Aboutpage() {
 
       <SimpleGrid p="md" cols={{ base: 1, sm: 2, lg: 4 }}>
         <Image src={image3} />
-        <Image src={image2} />
         <Image src={image3} />
-        <Image src={image2} />
       </SimpleGrid>
     </Box>
   );
