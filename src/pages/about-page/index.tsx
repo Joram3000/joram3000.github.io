@@ -6,18 +6,17 @@ import {
   Image,
   UnstyledButton,
   SimpleGrid,
-  Container,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import image2 from "../../assets/images/prace1bewerkt.jpg.png";
 import image3 from "../../assets/images/unnamed (2).jpg";
 import treingv from "../../assets/music/treingv.mp3";
-import WaveSurferPlayer from "../../components/WaveSurferPlayer/WaveSurferPlayer";
+import test16bitpxs1000 from "../../assets/music/test16bitpxs1000.json";
+import { WaveSurferPlayert } from "../../components/WaveSurferPlayer/WaveSurferPlayerFrom";
 
 export default function Aboutpage() {
   const [opened, { toggle }] = useDisclosure(false);
   const ctx = document.createElement("canvas").getContext("2d");
-
   const gradient = ctx!.createLinearGradient(0, 0, 0, 150);
   gradient.addColorStop(0, "rgb(0, 0, 200)");
   gradient.addColorStop(0.7, "rgb(100, 0, 100)");
@@ -41,21 +40,25 @@ export default function Aboutpage() {
         exercitation qui non adipisicing.
       </Text>
 
-      <Container p="md">
-        <WaveSurferPlayer
+      <Box m="md" p="md" bg="orange">
+        <WaveSurferPlayert
+          // containerReffie={containerReffetie}
           width="100%"
-          normalize={true}
+          interact={true}
+          normalize
           waveColor={gradient}
           progressColor="rgb(100, 0, 100)"
-          minPxPerSec={600}
-          fillParent={true}
-          hideScrollbar={true}
+          minPxPerSec={60}
+          dragToSeek
+          peaks={[test16bitpxs1000.data]}
+          hideScrollbar
           url={treingv}
-          autoCenter={true}
-          container={"#waveform"}
+          autoCenter
+          autoScroll
           plugins={[]}
+          container={"#Waveform"} //HTMLElement | string;
         />
-      </Container>
+      </Box>
 
       <Collapse p="md" in={opened} transitionDuration={200}>
         <Text>
