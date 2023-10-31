@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import treingv from "../../../assets/music/treingv.mp3";
 import test16bitpxs1000 from "../../../assets/music/test16bitpxs1000.json";
 import { reaction } from "../../../store/beatbattle/types";
-import { WaveSurferPlayert } from "../../../components/WaveSurferPlayer/WaveSurferPlayerFrom";
+import WaveSurferPlayer from "../../../components/WaveSurferPlayer/WaveSurferPlayerFrom";
 
 const ctx = document.createElement("canvas").getContext("2d");
 const gradient = ctx!.createLinearGradient(0, 0, 0, 150);
@@ -49,7 +49,7 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
 
       <Container p="md">
         <Stack justify="stretch" p="md">
-          <WaveSurferPlayert
+          <WaveSurferPlayer
             // containerReffie={containerReffetie}
             fillParent
             width="100%"
