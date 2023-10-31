@@ -35,6 +35,7 @@ const CustomDoubleSlider: React.FC<CustomDoubleSliderProps> = ({
         min={min}
         max={max}
         value={value}
+        label={(value) => `${value} Hz`}
         onChange={setAndSend}
         onChangeEnd={setEndValue}
         labelTransitionProps={{
