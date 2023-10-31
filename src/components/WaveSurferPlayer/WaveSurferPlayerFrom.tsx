@@ -6,8 +6,9 @@ import React, {
   RefObject,
 } from "react";
 import WaveSurfer, { WaveSurferOptions } from "wavesurfer.js";
-import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline";
-import HoverPlugin from "wavesurfer.js/dist/plugins/hover";
+import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline.js";
+import Regions, { Region } from "wavesurfer.js/dist/plugins/regions.js";
+import HoverPlugin from "wavesurfer.js/dist/plugins/hover.js";
 import {
   ActionIcon,
   Button,
@@ -30,47 +31,8 @@ import {
   IconCircle,
 } from "@tabler/icons-react";
 import PitchSlider from "./pitch-slider";
-import RegionsPlugin from "wavesurfer.js/dist/plugins/regions";
-import Region from "wavesurfer.js";
 import { useDisclosure } from "@mantine/hooks";
-
-const useWavesurfer = (
-  containerRef: RefObject<HTMLDivElement>,
-  options: WaveSurferOptions
-): WaveSurfer | null => {
-  const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-    const ws = WaveSurfer.create({
-      ...options,
-      container: containerRef.current,
-    });
-    ws.registerPlugin(
-      HoverPlugin.create({
-        lineColor: "#ff0000",
-        lineWidth: 2,
-        labelBackground: "#555",
-        labelColor: "#fff",
-        labelSize: "16px",
-      })
-    );
-    ws.registerPlugin(
-      TimelinePlugin.create({
-        height: 40,
-        insertPosition: "beforebegin",
-      })
-    );
-
-    setWavesurfer(ws);
-
-    return () => {
-      ws.destroy();
-    };
-  }, [options, containerRef]);
-
-  return wavesurfer;
-};
+import { useWavesurfer } from "./WaveSurferHook";
 
 const WaveSurferPlayer: React.FC<WaveSurferOptions> = (props) => {
   const theme = useMantineTheme();
@@ -81,13 +43,16 @@ const WaveSurferPlayer: React.FC<WaveSurferOptions> = (props) => {
   const [activeRegion, setActiveRegion] = useState<Region | null>(null);
   const [savedRegions, setSavedRegions] = useState<Region[]>([]);
   const [cuePoint, setCuePoint] = useState<Region>();
-  const [zoom, setZoom] = useState(160);
+  const [zoom, setZoom] = useState(30);
   const [follow, { toggle: toggleFollow }] = useDisclosure(false);
   const [loop, { toggle: toggleLoop }] = useDisclosure(false);
   const wavesurfer = useWavesurfer(containerRef, props);
-  const wsRegions = wavesurfer?.registerPlugin(RegionsPlugin.create());
+  const wsRegions = wavesurfer?.registerPlugin(Regions.create());
 
   useEffect(() => {
+    if (!wsRegions) {
+      return;
+    }
     wavesurfer?.on("ready", () => {
       wsRegions.enableDragSelection({
         color: "rgba(255, 0, 0, 0.2)",
@@ -96,7 +61,7 @@ const WaveSurferPlayer: React.FC<WaveSurferOptions> = (props) => {
         wsRegions.addRegion({
           id: "start",
           start: 0.05,
-          content: "Marker",
+          content: "",
           color: "red",
         })
       );
@@ -109,8 +74,8 @@ const WaveSurferPlayer: React.FC<WaveSurferOptions> = (props) => {
       });
 
       wsRegions.on("region-created", () => {
-        console.log("creatieerd", wsRegions);
-        setSavedRegions(wsRegions.regions);
+        console.log("creatieerd", wsRegions.getRegions());
+        setSavedRegions(wsRegions.getRegions());
       });
 
       wsRegions.on("region-clicked", (region: Region, e: MouseEvent) => {
@@ -120,11 +85,6 @@ const WaveSurferPlayer: React.FC<WaveSurferOptions> = (props) => {
       });
     });
   }, [wsRegions]);
-
-  const playRegion = (region: Region) => {
-    setActiveRegion(region);
-    region.play();
-  };
 
   useEffect(() => {
     if (!wavesurfer) return;
@@ -140,32 +100,40 @@ const WaveSurferPlayer: React.FC<WaveSurferOptions> = (props) => {
     return () => {
       subscriptions.forEach((unsub) => unsub());
     };
-  }, [wavesurfer]);
+  }, [wavesurfer, savedRegions]);
 
+  //PAUSEPLAY
   const onPlayClick = useCallback(() => {
     if (wavesurfer) {
       wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer.play();
     }
   }, [wavesurfer]);
 
+  //CUE & HOTCUE
+  const playRegion = (region: Region) => {
+    setActiveRegion(region);
+    region.play();
+  };
+
+  //ZOOM
   const handleZoom = useCallback(
     (newZoom: number) => {
-      if (wavesurfer) wavesurfer.zoom(newZoom);
+      if (wavesurfer && newZoom > 20) wavesurfer.zoom(newZoom);
     },
-    [wavesurfer]
+    [zoom]
   );
-
   useEffect(() => {
-    if (zoom > 20) handleZoom(zoom);
+    handleZoom(zoom);
   }, [zoom]);
 
+  //CHANGEPITCH
   const changePitch = (e: number) => {
     if (e > 0.07) wavesurfer!.setPlaybackRate(e, false);
   };
 
   return (
     <Container>
-      <Group justify="space-between">
+      <Group className="dashBoard" justify="space-between">
         <Text>{activeRegion ? activeRegion.id : "no active"}</Text>
         <Stack align="flex-start">
           <Text>{follow ? "follow ON" : "follow OFF"}</Text>
@@ -173,7 +141,7 @@ const WaveSurferPlayer: React.FC<WaveSurferOptions> = (props) => {
         </Stack>
       </Group>
 
-      <Flex miw="100%">
+      <Flex className="player-pitch" miw="100%">
         <div
           className="waveform-canvas"
           ref={containerRef}
@@ -185,7 +153,7 @@ const WaveSurferPlayer: React.FC<WaveSurferOptions> = (props) => {
         <PitchSlider changePitch={changePitch} />
       </Flex>
 
-      <Group bg="red" p="md" justify="space-between">
+      <Group className="play-pause" bg="red" p="md" justify="space-between">
         <Group>
           <ActionIcon
             onMouseDown={() => playRegion(cuePoint!)}
@@ -229,9 +197,10 @@ const WaveSurferPlayer: React.FC<WaveSurferOptions> = (props) => {
         />
         <IconZoomIn onClick={() => setZoom(zoom + 20)} />
       </Group>
+
       <Group justify="flex-end" p="md">
         <Text>Loop Points:</Text>
-        {savedRegions?.map((region: Region, i) => (
+        {savedRegions.map((region: Region, i) => (
           <Button
             color={theme.colors.red[9 - i]}
             key={region.id}
