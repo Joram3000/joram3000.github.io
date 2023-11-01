@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Group, Stack, Text, rem } from "@mantine/core";
+import { Group, Stack, rem } from "@mantine/core";
 import { useMove } from "@mantine/hooks";
 
 interface PitchSliderProps {
@@ -16,16 +16,16 @@ const PitchSlider: React.FC<PitchSliderProps> = ({ changePitch }) => {
   };
 
   return (
-    <Stack bg="gray" p="sm" w="100%">
+    <Stack bg="gray" p="sm">
       <Group justify="center" p="">
         <div
           ref={ref}
           style={{
             width: rem(16),
             height: rem(120),
-            backgroundColor: "red",
+            backgroundColor: "orange",
             position: "relative",
-            borderRadius: "6px",
+            borderRadius: "3px",
             overflow: "hidden",
           }}
         >
@@ -36,15 +36,15 @@ const PitchSlider: React.FC<PitchSliderProps> = ({ changePitch }) => {
               top: `calc(${value * 99}%`,
               left: 0,
               width: rem(16),
-              height: rem(4),
-              // transform: "translate(0,-rem)",
+              height: rem(1),
+              // transform: `translate(0,-${rem(2)})`,
               backgroundColor: "white",
             }}
           />
         </div>
       </Group>
 
-      <Text ta="center">{(value * 2).toFixed(2)}</Text>
+      {/* <Text ta="center">{(value * 2).toFixed(1)}</Text> */}
     </Stack>
   );
 };
