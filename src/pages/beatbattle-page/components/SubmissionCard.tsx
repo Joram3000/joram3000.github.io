@@ -20,8 +20,6 @@ interface SubmissionCardProps {
   reactions: reaction[];
 }
 
-//audiowaveform -i treingv.mp3 -o test8bit.json --pixels-per-second 20 --bits 8
-
 const SubmissionCard: React.FC<SubmissionCardProps> = ({
   name,
   beatName,
@@ -29,7 +27,7 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
   dateAdded,
   upvotes,
 }) => {
-  url; //TODO DELETE
+  url;
 
   return (
     <Stack bg="gray" miw="100%">
@@ -48,26 +46,7 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
       </Group>
 
       <Container p="md">
-        <Stack justify="stretch" p="md">
-          <WaveSurferPlayer
-            // containerReffie={containerReffetie}
-            fillParent
-            width="100%"
-            interact={true}
-            normalize
-            waveColor={gradient}
-            progressColor="rgb(100, 0, 100)"
-            // minPxPerSec={60}
-            dragToSeek
-            peaks={[test16bitpxs1000.data]}
-            hideScrollbar
-            url={treingv}
-            autoCenter
-            autoScroll
-            plugins={[]}
-            container={"#Waveform"} //HTMLElement | string;
-          />
-        </Stack>
+        <Stack justify="stretch" p="md"></Stack>
       </Container>
     </Stack>
   );
