@@ -25,7 +25,11 @@ export const useWavesurfer = (
     );
     ws.registerPlugin(
       TimelinePlugin.create({
-        insertPosition: "beforebegin",
+        height: 40,
+        style: {
+          color: "orange",
+          transform: "translate(-0px,-40px)",
+        },
       })
     );
 
