@@ -16,6 +16,7 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
 }) => {
   const theme = useMantineTheme();
   const [wsRegions, setWsRegions] = useState<RegionsPlugin | null>(null);
+  const [savedRegions, setSavedRegions] = useState<Region[] | null>([]);
 
   useEffect(() => {
     if (wavesurfer)
@@ -24,60 +25,55 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
 
   useEffect(() => {
     if (wsRegions) {
-      wavesurfer?.on("decode", () => {
+      wavesurfer.on("decode", () => {
         wsRegions.enableDragSelection({
           color: "rgba(255, 0, 0, 0.2)",
         });
         wsRegions.addRegion({
           id: "CUE",
           start: 5.0,
-          color: "red",
-        });
-      });
-      wavesurfer?.on("ready", () => {
-        wsRegions?.on("region-clicked", () => {
-          console.log("a region is clicked");
-        });
-        wsRegions?.on("region-double-clicked", (region: Region) =>
-          region.remove()
-        );
 
-        wsRegions?.on("region-in", (region: Region) => setActiveRegion(region));
-        wsRegions?.on("region-out", () => {
-          setActiveRegion(null);
+          color: "orange",
         });
       });
+
+      // wavesurfer.on("ready", () => {
+      wsRegions.on("region-clicked", () => {
+        console.log("a region is clicked");
+      });
+      wsRegions.on("region-double-clicked", (region: Region) =>
+        region.remove()
+      );
+
+      wsRegions.on("region-in", (region: Region) => setActiveRegion(region));
+      wsRegions.on("region-out", () => {
+        setActiveRegion(null);
+      });
+
+      // });
     }
   }, [wsRegions]);
 
-  // useEffect(() => {
-  //   if (loop) {
-  //     wsRegions?.on("region-out", (region: Region) => {
-  //       playRegion(region);
-  //     });
-  //   }
-  // }, [loop]);
-
-  const playRegion = (region: Region) => {
-    region.play();
-  };
+  wsRegions?.on("region-created", () => {
+    setSavedRegions(wsRegions.getRegions());
+    console.log(wsRegions.getRegions());
+  });
 
   return (
     <Stack>
       <Group>
-        {wsRegions &&
-          wsRegions.getRegions().map(
-            (region: Region, i) =>
-              i > 0 && (
-                <Button
-                  color={theme.colors.yellow[9 - i]}
-                  key={i}
-                  onClick={() => playRegion(region)}
-                >
-                  {i}
-                </Button>
-              )
-          )}
+        {savedRegions?.map(
+          (region: Region, i) =>
+            i > 0 && (
+              <Button
+                color={theme.colors.yellow[9 - i]}
+                key={i}
+                onClick={() => region.play()}
+              >
+                {i}
+              </Button>
+            )
+        )}
       </Group>
     </Stack>
   );

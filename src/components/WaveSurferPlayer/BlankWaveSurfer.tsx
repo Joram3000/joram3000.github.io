@@ -6,14 +6,7 @@ import React, {
   RefObject,
 } from "react";
 import { WaveSurferOptions } from "wavesurfer.js";
-import {
-  ActionIcon,
-  Container,
-  Flex,
-  Group,
-  Slider,
-  Text,
-} from "@mantine/core";
+import { ActionIcon, Box, Flex, Group, Slider, Text } from "@mantine/core";
 import {
   IconZoomIn,
   IconZoomOut,
@@ -22,6 +15,8 @@ import {
   IconPlayerPauseFilled,
   IconSquareRoundedChevronRight,
   IconCircle,
+  IconVolume3,
+  IconVolume,
 } from "@tabler/icons-react";
 import PitchSlider from "./pitch-slider";
 import { useDisclosure } from "@mantine/hooks";
@@ -32,10 +27,11 @@ import { Region } from "wavesurfer.js/dist/plugins/regions.js";
 const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
   const containerRef: RefObject<HTMLDivElement> =
     useRef() as RefObject<HTMLDivElement>;
+
   const wavesurfer = useWavesurfer(containerRef, props);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [zoom, setZoom] = useState(0);
+  const [zoom, setZoom] = useState(10);
   const [follow, { toggle: toggleFollow }] = useDisclosure(true);
   const [loop, setLoop] = useState<boolean>();
   const [activeRegion, setActiveRegion] = useState<Region | null>(null);
@@ -72,24 +68,31 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
   }, [wavesurfer]);
 
   return (
-    <Container p="xs">
-      <Text>{activeRegion?.id ?? "-"}</Text>
-      <Group justify="space-between" grow>
+    <Box p="md">
+      <Text fw={700}>Playing Region: {activeRegion?.id ?? "-"}</Text>
+      <Group justify="space-around" grow>
         <Text>{currentTime.toFixed(2)}</Text>
-        <Text c={follow ? "yellow" : ""}>
-          {follow ? "Follow:ON" : "Follow:OFF"}
+        <Text>Vol:{wavesurfer?.getVolume()}</Text>
+        <Text visibleFrom="sm" c={follow ? "yellow" : ""}>
+          Follow
         </Text>
-        <Text c={loop ? "yellow" : ""}>{loop ? "Loop:ON" : "Loop:OFF"}</Text>
+        <Text visibleFrom="sm" c={loop ? "yellow" : ""}>
+          Loop
+        </Text>
+
         <Text>Zoom:{zoom.toFixed()}</Text>
+
         <Text>Pitch:{wavesurfer?.getPlaybackRate().toFixed(2)}</Text>
       </Group>
 
-      <Flex className="waveform-pitchfader" maw="100%">
+      <Flex className="waveform-pitchfader" maw="144px%">
         <div
           className="waveform-canvas"
           ref={containerRef}
           style={{
             width: "calc(100% - 40px)",
+            height: "144px",
+            overflow: "hidden",
           }}
         />
         <PitchSlider
@@ -138,21 +141,43 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
         </Group>
       </Group>
 
-      <Group justify="flex-end" p="xs">
-        <IconZoomOut onClick={() => wavesurfer?.zoom(zoom - 5)} />
-        <Slider
-          w="30%"
-          min={10}
-          max={300}
-          color="orange"
-          value={zoom}
-          onChange={(e) => wavesurfer?.zoom(e)}
-          size="lg"
-          showLabelOnHover={false}
-        />
-        <IconZoomIn onClick={() => wavesurfer?.zoom(zoom + 5)} />
+      <Group grow>
+        <Group justify="flex-start">
+          <IconVolume3 />
+          <Slider
+            p="0"
+            w="30%"
+            min={0}
+            max={1}
+            step={0.02}
+            color="orange"
+            defaultValue={1}
+            onChange={(e) => wavesurfer?.setVolume(e)}
+            size="lg"
+            showLabelOnHover={false}
+          />
+          <IconVolume />
+        </Group>
+
+        <Group justify="flex-end">
+          <IconZoomOut
+            onClick={() => zoom > 10 && wavesurfer?.zoom(zoom - 5)}
+          />
+          <Slider
+            p="0"
+            w="30%"
+            min={10}
+            max={300}
+            color="orange"
+            value={zoom}
+            onChange={(e) => wavesurfer?.zoom(e)}
+            size="lg"
+            showLabelOnHover={false}
+          />
+          <IconZoomIn onClick={() => wavesurfer?.zoom(zoom + 5)} />
+        </Group>
       </Group>
-    </Container>
+    </Box>
   );
 };
 
