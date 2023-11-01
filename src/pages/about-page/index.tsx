@@ -10,8 +10,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import image3 from "../../assets/images/unnamed (2).jpg";
 import treingv from "../../assets/music/treingv.mp3";
-import test16bitpxs1000 from "../../assets/music/test16bitpxs1000.json";
-import WaveSurferPlayer from "../../components/WaveSurferPlayer/WaveSurferPlayerFrom";
+import BlankWaveSurfer from "../../components/WaveSurferPlayer/BlankWaveSurfer";
 
 export default function Aboutpage() {
   const [opened, { toggle }] = useDisclosure(false);
@@ -35,21 +34,16 @@ export default function Aboutpage() {
         exercitation qui non adipisicing.
       </Text>
 
-      <WaveSurferPlayer
-        //  containerReffie={containerReffetie}
-        interact={true}
-        width="100%"
-        normalize
-        fillParent
-        waveColor={"green"}
-        minPxPerSec={30}
-        dragToSeek
-        peaks={[test16bitpxs1000.data]}
+      <BlankWaveSurfer
         url={treingv}
-        autoCenter
+        // peaks={[test16bitpxs80.data]}
+        dragToSeek
+        width="100%"
+        height="auto"
         autoScroll
-        plugins={[]}
-        container={"#Waveform"} //HTMLElement | string;
+        normalize
+        autoCenter
+        container={"#Waveforrm"}
       />
 
       <Collapse p="md" in={opened} transitionDuration={200}>
