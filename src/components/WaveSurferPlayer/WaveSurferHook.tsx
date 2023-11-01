@@ -16,20 +16,15 @@ export const useWavesurfer = (
       ...options,
       container: containerRef.current,
     });
-    ws.registerPlugin(ZoomPlugin.create());
-
+    ws.registerPlugin(ZoomPlugin.create({ scale: 0.01 }));
     ws.registerPlugin(
       HoverPlugin.create({
         lineColor: "#ff0000",
-        lineWidth: 2,
-        labelBackground: "#555",
-        labelColor: "#fff",
-        labelSize: "16px",
+        lineWidth: 1,
       })
     );
     ws.registerPlugin(
       TimelinePlugin.create({
-        height: 20,
         insertPosition: "beforebegin",
       })
     );
@@ -40,7 +35,5 @@ export const useWavesurfer = (
       ws.destroy();
     };
   }, [options, containerRef]);
-
   return wavesurfer;
 };
-
