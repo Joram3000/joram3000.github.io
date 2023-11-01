@@ -1,11 +1,13 @@
 import { Card, Group, Badge, Title, Text, Stack } from "@mantine/core";
 import { contest } from "../../../store/beatbattle/types";
+import { NavLink } from "react-router-dom";
 
 interface RoundCardProps {
   contest: contest;
+  i: number;
 }
 
-const RoundCard: React.FC<RoundCardProps> = ({ contest }) => {
+const RoundCard: React.FC<RoundCardProps> = ({ contest, i }) => {
   return (
     <Card my="md" withBorder>
       <Group justify="space-between">
@@ -27,6 +29,9 @@ const RoundCard: React.FC<RoundCardProps> = ({ contest }) => {
           <Text>{contest.dateAdded}</Text>
         </Stack>
       </Group>
+      <NavLink to={`/beatbattle/${i}`} key={i}>
+        <Text>Check it out!</Text>
+      </NavLink>
     </Card>
   );
 };

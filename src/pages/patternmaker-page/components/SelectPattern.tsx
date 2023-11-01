@@ -15,6 +15,7 @@ import {
   Stack,
   TextInput,
   Text,
+  VisuallyHidden,
 } from "@mantine/core";
 import { SoundStyle } from "../../../store/patternmaker/types";
 import { useForm } from "@mantine/form";
@@ -103,15 +104,18 @@ const SelectPattern: React.FC<SelectPatternProps> = ({
             {pattern.name}
           </Button>
         ))}
-        <Button
-          size="xs"
-          variant="light"
-          color={newPattern ? "green" : "orange"}
-          key="new-pattern"
-          onClick={newPattern ? onSaveClick : onNewClick}
-        >
-          <Text truncate={true}>{newPattern ? "Save" : "New"}</Text>
-        </Button>
+
+        <VisuallyHidden>
+          <Button
+            size="xs"
+            variant="light"
+            color={newPattern ? "green" : "orange"}
+            key="new-pattern"
+            onClick={newPattern ? onSaveClick : onNewClick}
+          >
+            <Text truncate={true}>{newPattern ? "Save" : "New"}</Text>
+          </Button>
+        </VisuallyHidden>
 
         {newPattern && (
           <Popover trapFocus position="left">

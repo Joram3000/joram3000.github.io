@@ -10,16 +10,11 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import image3 from "../../assets/images/unnamed (2).jpg";
 import treingv from "../../assets/music/treingv.mp3";
-import test16bitpxs1000 from "../../assets/music/test16bitpxs1000.json";
-import { WaveSurferPlayert } from "../../components/WaveSurferPlayer/WaveSurferPlayerFrom";
+import BlankWaveSurfer from "../../components/WaveSurferPlayer/BlankWaveSurfer";
 
 export default function Aboutpage() {
   const [opened, { toggle }] = useDisclosure(false);
-  const ctx = document.createElement("canvas").getContext("2d");
-  const gradient = ctx!.createLinearGradient(0, 0, 0, 150);
-  gradient.addColorStop(0, "rgb(0, 0, 200)");
-  gradient.addColorStop(0.7, "rgb(100, 0, 100)");
-  gradient.addColorStop(1, "rgb(200, 230, 10)");
+
   return (
     <Box py="md">
       <Title px="md">About</Title>
@@ -39,25 +34,17 @@ export default function Aboutpage() {
         exercitation qui non adipisicing.
       </Text>
 
-      <Box m="md" p="md" bg="orange">
-        <WaveSurferPlayert
-          // containerReffie={containerReffetie}
-          width="100%"
-          interact={true}
-          normalize
-          waveColor={gradient}
-          progressColor="rgb(100, 0, 100)"
-          minPxPerSec={60}
-          dragToSeek
-          peaks={[test16bitpxs1000.data]}
-          hideScrollbar
-          url={treingv}
-          autoCenter
-          autoScroll
-          plugins={[]}
-          container={"#Waveform"} //HTMLElement | string;
-        />
-      </Box>
+      <BlankWaveSurfer
+        url={treingv}
+        // peaks={[test16bitpxs80.data]}
+        dragToSeek
+        width="100%"
+        height="auto"
+        autoScroll
+        normalize
+        autoCenter
+        container={"#Waveforrm"}
+      />
 
       <Collapse p="md" in={opened} transitionDuration={200}>
         <Text>
