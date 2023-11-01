@@ -5,10 +5,8 @@ import React, {
   useCallback,
   RefObject,
 } from "react";
-import WaveSurfer, { WaveSurferOptions } from "wavesurfer.js";
-import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline.js";
+import { WaveSurferOptions } from "wavesurfer.js";
 import Regions, { Region } from "wavesurfer.js/dist/plugins/regions.js";
-import HoverPlugin from "wavesurfer.js/dist/plugins/hover.js";
 import {
   ActionIcon,
   Button,

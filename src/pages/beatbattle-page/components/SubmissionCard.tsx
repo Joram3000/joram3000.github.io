@@ -1,9 +1,6 @@
 import { Stack, Title, Group, Text, Container } from "@mantine/core";
 import { format } from "date-fns";
-import treingv from "../../../assets/music/treingv.mp3";
-import test16bitpxs1000 from "../../../assets/music/test16bitpxs1000.json";
 import { reaction } from "../../../store/beatbattle/types";
-import WaveSurferPlayer from "../../../components/WaveSurferPlayer/WaveSurferPlayerFrom";
 
 const ctx = document.createElement("canvas").getContext("2d");
 const gradient = ctx!.createLinearGradient(0, 0, 0, 150);
