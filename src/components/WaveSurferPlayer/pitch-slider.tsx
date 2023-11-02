@@ -16,8 +16,8 @@ const PitchSlider: React.FC<PitchSliderProps> = ({ changePitch }) => {
   };
 
   return (
-    <Stack bg="gray" p="sm">
-      <Group justify="center" p="">
+    <Stack bg="gray" p="sm" style={{ borderRadius: "6px" }}>
+      <Group justify="center" p="" onDoubleClick={() => setter(0.5)}>
         <div
           ref={ref}
           style={{
