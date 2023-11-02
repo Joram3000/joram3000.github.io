@@ -27,7 +27,6 @@ import { Region } from "wavesurfer.js/dist/plugins/regions.js";
 const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
   const containerRef: RefObject<HTMLDivElement> =
     useRef() as RefObject<HTMLDivElement>;
-
   const wavesurfer = useWavesurfer(containerRef, props);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -35,13 +34,13 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
   const [follow, { toggle: toggleFollow }] = useDisclosure(true);
   const [loop, setLoop] = useState<boolean>();
   const [activeRegion, setActiveRegion] = useState<Region | null>(null);
+  const [cuePoint, setCuePoint] = useState<Region | null>(null);
 
-  //PAUSEPLAY
   const onPlayClick = useCallback(() => {
     if (wavesurfer) {
       wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer.play();
     }
-  }, [wavesurfer]);
+  }, [wavesurfer, cuePoint]);
 
   useEffect(() => {
     wavesurfer?.setOptions({ autoScroll: follow });
@@ -109,10 +108,14 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
         align="flex-start"
       >
         <Group>
-          <ActionIcon onMouseDown={onPlayClick} bg="gray">
+          <ActionIcon onClick={onPlayClick} bg="gray">
             {!isPlaying ? <IconPlayerPlayFilled /> : <IconPlayerPauseFilled />}
           </ActionIcon>
-          <ActionIcon onMouseDown={() => console.log("kadaver")} bg="gray">
+          <ActionIcon
+            onMouseDown={() => cuePoint?.play()}
+            onMouseUp={() => wavesurfer?.stop()}
+            bg="gray"
+          >
             <IconCircle />
           </ActionIcon>
         </Group>
@@ -121,18 +124,19 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
           wavesurfer={wavesurfer!}
           loop={loop}
           setActiveRegion={setActiveRegion}
+          setCuePoint={setCuePoint}
         />
 
         <Group>
           <ActionIcon
-            onMouseDown={toggleFollow}
+            onClick={toggleFollow}
             bg="gray"
             c={follow ? "yellow" : ""}
           >
             <IconSquareRoundedChevronRight />
           </ActionIcon>
           <ActionIcon
-            onMouseDown={() => setLoop(!loop)}
+            onClick={() => setLoop(!loop)}
             bg="gray"
             c={loop ? "yellow" : ""}
           >

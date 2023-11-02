@@ -36,7 +36,6 @@ export default function Aboutpage() {
 
       <BlankWaveSurfer
         url={treingv}
-        // peaks={[test16bitpxs80.data]}
         dragToSeek
         width="100%"
         height="auto"

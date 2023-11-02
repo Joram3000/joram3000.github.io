@@ -6,13 +6,14 @@ import { Button, Group, useMantineTheme, Stack } from "@mantine/core";
 interface RegionsFileProps {
   wavesurfer: WaveSurfer;
   setActiveRegion: (region: Region | null) => void;
+  setCuePoint: (region: Region | null) => void;
   loop?: boolean;
-  cuePlay?: () => void;
 }
 
 const RegionsFile: React.FC<RegionsFileProps> = ({
   wavesurfer,
   setActiveRegion,
+  setCuePoint,
 }) => {
   const theme = useMantineTheme();
   const [wsRegions, setWsRegions] = useState<RegionsPlugin | null>(null);
@@ -29,35 +30,38 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
         wsRegions.enableDragSelection({
           color: "rgba(255, 0, 0, 0.2)",
         });
-        wsRegions.addRegion({
-          id: "CUE",
-          start: 5.0,
+        setCuePoint(
+          wsRegions.addRegion({
+            id: "CUE",
+            start: 5.05,
+            color: "orange",
+          })
+        );
+      });
 
-          color: "orange",
+      wavesurfer.on("ready", () => {
+        wsRegions.on("region-clicked", () => {
+          console.log("a region is clicked");
+        });
+
+        wsRegions.on("region-double-clicked", (region: Region) => {
+          region.remove();
+          const newRegions = wsRegions.getRegions();
+          setSavedRegions([...newRegions]);
+        });
+
+        wsRegions.on("region-in", (region: Region) => setActiveRegion(region));
+        wsRegions.on("region-out", () => {
+          setActiveRegion(null);
+        });
+
+        wsRegions.on("region-created", () => {
+          const newRegions = wsRegions.getRegions();
+          setSavedRegions([...newRegions]);
         });
       });
-
-      // wavesurfer.on("ready", () => {
-      wsRegions.on("region-clicked", () => {
-        console.log("a region is clicked");
-      });
-      wsRegions.on("region-double-clicked", (region: Region) =>
-        region.remove()
-      );
-
-      wsRegions.on("region-in", (region: Region) => setActiveRegion(region));
-      wsRegions.on("region-out", () => {
-        setActiveRegion(null);
-      });
-
-      // });
     }
-  }, [wsRegions]);
-
-  wsRegions?.on("region-created", () => {
-    setSavedRegions(wsRegions.getRegions());
-    console.log(wsRegions.getRegions());
-  });
+  }, [wsRegions, savedRegions]);
 
   return (
     <Stack>
@@ -69,6 +73,7 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
                 color={theme.colors.yellow[9 - i]}
                 key={i}
                 onClick={() => region.play()}
+                onDoubleClick={() => region.remove()}
               >
                 {i}
               </Button>
