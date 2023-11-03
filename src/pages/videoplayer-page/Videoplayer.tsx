@@ -17,17 +17,24 @@ import { useDisclosure } from "@mantine/hooks";
 import { lorem } from "../../helpers/helpers";
 import { useSelector } from "react-redux";
 import { getUIStateSelector } from "../../store/ui/selectors";
+import { isSafari } from "react-device-detect";
+import safariVideo from "../../../public/animation09.mp4";
+import chromeVideo from "../../../public/animation09-vp9-chrome.webm";
+import feather from "../../assets/images/feather.png";
 
 function VideoPlayer() {
   const [color, setColor] = useState<string>("#0000ff");
   const [greetingIndex, setGreetingIndex] = useState(0);
   const [showOverlay, setShowOverlay] = useState(false);
-  const [arrayValues, setArrayValues] = useState<string[]>(["Goedesnavels"]);
-
+  const [arrayValues, setArrayValues] = useState<string[]>([
+    "Goedesnavels",
+    "Hallo goedemiddag",
+  ]);
   const [opened, { open, close }] = useDisclosure(false);
 
   const uiState = useSelector(getUIStateSelector);
   console.log(uiState.drawerOpen);
+
   const handleProgress = (progress: { playedSeconds: number }) => {
     if (progress.playedSeconds < 1) {
       setShowOverlay(true);
@@ -44,22 +51,42 @@ function VideoPlayer() {
 
       <AspectRatio ratio={960 / 270} maw={"100%"} mx="auto">
         <div
-          className="background-layer"
+          className="canvas-layer"
           style={{
             borderRadius: 16,
-            backgroundColor: color,
             overflow: "hidden",
           }}
         >
+          <div
+            style={{
+              position: "absolute",
+              backgroundColor: color,
+              zIndex: -2,
+              width: "100%",
+              height: "100%",
+            }}
+          />
+          <img
+            style={{
+              position: "absolute",
+              zIndex: -1,
+              opacity: 0.3,
+              transform: "rotate(0.5turn)",
+            }}
+            src={feather}
+            width="100%"
+            height="100%"
+          />
           <ReactPlayer
             playing
-            controls
-            url="animation09.mp4"
-            width={1920 / 2}
-            height={1080 / 4}
             loop
+            muted
+            url={isSafari ? safariVideo : chromeVideo}
+            width={1920 / 2}
+            height={1084 / 4}
             onProgress={handleProgress}
           />
+
           {showOverlay && (
             <div className="overlay-layer">
               <h2 className="overlay-text">{arrayValues[greetingIndex]}</h2>
@@ -112,7 +139,6 @@ function VideoPlayer() {
       </Drawer>
 
       <Button onClick={open}>Open Drawer</Button>
-
     </Container>
   );
 }
