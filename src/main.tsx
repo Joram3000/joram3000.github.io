@@ -9,7 +9,6 @@ import AboutPage from "./pages/about-page";
 import PatternMakerPage from "./pages/patternmaker-page";
 import VideoPlayer from "./pages/valkdigital-page/videoplayer/Videoplayer";
 import BeatBattleHomePage from "./pages/beatbattle-page/index";
-import TestPage from "./pages/test-page";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { createTheme, MantineProvider } from "@mantine/core";
@@ -19,6 +18,7 @@ import "@mantine/carousel/styles.css";
 import "@mantine/core/styles.css";
 import ValkWorkIn from "./pages/valkdigital-page/ValkWorkIn";
 import ValkWorkItem from "./pages/valkdigital-page/ValkWorkItem";
+import TwistCards from "./pages/test-page/TwistCards";
 
 const router = createHashRouter([
   {
@@ -31,7 +31,7 @@ const router = createHashRouter([
       { path: "/patternmaker", element: <PatternMakerPage /> },
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },
-      { path: "/test", element: <TestPage count={32} speed={8} /> },
+      { path: "/css", element: <TwistCards count={32} speed={8} /> },
       { path: "/beatbattle", element: <BeatBattleHomePage /> },
       { path: "/beatbattle/:id", element: <ContestPage /> },
       { path: "/valkdigital", element: <ValkWorkIn /> },
