@@ -51,9 +51,6 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
     </Table.Th>
   );
 }
-
-//Table.Th;
-
 function filterData(data: RowData[], search: string) {
   const query = search.toLowerCase().trim();
   return data.filter((item) =>
@@ -139,6 +136,16 @@ const tableData = [
     name: "i18n",
     url: "https://i18next.com",
     typeOf: "Utility",
+  },
+  {
+    name: "Ableton Live",
+    url: "https://ableton.com",
+    typeOf: "DAW",
+  },
+  {
+    name: "DaVinci Resolve",
+    url: "https://blackmagicdesign.com",
+    typeOf: "Video Editor",
   },
 ];
 
