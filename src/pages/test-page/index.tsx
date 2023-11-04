@@ -42,7 +42,6 @@ const TestPage: React.FC<TestPageProps> = ({ count, speed }) => {
     <div
       style={{
         width: "100%",
-        border: "2px solid black",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
