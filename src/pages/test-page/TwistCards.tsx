@@ -1,12 +1,12 @@
 import { Parallax } from "react-scroll-parallax";
 import { randomColor } from "../../helpers/helpers";
 
-interface TestPageProps {
+interface TwistCardsProps {
   count: number;
   speed: number;
 }
 
-const TestPage: React.FC<TestPageProps> = ({ count, speed }) => {
+const TwistCards: React.FC<TwistCardsProps> = ({ count, speed }) => {
   const createParallax = (speed: number, i: number) => {
     return (
       <Parallax
@@ -52,4 +52,4 @@ const TestPage: React.FC<TestPageProps> = ({ count, speed }) => {
   );
 };
 
-export default TestPage;
+export default TwistCards;
