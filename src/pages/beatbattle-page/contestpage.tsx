@@ -17,7 +17,7 @@ const ContestPage: React.FC = () => {
 
   const beatBattleState = useSelector(getBeatStateSelector);
   const getUIState = useSelector(getUIStateSelector);
-  const getContest = beatBattleState.contests[id ? id : 0];
+  const getContest = beatBattleState.contests[1];
 
   const contestSubmissions = getContest.beats;
   const dateAdded = format(new Date(), "dd-mm-yyyy hh:mm");
