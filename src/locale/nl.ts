@@ -5,10 +5,10 @@ const nl = {
   menu: {
     home: "Huis",
     patternMaker: "Patroonmaker",
-    videoPlayer: "Videospeler",
+    valkdigital: "Valk Digital",
     about: "Over",
     contact: "Contact",
-    test: "Tester",
+    test: "cssFunTown",
     beatbattle: "BeatBattle",
   },
 };
