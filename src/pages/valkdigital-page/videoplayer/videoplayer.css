@@ -21,3 +21,9 @@
   color: white;
   font-family: "Castoro Italic", sans-serif;
 }
+
+.showDivs {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
