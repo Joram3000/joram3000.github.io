@@ -17,7 +17,6 @@ import {
   Text,
 } from "@mantine/core";
 import { SoundStyle } from "../../../store/patternmaker/types";
-import { useForm } from "@mantine/form";
 
 interface SelectPatternProps {
   setColor: Dispatch<SetStateAction<string>>;
@@ -37,22 +36,6 @@ const SelectPattern: React.FC<SelectPatternProps> = ({
   const currentPattern = useSelector(selectedPatternSelector);
   const [newPattern, setNewPattern] = useState(false); // kan je hier geen toggle voor gebruiken?
   const [newColor, setNewColor] = useState<string>(currentPattern.color);
-
-  const form = useForm({
-    initialValues: {
-      name: "Edit",
-      color: "cyan",
-      sound: SoundStyle.NEOSOUL,
-      pattern: [
-        [false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false],
-      ],
-    },
-    validate: {
-      name: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-    },
-  });
-  form;
 
   const onChangeColorValue = (value: string) => {
     setNewColor(value);
