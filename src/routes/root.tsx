@@ -1,14 +1,15 @@
 import { Outlet } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
-import { AppShell, Button, Flex, Text } from "@mantine/core";
+import { AppShell, Button, Flex, Group, Text } from "@mantine/core";
 import NavbarSimple from "../components/navbar/NavbarSimple";
 import { useEffect, useState } from "react";
 import HeaderSimple from "../components/header/HeaderSimple";
 // import { useTranslation } from "react-i18next";
-import AsideComponent from "../components/aside/AsideComponent";
-import { MenuToggle } from "../store/ui/actions";
+// import AsideComponent from "../components/aside/AsideComponent";
+import { DrawerToggle, MenuToggle } from "../store/ui/actions";
 import { useDispatch } from "react-redux";
 import { BrowserView, MobileView } from "react-device-detect";
+import { IconQuestionMark } from "@tabler/icons-react";
 
 // import { IsDrawer } from "../../store/ui/actions";
 // const dispatch = useDispatch();
@@ -58,14 +59,14 @@ export default function Root() {
           desktop: !navbarDesktopOpened,
         },
       }}
-      aside={{
-        width: 300,
-        breakpoint: "md",
-        // collapsed: {
-        //   mobile: !asideOpened,
-        //   desktop: !asideOpened,
-        // },
-      }}
+      // aside={{
+      //   width: 300,
+      //   breakpoint: "md",
+      //   // collapsed: {
+      //   //   mobile: !asideOpened,
+      //   //   desktop: !asideOpened,
+      //   // },
+      // }}
     >
       <AppShell.Header>
         <HeaderSimple
@@ -82,9 +83,9 @@ export default function Root() {
         <Outlet />
       </AppShell.Main>
 
-      <AppShell.Aside p="md">
+      {/* <AppShell.Aside p="md">
         <AsideComponent />
-      </AppShell.Aside>
+      </AppShell.Aside> */}
 
       <AppShell.Footer>
         <Flex h={60} p="md" justify="space-between" align="center">
@@ -101,6 +102,15 @@ export default function Root() {
 
           {/* <Button onClick={() => dispatch(DrawerToggle(true))}>
             Open drawer
+          </Button> */}
+<Group></Group>
+          {/* <Button
+            variant="gradient"
+            onClick={() => dispatch(DrawerToggle(true))}
+            style={{ zIndex: 230 }}
+            m="sm"
+          >
+            <IconQuestionMark />
           </Button> */}
         </Flex>
       </AppShell.Footer>

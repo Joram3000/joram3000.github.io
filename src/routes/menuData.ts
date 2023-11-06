@@ -3,7 +3,7 @@ export const menuData = [
   { link: "patternmaker", label: "menu.patternMaker" },
   {
     link: "valkdigital",
-    label: "menu.valkdigital",
+    label: "menu.valkDigital",
     links: [
       { label: "nested1", link: "/hoe" },
       { label: "nested2", link: "/die" },

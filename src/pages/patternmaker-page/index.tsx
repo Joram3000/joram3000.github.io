@@ -27,6 +27,8 @@ import CustomDoubleSlider from "./components/CustomDoubleSlider";
 import CustomSlider from "./components/CustomSlider";
 import TransporterButton from "./components/TransporterButton";
 import P5WaveFormSketchWrapper from "./components/P5WaveFormSketchWrapper";
+import DrawerComponent from "../../components/drawer/DrawerComponent";
+import Uitleg from "./uitleg";
 
 const output = new Tone.Volume(-12).toDestination();
 const lpFilter = new Tone.Filter(8000, "lowpass", -48).connect(output);
@@ -51,6 +53,10 @@ const PatternMakerPage: React.FC = () => {
     dispatch(SetVolume(value));
   };
 
+  useEffect(() => {
+    output.volume.value = soundSettings.volume;
+  }, [soundSettings.volume]);
+
   const sendFilters = (value: [number, number]) => {
     dispatch(SetFilters(value));
     lpFilter.frequency.value = value[1];
@@ -62,12 +68,9 @@ const PatternMakerPage: React.FC = () => {
     dispatch(SetTempo(Tone.Transport.bpm.value));
   };
 
-  useEffect(() => {
-    output.volume.value = soundSettings.volume;
-  }, [soundSettings.volume]);
-
   return (
     <Container p={0} h="calc(100vh - 120px)">
+      <DrawerComponent uitleg={Uitleg()} />
       <Center
         left={0}
         pos="absolute"
@@ -76,13 +79,11 @@ const PatternMakerPage: React.FC = () => {
       >
         <P5WaveFormSketchWrapper colorValue={colorValue} />
       </Center>
-
-      <Container
+      <Box
         p={0}
         style={{
           position: "relative",
           height: "calc(100vh - 120px)",
-          width: "100%",
         }}
       >
         <Container
@@ -160,7 +161,7 @@ const PatternMakerPage: React.FC = () => {
             />
           </Box>
         </Stack>
-      </Container>
+      </Box>
     </Container>
   );
 };

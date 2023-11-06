@@ -1,30 +1,41 @@
-import { Drawer, ScrollArea, Text, Title } from "@mantine/core";
-import { lorem } from "../../helpers/helpers";
+import { Button, Drawer, ScrollArea } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
-import { getUIStateSelector } from "../../store/ui/selectors";
 import { DrawerToggle } from "../../store/ui/actions";
+import { getUIStateSelector } from "../../store/ui/selectors";
+import { IconQuestionMark } from "@tabler/icons-react";
 
-interface DrawerComponentProps {}
+interface DrawerComponentProps {
+  uitleg: any;
+}
 
-const DrawerComponent: React.FC<DrawerComponentProps> = () => {
-  const drawerState = useSelector(getUIStateSelector);
+const DrawerComponent: React.FC<DrawerComponentProps> = ({ uitleg }) => {
   const dispatch = useDispatch();
-
-  const onClose = () => {
-    dispatch(DrawerToggle(false));
-  };
+  const getUIState = useSelector(getUIStateSelector);
 
   return (
-    <Drawer position="right" opened={drawerState.drawerOpen} onClose={onClose}>
-      <Title order={3} pb="md">
-        Extra informatie
-      </Title>
+    <>
+      <Drawer
+        position="right"
+        opened={getUIState.drawerOpen}
+        onClose={() => dispatch(DrawerToggle(false))}
+      >
+        <ScrollArea offsetScrollbars type="never">
+          {uitleg}
+        </ScrollArea>
+      </Drawer>
 
-      <ScrollArea offsetScrollbars type="never">
-        <Text pb="md">{lorem.generateParagraphs(1)}</Text>
-        <Text pb="md">{lorem.generateParagraphs(6)}</Text>
-      </ScrollArea>
-    </Drawer>
+      <Button
+        pos="fixed"
+        bottom={0}
+        right={0}
+        variant="gradient"
+        onClick={() => dispatch(DrawerToggle(true))}
+        style={{ zIndex: 200 }}
+        m="sm"
+      >
+        <IconQuestionMark />
+      </Button>
+    </>
   );
 };
 
