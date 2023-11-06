@@ -70,81 +70,77 @@ const SelectPattern: React.FC<SelectPatternProps> = ({
   };
 
   return (
-    <Stack>
-      <Stack pos="relative">
-        {savedPatterns.map((pattern, i) => (
-          <Button
-            size="xs" //TODO MAKE RESPONSIVE
-            variant="outline"
-            key={`${pattern.name}-${i}`}
-            color={pattern.color}
-            onClick={() => {
-              dispatch(PatternUpdatewithSelect(pattern));
-            }}
-          >
-            {pattern.name}
-          </Button>
-        ))}
-
-        {/* <VisuallyHidden> */}
+    <Stack pos="relative">
+      {savedPatterns.map((pattern, i) => (
         <Button
           size="xs"
-          variant="light"
-          color={newPattern ? "green" : "orange"}
-          key="new-pattern"
-          onClick={newPattern ? onSaveClick : onNewClick}
+          variant="outline"
+          key={`${pattern.name}-${i}`}
+          color={pattern.color}
+          onClick={() => {
+            dispatch(PatternUpdatewithSelect(pattern));
+          }}
         >
-          <Text truncate={true}>{newPattern ? "Save" : "New"}</Text>
+          {pattern.name}
         </Button>
-        {/* </VisuallyHidden> */}
+      ))}
 
-        {newPattern && (
-          <Popover trapFocus position="left">
-            <Popover.Target>
-              <Button
-                size="xs" //TODO MAKE RESPONSIVE
-                variant="light"
-                color="orange"
-                key="edit"
-                onClick={() => {}}
-              >
-                Edit
-              </Button>
-            </Popover.Target>
-            <Popover.Dropdown>
-              <Stack>
-                <TextInput
-                  placeholder={titleValue}
-                  value={titleValue}
-                  onChange={(event) => setTitleValue(event.target.value)}
-                />
-                <ColorPicker
-                  onChange={onChangeColorValue}
-                  withPicker={false}
-                  value={color}
-                  format="hex"
-                  swatches={[
-                    "#FF8787",
-                    "#20c997",
-                    "#fa5252",
-                    "#e64980",
-                    "#be4bdb",
-                    "#7950f2",
-                    "#4c6ef5",
-                    "#228be6",
-                    "#15aabf",
-                    "#12b886",
-                    "#40c057",
-                    "#82c91e",
-                    "#fab005",
-                    "#fd7e14",
-                  ]}
-                />
-              </Stack>
-            </Popover.Dropdown>
-          </Popover>
-        )}
-      </Stack>
+      <Button
+        size="xs"
+        variant="light"
+        color={newPattern ? "green" : "orange"}
+        key="new-pattern"
+        onClick={newPattern ? onSaveClick : onNewClick}
+      >
+        <Text>{newPattern ? "Save" : "New"}</Text>
+      </Button>
+
+      {newPattern && (
+        <Popover trapFocus position="left">
+          <Popover.Target>
+            <Button
+              size="xs" //TODO MAKE RESPONSIVE
+              variant="light"
+              color="orange"
+              key="edit"
+              onClick={() => {}}
+            >
+              Edit
+            </Button>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <Stack>
+              <TextInput
+                placeholder={titleValue}
+                value={titleValue}
+                onChange={(event) => setTitleValue(event.target.value)}
+              />
+              <ColorPicker
+                onChange={onChangeColorValue}
+                withPicker={false}
+                value={color}
+                format="hex"
+                swatches={[
+                  "#FF8787",
+                  "#20c997",
+                  "#fa5252",
+                  "#e64980",
+                  "#be4bdb",
+                  "#7950f2",
+                  "#4c6ef5",
+                  "#228be6",
+                  "#15aabf",
+                  "#12b886",
+                  "#40c057",
+                  "#82c91e",
+                  "#fab005",
+                  "#fd7e14",
+                ]}
+              />
+            </Stack>
+          </Popover.Dropdown>
+        </Popover>
+      )}
     </Stack>
   );
 };
