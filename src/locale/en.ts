@@ -7,10 +7,10 @@ const en: Translation = {
   menu: {
     home: "Home",
     patternMaker: "Patternmaker",
-    videoPlayer: "Videoplayer",
+    valkDigital: "Valk Digital",
     about: "About",
     contact: "Contact",
-    test: "Tester",
+    css: "Tester",
     beatbattle: "BeatBattle",
   },
 };

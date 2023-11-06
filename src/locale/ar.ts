@@ -7,10 +7,10 @@ const ar: Translation = {
   menu: {
     home: "بيت",
     patternMaker: "صانع الأنماط",
-    videoPlayer: "مشغل فديوهات",
+    valkDigital: "Valk Digital",
     about: "عن",
     contact: "اتصال",
-    test: "امتحان",
+    css: "امتحان",
     beatbattle: "يهزم",
   },
 };

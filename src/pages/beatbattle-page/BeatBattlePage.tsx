@@ -15,7 +15,7 @@ const BeatBattlePage: React.FC = () => {
       </Text>
 
       {beatBattleState.contests.map((contest, i) => (
-        <RoundCard contest={contest} i={i} />
+        <RoundCard key={`${contest.sample}${i}`} contest={contest} i={i} />
       ))}
     </Container>
   );

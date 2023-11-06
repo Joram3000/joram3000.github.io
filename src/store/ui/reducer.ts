@@ -4,6 +4,7 @@ const initialState = {
   menuOpen: true,
   asideOpen: false,
   drawerOpen: false,
+  isDrawer: false,
 };
 
 const reducer: Reducer = (state = initialState, action) => {
@@ -19,6 +20,12 @@ const reducer: Reducer = (state = initialState, action) => {
       return {
         ...state,
         drawerOpen: payload,
+      };
+    }
+    case "ISDRAWER": {
+      return {
+        ...state,
+        isDrawer: payload,
       };
     }
     default:

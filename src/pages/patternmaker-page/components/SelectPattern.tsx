@@ -15,10 +15,8 @@ import {
   Stack,
   TextInput,
   Text,
-  VisuallyHidden,
 } from "@mantine/core";
 import { SoundStyle } from "../../../store/patternmaker/types";
-import { useForm } from "@mantine/form";
 
 interface SelectPatternProps {
   setColor: Dispatch<SetStateAction<string>>;
@@ -37,24 +35,7 @@ const SelectPattern: React.FC<SelectPatternProps> = ({
   const savedPatterns = useSelector(savedPatternsSelector);
   const currentPattern = useSelector(selectedPatternSelector);
   const [newPattern, setNewPattern] = useState(false); // kan je hier geen toggle voor gebruiken?
-  const [newColor, setNewColor] = useState<string>("");
-
-  const form = useForm({
-    initialValues: {
-      name: "Edit",
-      color: "cyan",
-      sound: SoundStyle.NEOSOUL,
-      pattern: [
-        [false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false],
-      ],
-    },
-
-    validate: {
-      name: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-    },
-  });
-  form;
+  const [newColor, setNewColor] = useState<string>(currentPattern.color);
 
   const onChangeColorValue = (value: string) => {
     setNewColor(value);
@@ -65,7 +46,7 @@ const SelectPattern: React.FC<SelectPatternProps> = ({
     dispatch(
       PatternUpdatewithSelect({
         name: "Edit",
-        color: "cyan",
+        color: newColor,
         sound: SoundStyle.NEOSOUL,
         pattern: [
           [false, false, false, false, false, false, false, false],
@@ -105,17 +86,17 @@ const SelectPattern: React.FC<SelectPatternProps> = ({
           </Button>
         ))}
 
-        <VisuallyHidden>
-          <Button
-            size="xs"
-            variant="light"
-            color={newPattern ? "green" : "orange"}
-            key="new-pattern"
-            onClick={newPattern ? onSaveClick : onNewClick}
-          >
-            <Text truncate={true}>{newPattern ? "Save" : "New"}</Text>
-          </Button>
-        </VisuallyHidden>
+        {/* <VisuallyHidden> */}
+        <Button
+          size="xs"
+          variant="light"
+          color={newPattern ? "green" : "orange"}
+          key="new-pattern"
+          onClick={newPattern ? onSaveClick : onNewClick}
+        >
+          <Text truncate={true}>{newPattern ? "Save" : "New"}</Text>
+        </Button>
+        {/* </VisuallyHidden> */}
 
         {newPattern && (
           <Popover trapFocus position="left">

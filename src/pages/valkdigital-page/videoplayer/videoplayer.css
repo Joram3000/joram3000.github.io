@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "Castoro Italic";
+  src: url("../../assets/fonts/Castoro-Italic.ttf") format("ttf"),
+    url("../../assets/fonts/Castoro-Italic.ttf") format("ttf");
+  font-weight: normal;
+  font-style: italic;
+}
+
+.canvas-layer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.overlay-layer {
+  position: absolute;
+  left: 40%;
+  margin: 16px;
+}
+
+.overlay-text {
+  color: white;
+  font-family: "Castoro Italic", sans-serif;
+}
+
+.showDivs {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}

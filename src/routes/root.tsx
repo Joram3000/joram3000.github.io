@@ -1,41 +1,46 @@
 import { Outlet } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
-import { AppShell, Button, Flex, Text } from "@mantine/core";
+import { AppShell, Button, Flex, Group, Text } from "@mantine/core";
 import NavbarSimple from "../components/navbar/NavbarSimple";
 import { useEffect, useState } from "react";
 import HeaderSimple from "../components/header/HeaderSimple";
-import { useTranslation } from "react-i18next";
-import AsideComponent from "../components/aside/AsideComponent";
+// import { useTranslation } from "react-i18next";
+// import AsideComponent from "../components/aside/AsideComponent";
 import { DrawerToggle, MenuToggle } from "../store/ui/actions";
 import { useDispatch } from "react-redux";
 import { BrowserView, MobileView } from "react-device-detect";
+import { IconQuestionMark } from "@tabler/icons-react";
+
+// import { IsDrawer } from "../../store/ui/actions";
+// const dispatch = useDispatch();
+// useEffect(() => {
+//   dispatch(IsDrawer(true));
+// }, []);
 
 export default function Root() {
   const dispatch = useDispatch();
-  const {
-    i18n: { language: currentLanguage },
-  } = useTranslation();
 
-  useEffect(() => {
-    sessionStorage.setItem("language", currentLanguage);
-  }, [currentLanguage]);
+  // const getUIState = useSelector(getUIStateSelector);
+
+  // // const {
+  // //   i18n: { language: currentLanguage },
+  // // } = useTranslation();
+
+  // sessionStorage.setItem("language", currentLanguage);
 
   const [active, setActive] = useState("Home");
+
   const [navbarMobileOpened, { toggle: navbarMobileToggle }] =
     useDisclosure(false);
   const [navbarDesktopOpened, { toggle: navbarDesktopToggle }] =
     useDisclosure(true);
-  const [asideOpened, { toggle: asideToggle }] = useDisclosure();
+  // const [asideOpened, { toggle: asideToggle }] = useDisclosure();
 
   useEffect(() => {
     setTimeout(() => {
       dispatch(MenuToggle(navbarDesktopOpened));
     }, 210);
   }, [navbarDesktopOpened]);
-
-  useEffect(() => {
-    dispatch(DrawerToggle(asideOpened));
-  }, [asideOpened]);
 
   const menuClick = (value: string) => {
     setActive(value);
@@ -54,14 +59,14 @@ export default function Root() {
           desktop: !navbarDesktopOpened,
         },
       }}
-      aside={{
-        width: 300,
-        breakpoint: "md",
-        collapsed: {
-          mobile: !asideOpened,
-          desktop: !asideOpened,
-        },
-      }}
+      // aside={{
+      //   width: 300,
+      //   breakpoint: "md",
+      //   // collapsed: {
+      //   //   mobile: !asideOpened,
+      //   //   desktop: !asideOpened,
+      //   // },
+      // }}
     >
       <AppShell.Header>
         <HeaderSimple
@@ -78,15 +83,16 @@ export default function Root() {
         <Outlet />
       </AppShell.Main>
 
-      <AppShell.Aside p="md">
+      {/* <AppShell.Aside p="md">
         <AsideComponent />
-      </AppShell.Aside>
+      </AppShell.Aside> */}
 
       <AppShell.Footer>
         <Flex h={60} p="md" justify="space-between" align="center">
           <Button onClick={navbarDesktopToggle} visibleFrom="sm">
             {navbarDesktopOpened ? "hide menu" : "show menu"}
           </Button>
+
           <BrowserView>
             <Text>ComputerView</Text>
           </BrowserView>
@@ -94,9 +100,18 @@ export default function Root() {
             <Text>MobileView</Text>
           </MobileView>
 
-          <Button onClick={asideToggle}>
-            {asideOpened ? "hide aside" : "show aside"}
-          </Button>
+          {/* <Button onClick={() => dispatch(DrawerToggle(true))}>
+            Open drawer
+          </Button> */}
+<Group></Group>
+          {/* <Button
+            variant="gradient"
+            onClick={() => dispatch(DrawerToggle(true))}
+            style={{ zIndex: 230 }}
+            m="sm"
+          >
+            <IconQuestionMark />
+          </Button> */}
         </Flex>
       </AppShell.Footer>
     </AppShell>
