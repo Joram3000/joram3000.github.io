@@ -13,7 +13,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { ParallaxProvider } from "react-scroll-parallax";
-import ContestPage from "./pages/beatbattle-page/ContestPage";
+import ContestPage from "./pages/beatbattle-page/contestpage";
 import "@mantine/carousel/styles.css";
 import "@mantine/core/styles.css";
 import ValkWorkIn from "./pages/valkdigital-page/ValkWorkIn";

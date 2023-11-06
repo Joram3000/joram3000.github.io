@@ -1,9 +1,9 @@
 import { Container, Text, Title } from "@mantine/core";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { TableSort } from "./Sortedtable";
 
 export default function HomePage() {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   return (
     <Container p={0}>
