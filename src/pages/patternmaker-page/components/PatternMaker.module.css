@@ -1,0 +1,7 @@
+.seqButton:hover {
+  background-image: linear-gradient(
+    to right,
+    rgba(102, 102, 102, 0.56),
+    transparent
+  );
+}

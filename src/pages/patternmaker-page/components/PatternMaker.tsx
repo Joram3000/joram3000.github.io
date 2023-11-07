@@ -5,7 +5,8 @@ import { CurrentPatternUpdater } from "../../../store/patternmaker/actions";
 import { Container, Flex } from "@mantine/core";
 import { selectedPatternSelector } from "../../../store/patternmaker/selectors";
 import { SoundStyle } from "../../../store/patternmaker/types";
-
+import classes from "./PatternMaker.module.css";
+import { isMobile } from "react-device-detect";
 interface PatternMakerProps {
   output: Tone.OutputNode;
   colorValue?: string;
@@ -100,7 +101,7 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output, colorValue }) => {
         <Flex className="seqRow" key={rowNumber}>
           {rowArray.map((trigger: boolean, rowIndex: number) => (
             <Container
-              className="seqTrigger"
+              className={classes.seqButton}
               key={rowIndex}
               style={{
                 margin: "2px",
@@ -108,7 +109,9 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output, colorValue }) => {
                 width: "100%",
                 background: trigger
                   ? `linear-gradient(to right, ${colorValue}, transparent)`
-                  : "transparent",
+                  : isMobile
+                  ? `linear-gradient(to right, rgba(0,0,0,0.2), transparent)`
+                  : undefined,
               }}
               onClick={() => {
                 setPattern({ rowNumber, rowIndex, trigger });
