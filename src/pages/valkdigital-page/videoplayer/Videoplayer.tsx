@@ -90,7 +90,7 @@ function VideoPlayer() {
         </div>
       </AspectRatio>
 
-      <Fieldset legend="Customize the video content" mt="xl">
+      <Fieldset legend="Customize de videocontent" mt="xl">
         <Group align="flex-start" justify="space-around" p="md" w="100%">
           <Stack align="flex-start" justify="flex-end">
             <Text>Kies een achtergrondkleur:</Text>
