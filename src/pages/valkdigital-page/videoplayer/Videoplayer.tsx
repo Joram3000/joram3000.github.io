@@ -11,14 +11,15 @@ import {
   TagsInput,
   Text,
   Title,
+  Image,
 } from "@mantine/core";
-
 import { isSafari } from "react-device-detect";
 import safariVideo from "../../../assets/video/animation09.mp4";
 import chromeVideo from "../../../assets/video/animation09-vp9-chrome.webm";
 import feather from "../../../assets/images/feather.png";
 import DrawerComponent from "../../../components/drawer/DrawerComponent";
 import Uitleg from "./Uitleg";
+import vtgnarrowcastingdesign from "../../../assets/images/vtgnarrowcastingdesign.webp";
 
 function VideoPlayer() {
   const [color, setColor] = useState<string>("#0000ff");
@@ -134,6 +135,14 @@ function VideoPlayer() {
           </Stack>
         </Group>
       </Fieldset>
+
+      <Stack pt="xl">
+        <Text>
+          Dit was mijn eerste voorstel. Maar om één of andere reden was het niet
+          naar wens.
+        </Text>
+        <Image src={vtgnarrowcastingdesign} />
+      </Stack>
     </Container>
   );
 }
