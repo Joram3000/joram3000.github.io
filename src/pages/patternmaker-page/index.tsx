@@ -28,7 +28,7 @@ import CustomSlider from "./components/CustomSlider";
 import TransporterButton from "./components/TransporterButton";
 import P5WaveFormSketchWrapper from "./components/P5WaveFormSketchWrapper";
 import DrawerComponent from "../../components/drawer/DrawerComponent";
-import Uitleg from "./uitleg";
+import Uitleg from "./Uitleg";
 
 const output = new Tone.Volume(-12).toDestination();
 const lpFilter = new Tone.Filter(8000, "lowpass", -48).connect(output);

@@ -15,8 +15,7 @@ const SelectSound: React.FC<SelectSoundCompProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  // TO DO FIX ANY STRING VS SOUNDSTYLE
-  const onClickCHange = (value: any) => {
+  const onClickCHange = (value: SoundStyle) => {
     dispatch(SelectDrumSound(value));
   };
 
