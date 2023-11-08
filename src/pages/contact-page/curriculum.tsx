@@ -124,38 +124,36 @@ const Curriculum: React.FC = () => {
     },
   ];
 
-  const items = curriculumVitae.map((item, i) => (
-    <Accordion.Item key={`${item.title} ${i}`} value={item.title}>
-      <Accordion.Control chevron={item.description ? false : true}>
+  const jobs = curriculumVitae.map((job, i) => (
+    <Accordion.Item key={i} value={job.title}>
+      <Accordion.Control chevron={job.description ? false : true}>
         <Group justify="space-between">
           <Group>
             <Text>
-              {item.start}-{item.finish}
+              {job.start}-{job.finish}
             </Text>
-            <Text>{item.title}</Text>
+            <Text>{job.title}</Text>
           </Group>
 
           <Text ta="right">
-            {item.url ? (
-              <Anchor href={item.url} target="_blank">
-                {item.company}
+            {job.url ? (
+              <Anchor href={job.url} target="_blank">
+                {job.company}
               </Anchor>
             ) : (
-              item.company
+              job.company
             )}
           </Text>
         </Group>
       </Accordion.Control>
 
-      {item.description && (
-        <Accordion.Panel>{item.description}</Accordion.Panel>
-      )}
+      {job.description && <Accordion.Panel>{job.description}</Accordion.Panel>}
     </Accordion.Item>
   ));
 
   return (
     <Accordion variant="contained" transitionDuration={400}>
-      {items}
+      {jobs}
     </Accordion>
   );
 };
