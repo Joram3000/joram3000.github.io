@@ -1,35 +1,61 @@
-import { Title, Text, Image, Container, Group } from "@mantine/core";
+import {
+  Title,
+  Text,
+  Image,
+  Container,
+  Group,
+  Stack,
+  Anchor,
+} from "@mantine/core";
 import Curriculum from "./curriculum";
-import { IconBrandInstagram, IconMail, IconPhone } from "@tabler/icons-react";
+import {
+  IconAppWindow,
+  IconBrandInstagram,
+  IconMail,
+  IconPhone,
+} from "@tabler/icons-react";
+import joram from "../../assets/images/joramcutout.webp";
 
 export default function ContactPage() {
   return (
     <Container>
-      <Title>Contact</Title>
-      <Group>
-        <IconPhone />
-        <Text>0618512084</Text>
-      </Group>
-      <Group>
-        <IconBrandInstagram />
-        <Text>Instagram @pracemusic</Text>
-      </Group>
-      <Group>
-        <IconMail />
-        <Text>joramkroon@live.nl</Text>
-      </Group>
+      <Title pt="md">Contact</Title>
+      <Stack pt="md">
+        <Group align="center">
+          <IconPhone />
+          <Text>0618512084</Text>
+        </Group>
+        <Group align="center">
+          <IconMail />
+          <Text>joramkroon@live.nl</Text>
+        </Group>
+        <Anchor href={"https://www.instagram.com/pracemusic"} target="_blank">
+          <Group align="center">
+            <IconBrandInstagram />
+            <Text>Instagram</Text>{" "}
+          </Group>
+        </Anchor>
+        <Anchor href={"https://joramkroon.com"} target="_blank">
+          <Group align="center">
+            <IconAppWindow />
+            <Text>JoramKroon.com (old Artist Webite)</Text>
+          </Group>
+        </Anchor>
+        <Anchor href={"https://github.com/joram3000/"} target="_blank">
+          <Group align="center">
+            <IconAppWindow />
+            <Text>Github.com/Joram30000</Text>
+          </Group>
+        </Anchor>
+      </Stack>
 
+      <Title py="md">Curriculum Vitae</Title>
       <Curriculum />
-
       <Text p="md">
-        Pariatur anim nulla ea incididunt sunt proident proident. Deserunt
-        proident ad eiusmod minim officia pariatur magna labore mollit do
-        pariatur quis id reprehenderit in. Dolore adipisicing proident pariatur
-        exercitation commodo ullamco eiusmod duis. Aliqua incididunt consequat
-        eu aliquip. Dolor adipisicing laboris et eiusmod tempor do sit aliquip
-        cupidatat laboris tempor proident nulla sit. Ea fugiat fugiat ipsum est
-        in veniam exercitation Lorem duis est non nostrud occaecat qui. Eu quis
-        nulla irure pariatur.
+        Voor de corona periode was ik cultureel ondernemer. Voornamelijk
+        werkzaam als educator, DJ, uitvoerend muzikant en componist. Nu heb ik
+        dezelfde obsessie met software ontwikkeling als dat ik vroeger had met
+        muziek maken.
       </Text>
       <Title p="md" order={2}>
         Nog meer text Wow!
@@ -58,6 +84,7 @@ export default function ContactPage() {
         in veniam exercitation Lorem duis est non nostrud occaecat qui. Eu quis
         nulla irure pariatur.
       </Text>
+      <Image pos="absolute" src={joram} h={300} w="auto" left="50%" />
     </Container>
   );
 }
