@@ -6,12 +6,14 @@ import {
   Stack,
   useMantineTheme,
   Text,
+  Anchor,
 } from "@mantine/core";
 import { useState } from "react";
 
 const Uitleg = () => {
   const theme = useMantineTheme();
   const [value, onChange] = useState(0);
+
   return (
     <>
       <Container mb="xl">
@@ -94,13 +96,29 @@ const Uitleg = () => {
         </AspectRatio>
       </Container>
       <Container>
-        <Text pb="md">
-          Dit is een project voor Valk To Go om in-store dynamische en
-          customized videocontent af te spelen. Je kan zelf de achtergrondkleur
-          en de begroetingen instellen. De begroetingen worden aan de start van
-          de video getoont. De gehele animatie-laag heb ik gecreeerd in Da Vinci
-          Resolve.
+        <Text py="md">
+          Dit is een project voor Valk To Go om in-store dynamische / customized
+          videocontent af te spelen. Je kan zelf de achtergrondkleur en de
+          begroetingen instellen. De begroetingen worden aan de start van de
+          video getoont. De gehele animatie-laag heb ik zelfstandig ontworpen in
+          Da Vinci Resolve.
         </Text>
+        <Text py="md">
+          Persoonlijk ben ik erg tevreden over dit project. Er komen
+          verschillende disciplines bij elkaar samen: video-content,
+          interactieve interfaces en software development. En dit is de kant die
+          ik zelf het liefst verder op ga: multidisciplinaire digitale elementen
+          ontwikkelen.
+        </Text>
+
+        <Anchor
+          href={
+            "https://github.com/Joram3000/joram3000.github.io/tree/main/src/pages/valkdigital-page/videoplayer"
+          }
+          target="_blank"
+        >
+          <Text py="md">Hier is een link naar de github</Text>
+        </Anchor>
       </Container>
     </>
   );
