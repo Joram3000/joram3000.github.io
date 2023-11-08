@@ -7,7 +7,6 @@ import {
   Container,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import image3 from "../../assets/images/joramstudio.jpg";
 import skateboard from "../../assets/images/falusskateboard.webp";
 import treingv from "../../assets/music/treingv.mp3";
 import BlankWaveSurfer from "../../components/WaveSurferPlayer/BlankWaveSurfer";
@@ -57,8 +56,6 @@ export default function Aboutpage() {
       <UnstyledButton fw="700" onClick={toggle} mx="md">
         {!opened ? "Vertel me nog meer!!" : "Haal maar weer weg"}
       </UnstyledButton>
-
-      <Image src={image3} />
     </Container>
   );
 }
