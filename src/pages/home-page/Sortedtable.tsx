@@ -10,6 +10,7 @@ import {
   keys,
   Container,
   Anchor,
+  Title,
 } from "@mantine/core";
 import {
   IconSelector,
@@ -194,19 +195,24 @@ export function TableSort() {
 
   return (
     <Container>
-      <TextInput
-        placeholder="Search by any field"
-        mb="md"
-        leftSection={
-          <IconSearch
-            style={{ width: rem(16), height: rem(16) }}
-            stroke={1.5}
-          />
-        }
-        value={search}
-        onChange={handleSearchChange}
-      />
+      <Group align="flex-end" justify="space-between">
+        <Title mb="md" order={2}>
+          Gebruikte software:
+        </Title>
 
+        <TextInput
+          placeholder="Search by any field"
+          mb="md"
+          leftSection={
+            <IconSearch
+              style={{ width: rem(16), height: rem(16) }}
+              stroke={1.5}
+            />
+          }
+          value={search}
+          onChange={handleSearchChange}
+        />
+      </Group>
       <Table striped highlightOnHover withTableBorder layout="fixed">
         <Table.Thead>
           <Table.Tr>
