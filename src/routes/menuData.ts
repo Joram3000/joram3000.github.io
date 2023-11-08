@@ -12,5 +12,5 @@ export const menuData = [
   },
   { link: "about", label: "menu.about" },
   { link: "contact", label: "menu.contact" },
-  { link: "beatbattle", label: "menu.beatbattle" },
+  // { link: "beatbattle", label: "menu.beatbattle" },
 ];
