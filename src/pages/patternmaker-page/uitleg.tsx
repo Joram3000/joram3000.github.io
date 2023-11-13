@@ -10,30 +10,23 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const Uitleg = () => {
+  const { t } = useTranslation();
   const theme = useMantineTheme();
   const [value, onChange] = useState(0);
   return (
     <Container>
-      <Title py="md">De Patroonmaker</Title>
-      <Text py="md">Deze app is geoptimaliseerd voor een desktopbrowser.</Text>
-      <Text py="md">
-        Met deze app kan je je eigen ritme patroon creeren. Als je op Play drukt
-        kan je horen hoe het ritme klinkt. Terwijl je aan het rondklikken bent
-        blijft de 'muzikale tijd' doorgaan. Oftewel: de muziek wordt niet
-        onderbroken als je een nieuw ritme maakt, andere geluiden kiest of aan
-        de sliders zit.
-      </Text>
+      <Title pt="md">{t("patternMaker.title")}</Title>
+      <Text py="md">{t("patternMaker.description")}</Text>
+      <Text py="md">{t("patternMaker.usage")}</Text>
 
-      <Text py="md">
-        State-management wordt gedaan met Redux voor het actuele ritme, de
-        preset beats, de geluidskeuze en de sliders.
-      </Text>
+      <Text py="md">{t("patternMaker.stateManagement")}</Text>
 
       <Group justify="center">
         <Stack>
-          <Text>Hoe het werkt?</Text>
+          <Text>{t("patternMaker.howItWorksTitle")}</Text>
           <Slider
             min={0}
             max={25}
@@ -98,23 +91,9 @@ const Uitleg = () => {
         </AspectRatio>
       </div>
 
-      <Text py="md">
-        De achtergrond is een waveform-visualizer die geschreven is in de
-        creative coding library P5. De muziek zelf komt tot stand met Tone.JS,
-        een library die geschreven is over de Web Audio API heen. Die zorgt dat
-        de muzikale tijd doorgaat. De geluiden zijn opgeslagen binnen een aantal
-        samplers, die je kan selecteren met de knop linksboven.
-      </Text>
-
-      <Text py="md">
-        Rechtsboven kan je de preset beats selecteren en je eigen ritme opslaan.
-      </Text>
-
-      <Text py="md">
-        State-management wordt gedaan met Redux. Hier wordt oa huidige patroon
-        opgeslagen. Ook zijn hier de 4 presetbeats opgeslagen en de play-state
-        als het geselecteerde geluidsstijl
-      </Text>
+      <Text py="md">{t("patternMaker.howItWorksContent.0")}</Text>
+      <Text py="md">{t("patternMaker.howItWorksContent.1")}</Text>
+      <Text py="md">{t("patternMaker.howItWorksContent.2")}</Text>
 
       <Anchor
         href={
