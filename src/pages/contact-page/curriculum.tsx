@@ -1,5 +1,5 @@
-import { Accordion, Anchor, Group, Text } from "@mantine/core";
-import { lorem } from "../../helpers/helpers";
+import { Anchor, Text } from "@mantine/core";
+import { DataTable } from "mantine-datatable";
 
 const Curriculum: React.FC = () => {
   const curriculumVitae = [
@@ -20,7 +20,7 @@ const Curriculum: React.FC = () => {
     {
       start: "2020",
       finish: "2022",
-      title: "Muziekschool School of Beats",
+      title: "Oprichten Muziekschool",
       company: "School Of Beats",
       url: "https://schoolofbeats.nl/",
     },
@@ -35,26 +35,23 @@ const Curriculum: React.FC = () => {
       start: "2019",
       finish: "2020",
       title: "Organisator Rarara-evenementen",
-      description: lorem.generateParagraphs(1),
     },
     {
       start: "2017",
       finish: "2020",
-      title: "Artistiek coördinator en docent bij de Boempatsers",
+      title: "Artistiek coördinator & docent bij de Boempatsers",
       company: "Cultuurhuis Kanaleneiland",
       url: "https://bokscultuurhuis.nl/",
     },
     {
       start: "2017",
       finish: "2018",
-      title:
-        "Oprichter Sound Safari – Muziekworkshops in gesloten inrichtingen",
-      description: lorem.generateParagraphs(1),
+      title: "Muziekworkshops in gesloten inrichtingen",
     },
     {
       start: "2016",
       finish: "2018",
-      title: "Projectmanager evenementen bij Safari & Bankra Bike Soundsystem",
+      title: "Projectmanager evenementen",
       company: "Bankra Bike",
       url: "https://bankrabike.nl/",
     },
@@ -72,15 +69,14 @@ const Curriculum: React.FC = () => {
     {
       start: "2014",
       finish: "2016",
-      title: "Docent percussie bij project Muziekroute",
+      title: "Docent percussie",
       company: "Muziekroute",
       url: "https://www.muziekroute.nl/",
-      description: lorem.generateParagraphs(1),
     },
     {
       start: "2013",
       finish: "2016",
-      title: "Docent Dj & Synthese/Sound Design bij",
+      title: "Docent Dj & Synthese/Sound Design",
       company: "Emstudios Academy Of Sound",
     },
     {
@@ -104,7 +100,7 @@ const Curriculum: React.FC = () => {
     {
       start: "2010",
       finish: "2022",
-      title: "Ondernemer bij Prace Music, freelance en autonoom",
+      title: "Cultureel ondernemer bij Prace Music",
     },
     {
       start: "2009",
@@ -120,41 +116,49 @@ const Curriculum: React.FC = () => {
       start: "2004",
       finish: "2021",
       title: "DJ, Pianist, Performer bij diverse evenementen",
-      description: "",
     },
   ];
 
-  const jobs = curriculumVitae.map((job, i) => (
-    <Accordion.Item key={i} value={job.title}>
-      <Accordion.Control chevron={job.description ? false : true}>
-        <Group justify="space-between">
-          <Group>
+  return (
+    <DataTable
+      withTableBorder
+      striped
+      highlightOnHover
+      records={curriculumVitae} //{curriculumVitaeRecords}
+      columns={[
+        {
+          accessor: "start",
+          render: (item) => (
             <Text>
-              {job.start}-{job.finish}
+              {item.start}-{item.finish}
             </Text>
-            <Text>{job.title}</Text>
-          </Group>
-
-          <Text ta="right">
-            {job.url ? (
-              <Anchor href={job.url} target="_blank">
-                {job.company}
+          ),
+        },
+        {
+          accessor: "title",
+          render: (item, i) => <Text key={i}>{item.title}</Text>,
+        },
+        {
+          accessor: "company",
+          render: (item) =>
+            item.url ? (
+              <Anchor href={item.url} target="_blank">
+                {item.company}
               </Anchor>
             ) : (
-              job.company
-            )}
-          </Text>
-        </Group>
-      </Accordion.Control>
-
-      {job.description && <Accordion.Panel>{job.description}</Accordion.Panel>}
-    </Accordion.Item>
-  ));
-
-  return (
-    <Accordion variant="contained" transitionDuration={400}>
-      {jobs}
-    </Accordion>
+              <Text>{item.company}</Text>
+            ),
+        },
+      ]}
+      idAccessor={({ title, company }) => `${title}:${company}`}
+      // rowExpansion={{
+      //   content: ({ record }) => (
+      //     <Box m="md">
+      //       <Text>{record.description}</Text>
+      //     </Box>
+      //   ),
+      // }}
+    />
   );
 };
 
