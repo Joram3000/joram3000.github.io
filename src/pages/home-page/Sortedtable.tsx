@@ -19,6 +19,7 @@ import {
   IconSearch,
 } from "@tabler/icons-react";
 import { truncateHttps } from "../../helpers/helpers";
+import { useTranslation } from "react-i18next";
 
 interface RowData {
   name: string;
@@ -151,6 +152,7 @@ const tableData = [
 ];
 
 export function TableSort() {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState(tableData);
   const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
@@ -194,10 +196,10 @@ export function TableSort() {
   ));
 
   return (
-    <Container>
+    <Container p={0}>
       <Group align="flex-end" justify="space-between">
         <Title mb="md" order={2}>
-          Gebruikte software:
+          {t("home.usedSoftware")}
         </Title>
 
         <TextInput

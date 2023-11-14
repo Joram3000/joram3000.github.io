@@ -34,10 +34,10 @@ const nl = {
     howItWorksTitle: "Hoe het werkt?",
     howItWorksContent: [
       "De achtergrond is een waveform-visualizer die geschreven is in de creative coding library P5. De muziek zelf komt tot stand met Tone.JS, een library die geschreven is over de Web Audio API heen. Die zorgt dat de muzikale tijd doorgaat. De geluiden zijn opgeslagen binnen een aantal samplers, die je kan selecteren met de knop linksboven.",
-      "Rechtsboven kan je de preset beats selecteren en je eigen ritme opslaan.",
+      "Rechtsboven kan je de preset beats selecteren.",
       "State-management wordt gedaan met Redux. Hier wordt o.a. het huidige patroon opgeslagen. Ook zijn hier de 4 presetbeats opgeslagen en de play-state als het geselecteerde geluidsstijl.",
     ],
-    githubLink: "Hier is een link naar de github",
+    githubLink: "Hier is een link naar de Github",
   },
   menu: {
     home: "Huis",

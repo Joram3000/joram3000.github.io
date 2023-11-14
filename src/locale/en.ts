@@ -35,10 +35,10 @@ const en: Translation = {
     howItWorksTitle: "How It Works?",
     howItWorksContent: [
       "The background is a waveform visualizer written in the creative coding library P5. The music itself is generated using Tone.JS, a library written over the Web Audio API. It ensures that the musical time continues. The sounds are stored within a set of samplers, which you can select with the button in the top left.",
-      "In the top right, you can select the preset beats and save your own rhythm.",
+      "In the top right, you can select the preset beats.",
       "State management is done with Redux. Here, the current pattern is saved, along with the 4 preset beats and the play state for the selected sound style.",
     ],
-    githubLink: "Here is a link to gitHub",
+    githubLink: "Here is a link to GitHub",
   },
   menu: {
     home: "Home",
