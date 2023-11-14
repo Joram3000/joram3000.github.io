@@ -8,11 +8,9 @@ import { ParallaxProvider } from "react-scroll-parallax";
 import "@mantine/core/styles.css";
 import "@mantine/carousel/styles.css";
 import "mantine-datatable/styles.css";
-import "./layout.css";
 import Root from "./routes/root";
 import ContestPage from "./pages/beatbattle-page/contestpage";
 import ValkWorkIn from "./pages/valkdigital-page/ValkWorkIn";
-import ValkWorkItem from "./pages/valkdigital-page/ValkWorkItem";
 import TwistCards from "./pages/test-page/TwistCards";
 import HomePage from "./pages/home-page";
 import ErrorPage from "./pages/error-page";
@@ -38,7 +36,6 @@ const router = createHashRouter([
       { path: "/beatbattle", element: <BeatBattleHomePage /> },
       { path: "/beatbattle/:id", element: <ContestPage /> },
       { path: "/valkdigital", element: <ValkWorkIn /> },
-      { path: "/valkdigital/:id", element: <ValkWorkItem /> },
       { path: "/valkdigital/narrowcasting", element: <VideoPlayer /> },
       { path: "/valkdigital/interfacesounddesign", element: <SoundDesign /> },
     ],
