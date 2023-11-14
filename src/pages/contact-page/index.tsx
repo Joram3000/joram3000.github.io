@@ -42,7 +42,7 @@ export default function ContactPage() {
     <Container>
       <Title pt="md">Contact</Title>
 
-      <Stack pt="md">
+      <Stack py="md">
         {contactInfo.map((contactItem) => (
           <Group key={contactItem.text}>
             {contactItem.icon}
