@@ -20,6 +20,7 @@ import PatternMakerPage from "./pages/patternmaker-page";
 import VideoPlayer from "./pages/valkdigital-page/videoplayer/Videoplayer";
 import BeatBattleHomePage from "./pages/beatbattle-page/index";
 import SoundDesign from "./pages/valkdigital-page/sounddesign/Sounddesign";
+import Overige from "./pages/valkdigital-page/Overige/Overige";
 
 const router = createHashRouter([
   {
@@ -38,6 +39,7 @@ const router = createHashRouter([
       { path: "/valkdigital", element: <ValkWorkIn /> },
       { path: "/valkdigital/narrowcasting", element: <VideoPlayer /> },
       { path: "/valkdigital/interfacesounddesign", element: <SoundDesign /> },
+      { path: "/valkdigital/overige", element: <Overige /> },
     ],
   },
 ]);
