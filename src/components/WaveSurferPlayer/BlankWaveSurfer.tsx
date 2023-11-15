@@ -67,7 +67,7 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
   }, [wavesurfer]);
 
   return (
-    <Box p="md">
+    <Box>
       <Text fw={700}>Playing Region: {activeRegion?.id ?? "-"}</Text>
       <Group justify="space-around" grow>
         <Text>{currentTime.toFixed(2)}</Text>

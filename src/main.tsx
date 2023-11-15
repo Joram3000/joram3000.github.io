@@ -21,6 +21,7 @@ import VideoPlayer from "./pages/valkdigital-page/videoplayer/Videoplayer";
 import BeatBattleHomePage from "./pages/beatbattle-page/index";
 import SoundDesign from "./pages/valkdigital-page/sounddesign/Sounddesign";
 import Overige from "./pages/valkdigital-page/Overige/Overige";
+import AudioplayerPage from "./pages/audioplayer-page";
 
 const router = createHashRouter([
   {
@@ -31,6 +32,7 @@ const router = createHashRouter([
       { path: "/", element: <HomePage /> },
       { path: "/*", element: <HomePage /> },
       { path: "/patternmaker", element: <PatternMakerPage /> },
+      { path: "/audioplayer", element: <AudioplayerPage /> },
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },
       { path: "/css", element: <TwistCards count={32} speed={8} /> },
