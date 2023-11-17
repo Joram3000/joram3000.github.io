@@ -47,7 +47,6 @@ const ar: Translation = {
     valkDigital: "Valk Digital",
     about: "عن",
     contact: "اتصال",
-    css: "امتحان",
     beatbattle: "يهزم",
   },
 };
