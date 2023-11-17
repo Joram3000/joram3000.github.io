@@ -18,7 +18,7 @@ const Uitleg = () => {
     <>
       <Container mb="xl">
         <Group w="100%" justify="center" mt="xl">
-          <Stack>
+          <Stack pb="xl">
             <Text>Hoe het werkt?</Text>
             <Slider
               min={0}

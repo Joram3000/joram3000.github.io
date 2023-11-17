@@ -25,7 +25,7 @@ const Uitleg = () => {
       <Text py="md">{t("patternMaker.stateManagement")}</Text>
 
       <Group justify="center">
-        <Stack>
+        <Stack pb="xl">
           <Text>{t("patternMaker.howItWorksTitle")}</Text>
           <Slider
             min={0}
