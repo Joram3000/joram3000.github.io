@@ -8,6 +8,7 @@ const SoundDesign = () => {
     <Container>
       <Title pt="md">Interface sound design</Title>
       <Text py="md">Research & Sound voor de zelfscan kassa</Text>
+      
     </Container>
   );
 };

@@ -28,7 +28,7 @@ export default function ContactPage() {
     },
     {
       icon: <IconBrandInstagram />,
-      text: "Instagram/Pracemusic",
+      text: "Instagram/pracemusic",
       url: "https://www.instagram.com/pracemusic",
     },
     {
