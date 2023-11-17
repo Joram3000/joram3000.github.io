@@ -113,6 +113,7 @@ const tableData = [
     url: "https://parallax-controller.damnthat.tv",
     typeOf: "Animation",
   },
+  { name: "React SVGR", url: "https://react-svgr.com", typeOf: "Utility" },
   {
     name: "React Spring",
     url: "https://react-spring.dev",
@@ -148,6 +149,21 @@ const tableData = [
     name: "DaVinci Resolve",
     url: "https://blackmagicdesign.com",
     typeOf: "Video Editor",
+  },
+  {
+    name: "Jest",
+    url: "https://jestjs.io",
+    typeOf: "Testing",
+  },
+  {
+    name: "Storybook",
+    url: "https://storybook.js.org",
+    typeOf: "Prototyping",
+  },
+  {
+    name: "Cypress",
+    url: "https://go.cypress.io",
+    typeOf: "Testing",
   },
 ];
 

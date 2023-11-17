@@ -1,7 +1,7 @@
 import { Image, Container, Text, Title, Group } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { TableSort } from "./Sortedtable";
-import pino from "../../assets/images/pino.webp";
+import pino from "../../assets/images/meme/pino.webp";
 
 export default function HomePage() {
   const { t } = useTranslation();

@@ -17,7 +17,7 @@ import { isSafari } from "react-device-detect";
 import safariVideo from "../../../assets/video/animation09.mp4";
 import chromeVideo from "../../../assets/video/animation09-vp9-chrome.webm";
 import feather from "../../../assets/images/feather.png";
-import DrawerComponent from "../../../components/drawer/DrawerComponent";
+import DrawerComponent from "../../../components/drawer/Drawer";
 import Uitleg from "./Uitleg";
 import vtgnarrowcastingdesign from "../../../assets/images/vtgnarrowcastingdesign.webp";
 

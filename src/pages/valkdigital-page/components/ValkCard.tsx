@@ -1,5 +1,5 @@
 import { Card, Image, Text } from "@mantine/core";
-import pisa from "../../../assets/images/pisa.webp";
+import pisa from "../../../assets/images//meme/pisa.webp";
 
 interface content {
   projectNaam: string;

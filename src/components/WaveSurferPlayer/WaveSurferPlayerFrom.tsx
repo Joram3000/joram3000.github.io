@@ -28,7 +28,7 @@ import {
   IconSquareRoundedChevronRight,
   IconCircle,
 } from "@tabler/icons-react";
-import PitchSlider from "./pitch-slider";
+import PitchSlider from "./PitchSlider";
 import { useDisclosure } from "@mantine/hooks";
 import { useWavesurfer } from "./WaveSurferHook";
 

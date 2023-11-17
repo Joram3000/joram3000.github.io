@@ -27,7 +27,7 @@ import CustomDoubleSlider from "./components/CustomDoubleSlider";
 import CustomSlider from "./components/CustomSlider";
 import TransporterButton from "./components/TransporterButton";
 import P5WaveFormSketchWrapper from "./components/P5WaveFormSketchWrapper";
-import DrawerComponent from "../../components/drawer/DrawerComponent";
+import DrawerComponent from "../../components/drawer/Drawer";
 import Uitleg from "./Uitleg";
 
 const output = new Tone.Volume(-12).toDestination();

@@ -5,7 +5,7 @@ import { getUIStateSelector } from "../../store/ui/selectors";
 import { IconQuestionMark } from "@tabler/icons-react";
 
 interface DrawerComponentProps {
-  uitleg: any;
+  uitleg: React.ReactNode;
 }
 
 const DrawerComponent: React.FC<DrawerComponentProps> = ({ uitleg }) => {

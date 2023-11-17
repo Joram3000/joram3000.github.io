@@ -1,0 +1,30 @@
+.control {
+  background-color: transparent;
+  border: 0;
+  &[data-inactive] {
+    opacity: 0;
+    cursor: default;
+  }
+}
+
+.indicator {
+  background-color: blueviolet;
+}
+
+.mobileIndicators {
+  z-index: 210;
+  position: fixed;
+  top: calc(100vh - 35px);
+}
+
+.LeftArrow {
+  position: fixed;
+  bottom: 50vh;
+  left: 8;
+}
+
+.RightArrow {
+  position: fixed;
+  bottom: 50vh;
+  right: 8;
+}

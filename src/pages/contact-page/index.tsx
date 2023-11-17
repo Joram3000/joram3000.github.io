@@ -7,14 +7,14 @@ import {
   Stack,
   Anchor,
 } from "@mantine/core";
-import Curriculum from "./curriculum";
+import Curriculum from "./Curriculum";
 import {
   IconAppWindow,
   IconBrandInstagram,
   IconMail,
   IconPhone,
 } from "@tabler/icons-react";
-import joram from "../../assets/images/joramcutout.webp";
+import joram from "../../assets/images/joram/joramcutout.webp";
 
 export default function ContactPage() {
   const contactInfo = [

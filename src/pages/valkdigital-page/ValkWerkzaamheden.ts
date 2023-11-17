@@ -15,14 +15,9 @@ export const ValkWerkzaamheden = [
     projectOmschrijving: "Voor de zelfscankassa bij de togo shops",
     img: sounddesignvtg2,
   },
-  // {
-  //   projectNaam: "Vex",
-  //   projectUrl: "vex",
-  //   projectOmschrijving: "Hotel & restaurant boeken",
-  // },
-  // {
-  //   projectNaam: "Overige Apps",
-  //   projectUrl: "overig",
-  //   projectOmschrijving: "HKTD, Valkwork, UI-kit",
-  // },
+  {
+    projectNaam: "Overige",
+    projectUrl: "overige",
+    projectOmschrijving: "Vex, Valkwork, HKTD, UI-kit",
+  },
 ];

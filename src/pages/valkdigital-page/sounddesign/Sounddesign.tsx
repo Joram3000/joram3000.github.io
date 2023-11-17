@@ -1,8 +1,8 @@
 import { Container, Text, Title } from "@mantine/core";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 
 const SoundDesign = () => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   return (
     <Container>
