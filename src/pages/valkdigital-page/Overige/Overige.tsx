@@ -1,10 +1,10 @@
 import { Carousel } from "@mantine/carousel";
 import { Box, Container, Flex, Paper, Text, Title } from "@mantine/core";
 import ReactPlayer from "react-player";
-import vex from "../../../assets/video/schermopnamen/vex.webm";
-import valkwork from "../../../assets/video/schermopnamen/valkwork.webm";
-import uikit from "../../../assets/video/schermopnamen/uikit.webm";
-import hktdmobile from "../../../assets/video/schermopnamen/hktdmobile.webm";
+// import vex from "../../../assets/video/schermopnamen/vex.webm";
+// import valkwork from "../../../assets/video/schermopnamen/valkwork.webm";
+// import uikit from "../../../assets/video/schermopnamen/uikit.webm";
+// import hktdmobile from "../../../assets/video/schermopnamen/hktdmobile.webm";
 import classes from "./overige.module.css";
 import {
   IconArrowBigLeftFilled,
@@ -18,7 +18,8 @@ const Overige = () => {
       title: "Valk Exclusief",
       description:
         "Met de VEX app kan je hotels en restaurants boeken. Deze app is voor gasten en bezoekers. Ik heb gewerkt aan vele componenten en optimalisaties.",
-      visual: vex,
+      visual:
+        "https://res.cloudinary.com/dqqb0ldgk/video/upload/v1700230515/vex_xuecrw.webm",
       tasks: [
         "Unit tests schrijven voor het homescherm",
         "verbeteren restaurantserveringen",
@@ -34,7 +35,8 @@ const Overige = () => {
       title: "ValkWork",
       description:
         "Deze app wordt gebruikt door medewerkers van Van der Valk Hotels. Met deze app kan je bijvoorbeeld verlof aanvragen, of een hotel boeken met medewerkerskorting.",
-      visual: valkwork,
+      visual:
+        "https://res.cloudinary.com/dqqb0ldgk/video/upload/v1700230484/valkwork_qqxzcz.webm",
       tasks: [
         "nieuwe componenten maken",
         "nieuwe schermen ontwikkelen zoals personeels-voordeel",
@@ -60,7 +62,8 @@ const Overige = () => {
       title: "UI-Kit",
       description:
         "deze UI-Kit wordt gebruikt in oa Valk Exclusief en ValkWork.",
-      visual: uikit,
+      visual:
+        "https://res.cloudinary.com/dqqb0ldgk/video/upload/v1700230502/uikit_eekx29.webm",
       tasks: [
         "nieuwe componenten ontwikkelen zoals de button Carousel",
         "nieuwe schermen ontwikkelen",
@@ -72,7 +75,8 @@ const Overige = () => {
       title: "HKTD",
       description:
         "House Keeping & Technische Dienst. Deze app wordt in de hotels gebruikt door de schoonmaakploeg en de reparateurs. Zodat ze weten welke kamers moeten worden schoongemaakt en waar er een lampje vervangen moet worden.",
-      visual: hktdmobile,
+      visual:
+        "https://res.cloudinary.com/dqqb0ldgk/video/upload/v1700230485/hktdmobile_k1bonh.webm",
       tasks: [
         "translations",
         "aanpassen volgorde tabs",
