@@ -8,7 +8,6 @@ import {
 } from "@mantine/core";
 import joramStudio from "../../assets/images/joram/joramstudio.webp";
 import codaisseur from "../../assets/images/joram/codaisseur.jpg";
-import snowboardensquare from "../../assets/video/snowboardensquare.webm";
 import pressprace from "../../assets/images/joram/prace1bewerkt.webp";
 import { useTranslation } from "react-i18next";
 import ReactPlayer from "react-player";
@@ -31,7 +30,7 @@ export default function Aboutpage() {
             loop
             playing
             muted
-            url={snowboardensquare}
+            url="https://res.cloudinary.com/dqqb0ldgk/video/upload/v1700230817/snowboardensquare_pone2m.webm"
             width="100%"
             height="100%"
           />
