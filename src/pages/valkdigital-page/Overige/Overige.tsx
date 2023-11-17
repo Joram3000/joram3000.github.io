@@ -1,10 +1,10 @@
 import { Carousel } from "@mantine/carousel";
 import { Box, Container, Flex, Paper, Text, Title } from "@mantine/core";
 import ReactPlayer from "react-player";
-import vex from "./schermopnamen/vex.mp4";
-import valkwork from "./schermopnamen/valkwork.mp4";
-import uikit from "./schermopnamen/uikit.mp4";
-import hktdmobile from "./schermopnamen/hktdmobile.mp4";
+import vex from "./schermopnamen/vex.webm";
+import valkwork from "./schermopnamen/valkwork.webm";
+import uikit from "./schermopnamen/uikit.webm";
+import hktdmobile from "./schermopnamen/hktdmobile.webm";
 
 import classes from "./overige.module.css";
 import {

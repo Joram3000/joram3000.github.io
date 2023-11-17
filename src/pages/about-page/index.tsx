@@ -8,9 +8,7 @@ import {
 } from "@mantine/core";
 import joramStudio from "../../assets/images/joram/joramstudio.webp";
 import codaisseur from "../../assets/images/joram/codaisseur.jpg";
-import fototje from "../../assets/images/joram/IMG-20211028-WA0010.jpg";
-import snowboardensquare from "../../assets/video/snowboardensquare.mp4";
-import piraat from "../../assets/images/joram/piraat.jpg";
+import snowboardensquare from "../../assets/video/snowboardensquare.webm";
 import pressprace from "../../assets/images/joram/prace1bewerkt.webp";
 import { useTranslation } from "react-i18next";
 import ReactPlayer from "react-player";
@@ -29,9 +27,6 @@ export default function Aboutpage() {
           <Image src={joramStudio} />
         </AspectRatio>
         <AspectRatio ratio={1 / 1}>
-          <Image src={piraat} />
-        </AspectRatio>
-        <AspectRatio ratio={1 / 1}>
           <ReactPlayer
             loop
             playing
@@ -44,9 +39,7 @@ export default function Aboutpage() {
         <AspectRatio ratio={1 / 1}>
           <Image src={pressprace} />
         </AspectRatio>
-        <AspectRatio ratio={1 / 1}>
-          <Image src={fototje} />
-        </AspectRatio>
+
         <AspectRatio ratio={1 / 1}>
           <Image src={codaisseur} />
         </AspectRatio>
