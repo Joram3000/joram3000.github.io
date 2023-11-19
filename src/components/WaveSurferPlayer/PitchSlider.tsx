@@ -12,7 +12,10 @@ const PitchSlider: React.FC<PitchSliderProps> = ({ changePitch }) => {
 
   const setter = (y: number) => {
     setValue(y);
-    changePitch(y * 2);
+    // changePitch(y * 0.25 + 0.875);
+    // changePitch(y * 0.5 + 0.75);
+    // changePitch(y * 1 + 0.5);
+    changePitch(y * 2 + 0);
   };
 
   return (

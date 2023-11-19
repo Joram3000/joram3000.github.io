@@ -26,20 +26,19 @@ export default function AudioplayerPage() {
       <Title order={2} pt="md">
         Wat moet er nog gebeuren?
       </Title>
-      <Text>
-        <ul>
-          <li>
-            Als je op de waveform sleept/dubbel-klikt kan je een Region
-            maken/verwijderen
-          </li>
-          <li>Het is leuk als je de Regions + hot-cues een naam kan geven</li>
-          <li>Boven de waveform kan je lezen welke Region er gespeeld wordt</li>
-          <li>De loop-knop werkt nog niet</li>
-          <li>De ronde knop moet werken zoals de cue-knop van een DJ-set</li>
-          <li>Pitch update nog niet realtime (dubbel-klik is terug naar 0%)</li>
-          <li>Scroll-zoom werkt ook nog niet optimaal</li>
-        </ul>
-      </Text>
+
+      <ul>
+        <li>
+          Als je op de waveform sleept/dubbel-klikt kan je een Region
+          maken/verwijderen
+        </li>
+        <li>Het is leuk als je de Regions + hot-cues een naam kan geven</li>
+        <li>Boven de waveform kan je lezen welke Region er gespeeld wordt</li>
+        <li>De loop-knop werkt nog niet</li>
+        <li>De ronde knop moet werken zoals de cue-knop van een DJ-set</li>
+        <li>Pitch update nog niet realtime (dubbel-klik is terug naar 0%)</li>
+        <li>Scroll-zoom werkt ook nog niet optimaal</li>
+      </ul>
     </Container>
   );
 }

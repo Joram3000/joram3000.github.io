@@ -6,7 +6,15 @@ import React, {
   RefObject,
 } from "react";
 import { WaveSurferOptions } from "wavesurfer.js";
-import { ActionIcon, Box, Flex, Group, Slider, Text } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Flex,
+  Group,
+  Slider,
+  Text,
+  VisuallyHidden,
+} from "@mantine/core";
 import {
   IconZoomIn,
   IconZoomOut,
@@ -32,15 +40,23 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [zoom, setZoom] = useState(10);
   const [follow, { toggle: toggleFollow }] = useDisclosure(true);
-  const [loop, setLoop] = useState<boolean>();
+  const [loop, setLoop] = useState<boolean>(false);
   const [activeRegion, setActiveRegion] = useState<Region | null>(null);
   const [cuePoint, setCuePoint] = useState<Region | null>(null);
 
   const onPlayClick = useCallback(() => {
     if (wavesurfer) {
-      wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer.play();
+      wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer?.playPause();
     }
   }, [wavesurfer, cuePoint]);
+
+  const onCueUp = () => {
+    const seekToPercentage =
+      cuePoint!.start / wavesurfer!.getDecodedData()!.duration;
+
+    wavesurfer?.pause();
+    wavesurfer?.seekTo(seekToPercentage);
+  };
 
   useEffect(() => {
     wavesurfer?.setOptions({ autoScroll: follow });
@@ -56,10 +72,6 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
       wavesurfer.on("pause", () => setIsPlaying(false)),
       wavesurfer.on("timeupdate", (currentTime) => setCurrentTime(currentTime)),
       wavesurfer.on("zoom", (e) => setZoom(e)),
-      // wavesurfer.on("scroll", () => console.log("SCROLLING")),
-      // wavesurfer.on("click", () => console.log("CLICK")),
-      // wavesurfer.on("dblclick", () => console.log("DOUBLE CLICK")),
-      // wavesurfer.on("drag", () => console.log("DRAGGING")),
     ];
     return () => {
       subscriptions.forEach((unsub) => unsub());
@@ -84,7 +96,7 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
         <Text>Pitch:{wavesurfer?.getPlaybackRate().toFixed(2)}</Text>
       </Group>
 
-      <Flex className="waveform-pitchfader" maw="144px%">
+      <Flex className="waveform-pitchfader">
         <div
           className="waveform-canvas"
           ref={containerRef}
@@ -100,7 +112,6 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
           }}
         />
       </Flex>
-
       <Group
         className="play-pause"
         py="xs"
@@ -113,7 +124,7 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
           </ActionIcon>
           <ActionIcon
             onMouseDown={() => cuePoint?.play()}
-            onMouseUp={() => wavesurfer?.stop()}
+            onMouseUp={onCueUp}
             bg="gray"
           >
             <IconCircle />
@@ -163,23 +174,25 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
           <IconVolume />
         </Group>
 
-        <Group justify="flex-end">
-          <IconZoomOut
-            onClick={() => zoom > 10 && wavesurfer?.zoom(zoom - 5)}
-          />
-          <Slider
-            p="0"
-            w="30%"
-            min={10}
-            max={300}
-            color="orange"
-            value={zoom}
-            onChange={(e) => wavesurfer?.zoom(e)}
-            size="lg"
-            showLabelOnHover={false}
-          />
-          <IconZoomIn onClick={() => wavesurfer?.zoom(zoom + 5)} />
-        </Group>
+        <VisuallyHidden>
+          <Group justify="flex-end">
+            <IconZoomOut
+              onClick={() => zoom > 10 && wavesurfer?.zoom(zoom - 5)}
+            />
+            <Slider
+              p="0"
+              w="30%"
+              min={10}
+              max={300}
+              color="orange"
+              value={zoom}
+              onChange={(e) => wavesurfer?.zoom(e)}
+              size="lg"
+              showLabelOnHover={false}
+            />
+            <IconZoomIn onClick={() => wavesurfer?.zoom(zoom + 5)} />
+          </Group>
+        </VisuallyHidden>
       </Group>
     </Box>
   );
