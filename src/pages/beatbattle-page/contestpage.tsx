@@ -7,7 +7,6 @@ import {
   Text,
   Stack,
   Group,
-  Box,
   Popover,
   Button,
   Container,
@@ -43,7 +42,7 @@ const ContestPage: React.FC = () => {
 
   return (
     <Container>
-      {/* <Stack bg="dark" m="md"> */}
+      <Stack bg="dark" m="md">
         <Group>
           <Popover position="bottom" withArrow shadow="md" width={"100%"}>
             <Popover.Target>
@@ -70,7 +69,7 @@ const ContestPage: React.FC = () => {
         </Group>
 
         <Title>inzendingen:</Title>
-        {/* <Carousel withIndicators getEmblaApi={setEmbla} loop>
+        <Carousel withIndicators getEmblaApi={setEmbla} loop>
           {contestSubmissions.map((beat: beat) => (
             <Carousel.Slide key={beat.numberOfUpvotes}>
               <SubmissionCard
@@ -85,8 +84,8 @@ const ContestPage: React.FC = () => {
               <DialogueCard reactions={beat.reactions} />
             </Carousel.Slide>
           ))}
-        </Carousel> */}
-      {/* </Stack> */}
+        </Carousel>
+      </Stack>
     </Container>
   );
 };
