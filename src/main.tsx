@@ -22,6 +22,7 @@ import BeatBattleHomePage from "./pages/beatbattle-page/index";
 import SoundDesign from "./pages/valkdigital-page/sounddesign/Sounddesign";
 import Overige from "./pages/valkdigital-page/Overige/Overige";
 import AudioplayerPage from "./pages/audioplayer-page";
+import MirjamKroonPage from "./pages/mirjamkroon-page";
 
 const router = createHashRouter([
   {
@@ -42,6 +43,7 @@ const router = createHashRouter([
       { path: "/valkdigital/narrowcasting", element: <VideoPlayer /> },
       { path: "/valkdigital/interfacesounddesign", element: <SoundDesign /> },
       { path: "/valkdigital/overige", element: <Overige /> },
+      { path: "/mirjamkroon", element: <MirjamKroonPage /> },
     ],
   },
 ]);

@@ -2,7 +2,16 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { getBeatStateSelector } from "../../store/beatbattle/selectors";
-import { Title, Text, Stack, Group, Box, Popover, Button } from "@mantine/core";
+import {
+  Title,
+  Text,
+  Stack,
+  Group,
+  Box,
+  Popover,
+  Button,
+  Container,
+} from "@mantine/core";
 import { Carousel, Embla } from "@mantine/carousel";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
@@ -33,8 +42,8 @@ const ContestPage: React.FC = () => {
   };
 
   return (
-    <Box>
-      <Stack bg="dark" m="md">
+    <Container>
+      {/* <Stack bg="dark" m="md"> */}
         <Group>
           <Popover position="bottom" withArrow shadow="md" width={"100%"}>
             <Popover.Target>
@@ -61,7 +70,7 @@ const ContestPage: React.FC = () => {
         </Group>
 
         <Title>inzendingen:</Title>
-        <Carousel withIndicators getEmblaApi={setEmbla} loop>
+        {/* <Carousel withIndicators getEmblaApi={setEmbla} loop>
           {contestSubmissions.map((beat: beat) => (
             <Carousel.Slide key={beat.numberOfUpvotes}>
               <SubmissionCard
@@ -76,9 +85,9 @@ const ContestPage: React.FC = () => {
               <DialogueCard reactions={beat.reactions} />
             </Carousel.Slide>
           ))}
-        </Carousel>
-      </Stack>
-    </Box>
+        </Carousel> */}
+      {/* </Stack> */}
+    </Container>
   );
 };
 
