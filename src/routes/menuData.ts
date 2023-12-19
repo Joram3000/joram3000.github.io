@@ -9,5 +9,6 @@ export const menuData = [
   { link: "about", label: "menu.about" },
   { link: "contact", label: "menu.contact" },
   { link: "beatbattle", label: "beatbattle" },
-  { link: "mirjamkroon", label: "mirjamkroon" },
+  { link: "mirjamkroonhomepage", label: "mirjamkroonhomepage" },
+  { link: "mirjamkroonabout", label: "mirjamkroonAbout" },
 ];
