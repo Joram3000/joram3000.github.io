@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "react"
 import {
   Table,
   UnstyledButton,
@@ -11,27 +11,27 @@ import {
   Container,
   Anchor,
   Title,
-} from "@mantine/core";
+} from "@mantine/core"
 import {
   IconSelector,
   IconChevronDown,
   IconChevronUp,
   IconSearch,
-} from "@tabler/icons-react";
-import { truncateHttps } from "../../helpers/helpers";
-import { useTranslation } from "react-i18next";
+} from "@tabler/icons-react"
+import { truncateHttps } from "../../helpers/helpers"
+import { useTranslation } from "react-i18next"
 
 interface RowData {
-  name: string;
-  url: string;
-  typeOf: string;
+  name: string
+  url: string
+  typeOf: string
 }
 
 interface ThProps {
-  children: React.ReactNode;
-  reversed: boolean;
-  sorted: boolean;
-  onSort(): void;
+  children: React.ReactNode
+  reversed: boolean
+  sorted: boolean
+  onSort(): void
 }
 
 function Th({ children, reversed, sorted, onSort }: ThProps) {
@@ -39,7 +39,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
     ? reversed
       ? IconChevronUp
       : IconChevronDown
-    : IconSelector;
+    : IconSelector
   return (
     <Table.Th>
       <UnstyledButton onClick={onSort}>
@@ -51,35 +51,35 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
         </Group>
       </UnstyledButton>
     </Table.Th>
-  );
+  )
 }
 function filterData(data: RowData[], search: string) {
-  const query = search.toLowerCase().trim();
+  const query = search.toLowerCase().trim()
   return data.filter((item) =>
-    keys(data[0]).some((key) => item[key].toLowerCase().includes(query))
-  );
+    keys(data[0]).some((key) => item[key].toLowerCase().includes(query)),
+  )
 }
 
 function sortData(
   data: RowData[],
-  payload: { sortBy: keyof RowData | null; reversed: boolean; search: string }
+  payload: { sortBy: keyof RowData | null; reversed: boolean; search: string },
 ) {
-  const { sortBy } = payload;
+  const { sortBy } = payload
 
   if (!sortBy) {
-    return filterData(data, payload.search);
+    return filterData(data, payload.search)
   }
 
   return filterData(
     [...data].sort((a, b) => {
       if (payload.reversed) {
-        return b[sortBy].localeCompare(a[sortBy]);
+        return b[sortBy].localeCompare(a[sortBy])
       }
 
-      return a[sortBy].localeCompare(b[sortBy]);
+      return a[sortBy].localeCompare(b[sortBy])
     }),
-    payload.search
-  );
+    payload.search,
+  )
 }
 
 const tableData = [
@@ -165,33 +165,43 @@ const tableData = [
     url: "https://go.cypress.io",
     typeOf: "Testing",
   },
-];
+  {
+    name: "Papaparse",
+    url: "https://papaparse.com  ",
+    typeOf: "Utility",
+  },
+  {
+    name: "SendGrid",
+    url: "https://docs.sendgrid.com/for-developers",
+    typeOf: "E-mail",
+  },
+]
 
 export function TableSort() {
-  const { t } = useTranslation();
-  const [search, setSearch] = useState("");
-  const [sortedData, setSortedData] = useState(tableData);
-  const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
-  const [reverseSortDirection, setReverseSortDirection] = useState(false);
+  const { t } = useTranslation()
+  const [search, setSearch] = useState("")
+  const [sortedData, setSortedData] = useState(tableData)
+  const [sortBy, setSortBy] = useState<keyof RowData | null>(null)
+  const [reverseSortDirection, setReverseSortDirection] = useState(false)
 
   const setSorting = (field: keyof RowData) => {
-    const reversed = field === sortBy ? !reverseSortDirection : false;
-    setReverseSortDirection(reversed);
-    setSortBy(field);
-    setSortedData(sortData(tableData, { sortBy: field, reversed, search }));
-  };
+    const reversed = field === sortBy ? !reverseSortDirection : false
+    setReverseSortDirection(reversed)
+    setSortBy(field)
+    setSortedData(sortData(tableData, { sortBy: field, reversed, search }))
+  }
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget;
-    setSearch(value);
+    const { value } = event.currentTarget
+    setSearch(value)
     setSortedData(
       sortData(tableData, {
         sortBy,
         reversed: reverseSortDirection,
         search: value,
-      })
-    );
-  };
+      }),
+    )
+  }
 
   const rows = sortedData.map((row) => (
     <Table.Tr key={row.name}>
@@ -209,7 +219,7 @@ export function TableSort() {
         </Text>
       </Table.Td>
     </Table.Tr>
-  ));
+  ))
 
   return (
     <Container p={0}>
@@ -261,5 +271,5 @@ export function TableSort() {
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
     </Container>
-  );
+  )
 }

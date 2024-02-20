@@ -16,7 +16,7 @@ export const truncateHttps = (string: string) => {
   return string.replace(regex, "");
 };
 
-export const randomColor = (opacity: number = 0.5) => {
+export const randomColor = (opacity: number = 0.5) : string=> {
   const random = (min: number, max: number) =>
     Math.random() * (max - min) + min;
   return `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(

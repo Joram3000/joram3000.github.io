@@ -1,6 +1,6 @@
 import { Container, SimpleGrid, Text, Title } from "@mantine/core";
 import { useTranslation } from "react-i18next";
-import ValkCard from "./components/ValkCard";
+import GridCard from "../../components/GridCard";
 import { ValkWerkzaamheden } from "./ValkWerkzaamheden";
 
 const ValkWorkIn = () => {
@@ -13,7 +13,7 @@ const ValkWorkIn = () => {
 
       <SimpleGrid py="md" cols={{ base: 1, sm: 2, lg: 4 }}>
         {ValkWerkzaamheden.map((project) => (
-          <ValkCard content={project} key={project.projectUrl} />
+          <GridCard content={project} key={project.projectUrl} />
         ))}
       </SimpleGrid>
     </Container>
