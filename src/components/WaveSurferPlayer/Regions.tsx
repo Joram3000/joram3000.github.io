@@ -28,64 +28,59 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
 
   useEffect(() => {
     if (wsRegions) {
-      wavesurfer.on("decode", () => {
-        wsRegions.enableDragSelection({
-          color: "rgba(255, 0, 0, 0.2)",
-        })
-        setCuePoint(
-          wsRegions.addRegion({
-            id: "CUE",
-            start: 5.05,
-            color: "orange",
-          }),
-        )
-        const seekToPercentage =
-          wsRegions.getRegions()[0].start /
-          wavesurfer!.getDecodedData()!.duration
-        wavesurfer?.seekTo(seekToPercentage)
-      })
-
-      wavesurfer.on("ready", () => {
-        wsRegions.on("region-double-clicked", (region: Region) => {
-          if (region !== wsRegions.getRegions()[0]) region.remove()
-          const newRegions = wsRegions.getRegions()
-          setSavedRegions([...newRegions])
-        })
-
-        wsRegions.on("region-created", () => {
-          const newRegions = wsRegions.getRegions()
-          setSavedRegions([...newRegions])
-        })
-
-        wsRegions.on("region-updated", () => {
-          const updatedCuepoint = wsRegions.getRegions()[0]
-          const seekToPercentage =
-            updatedCuepoint!.start / wavesurfer!.getDecodedData()!.duration
-          if (!wavesurfer.isPlaying()) wavesurfer?.seekTo(seekToPercentage)
-        })
-      })
-      wavesurfer.on("audioprocess", () => {
-        wsRegions.on("region-in", (region: Region) => {
-          setActiveRegion(region)
-        })
-        wsRegions.on("region-out", () => {
-          setActiveRegion(null)
-        })
-      })
-      if (wsRegions) {
-        const regionOutHandler = (region: Region) => {
-          region.play()
-        }
-
+      const regionOutHandler = (region: Region) => {
         if (loop) {
-          wsRegions.on("region-out", regionOutHandler)
+          region.play()
         } else {
-          wsRegions.un("region-out", regionOutHandler)
+          setActiveRegion(null)
         }
+      }
+      const subscriptions = [
+        wavesurfer.on("decode", () => {
+          wsRegions.enableDragSelection({
+            color: "rgba(255, 0, 0, 0.2)",
+          })
+          setCuePoint(
+            wsRegions.addRegion({
+              id: "CUE",
+              start: 5.05,
+              color: "orange",
+            }),
+          )
+          const seekToPercentage =
+            wsRegions.getRegions()[0].start /
+            wavesurfer!.getDecodedData()!.duration
+          wavesurfer?.seekTo(seekToPercentage)
+        }),
 
-        return () => {
-          wsRegions.un("region-out", regionOutHandler)
-        }
+        wavesurfer.on("ready", () => {
+          wsRegions.on("region-double-clicked", (region: Region) => {
+            if (region !== wsRegions.getRegions()[0]) region.remove()
+            const newRegions = wsRegions.getRegions()
+            setSavedRegions([...newRegions])
+          })
+
+          wsRegions.on("region-created", () => {
+            const newRegions = wsRegions.getRegions()
+            setSavedRegions([...newRegions])
+          })
+
+          wsRegions.on("region-updated", () => {
+            const updatedCuepoint = wsRegions.getRegions()[0]
+            const seekToPercentage =
+              updatedCuepoint!.start / wavesurfer!.getDecodedData()!.duration
+            if (!wavesurfer.isPlaying()) wavesurfer?.seekTo(seekToPercentage)
+          })
+        }),
+        wavesurfer.on("audioprocess", () => {
+          wsRegions.on("region-in", (region: Region) => {
+            setActiveRegion(region)
+          })
+        }),
+        wsRegions.on("region-out", regionOutHandler),
+      ]
+      return () => {
+        subscriptions.forEach((unsub) => unsub())
       }
     }
   }, [loop, setActiveRegion, setCuePoint, wavesurfer, wsRegions])
@@ -101,7 +96,6 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
                 color={theme.colors.yellow[9 - i]}
                 onClick={() => {
                   region.play()
-                  setActiveRegion(region)
                 }}
               >
                 {i}
