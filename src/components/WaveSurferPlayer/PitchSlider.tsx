@@ -1,22 +1,22 @@
-import { useState } from "react";
-import { Group, Stack, rem } from "@mantine/core";
-import { useMove } from "@mantine/hooks";
+import { useState } from "react"
+import { Group, Stack, rem } from "@mantine/core"
+import { useMove } from "@mantine/hooks"
 
 interface PitchSliderProps {
-  changePitch: (y: number) => void;
+  changePitch: (y: number) => void
 }
 
 const PitchSlider: React.FC<PitchSliderProps> = ({ changePitch }) => {
-  const [value, setValue] = useState(0.5);
-  const { ref } = useMove(({ y }) => setter(y));
+  const [value, setValue] = useState(0.5)
+  const { ref } = useMove(({ y }) => setter(y))
 
   const setter = (y: number) => {
-    setValue(y);
+    setValue(y)
     // changePitch(y * 0.25 + 0.875);
     // changePitch(y * 0.5 + 0.75);
     // changePitch(y * 1 + 0.5);
-    changePitch(y * 2 + 0);
-  };
+    changePitch(y * 2 + 0)
+  }
 
   return (
     <Stack bg="gray" p="sm" style={{ borderRadius: "6px" }}>
@@ -49,7 +49,7 @@ const PitchSlider: React.FC<PitchSliderProps> = ({ changePitch }) => {
 
       {/* <Text ta="center">{(value * 2).toFixed(1)}</Text> */}
     </Stack>
-  );
-};
+  )
+}
 
-export default PitchSlider;
+export default PitchSlider

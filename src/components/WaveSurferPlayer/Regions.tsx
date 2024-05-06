@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import WaveSurfer from "wavesurfer.js";
-import RegionsPlugin, { Region } from "wavesurfer.js/dist/plugins/regions.js";
-import { Button, Group, useMantineTheme, Stack } from "@mantine/core";
+import React, { useState, useEffect } from "react"
+import WaveSurfer from "wavesurfer.js"
+import RegionsPlugin, { Region } from "wavesurfer.js/dist/plugins/regions.js"
+import { Button, Group, useMantineTheme, Stack } from "@mantine/core"
 
 interface RegionsFileProps {
-  wavesurfer: WaveSurfer;
-  setActiveRegion: (region: Region | null) => void;
-  setCuePoint: (region: Region | null) => void;
-  loop?: boolean;
+  wavesurfer: WaveSurfer
+  setActiveRegion: (region: Region | null) => void
+  setCuePoint: (region: Region | null) => void
+  loop?: boolean
 }
 
 const RegionsFile: React.FC<RegionsFileProps> = ({
@@ -16,79 +16,79 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
   setCuePoint,
   loop,
 }) => {
-  const theme = useMantineTheme();
-  const [wsRegions, setWsRegions] = useState<RegionsPlugin | null>(null);
-  const [savedRegions, setSavedRegions] = useState<Region[] | null>([]);
+  const theme = useMantineTheme()
+  const [wsRegions, setWsRegions] = useState<RegionsPlugin | null>(null)
+  const [savedRegions, setSavedRegions] = useState<Region[] | null>([])
 
   useEffect(() => {
     if (wavesurfer) {
-      setWsRegions(wavesurfer.registerPlugin(RegionsPlugin.create()));
+      setWsRegions(wavesurfer.registerPlugin(RegionsPlugin.create()))
     }
-  }, [wavesurfer]);
+  }, [wavesurfer])
 
   useEffect(() => {
     if (wsRegions) {
       wavesurfer.on("decode", () => {
         wsRegions.enableDragSelection({
           color: "rgba(255, 0, 0, 0.2)",
-        });
+        })
         setCuePoint(
           wsRegions.addRegion({
             id: "CUE",
             start: 5.05,
             color: "orange",
-          })
-        );
+          }),
+        )
         const seekToPercentage =
           wsRegions.getRegions()[0].start /
-          wavesurfer!.getDecodedData()!.duration;
-        wavesurfer?.seekTo(seekToPercentage);
-      });
+          wavesurfer!.getDecodedData()!.duration
+        wavesurfer?.seekTo(seekToPercentage)
+      })
 
       wavesurfer.on("ready", () => {
         wsRegions.on("region-double-clicked", (region: Region) => {
-          if (region !== wsRegions.getRegions()[0]) region.remove();
-          const newRegions = wsRegions.getRegions();
-          setSavedRegions([...newRegions]);
-        });
+          if (region !== wsRegions.getRegions()[0]) region.remove()
+          const newRegions = wsRegions.getRegions()
+          setSavedRegions([...newRegions])
+        })
 
-        wsRegions.on("region-in", (region: Region) => setActiveRegion(region));
+        wsRegions.on("region-in", (region: Region) => setActiveRegion(region))
         wsRegions.on("region-out", () => {
-          setActiveRegion(null);
-        });
+          setActiveRegion(null)
+        })
 
         wsRegions.on("region-created", () => {
-          const newRegions = wsRegions.getRegions();
-          setSavedRegions([...newRegions]);
-        });
+          const newRegions = wsRegions.getRegions()
+          setSavedRegions([...newRegions])
+        })
 
         wsRegions.on("region-updated", () => {
-          const updatedCuepoint = wsRegions.getRegions()[0];
+          const updatedCuepoint = wsRegions.getRegions()[0]
           const seekToPercentage =
-            updatedCuepoint!.start / wavesurfer!.getDecodedData()!.duration;
-          if (!wavesurfer.isPlaying()) wavesurfer?.seekTo(seekToPercentage);
-        });
-      });
+            updatedCuepoint!.start / wavesurfer!.getDecodedData()!.duration
+          if (!wavesurfer.isPlaying()) wavesurfer?.seekTo(seekToPercentage)
+        })
+      })
     }
-  }, [wsRegions]);
+  }, [wsRegions])
 
   useEffect(() => {
     if (wsRegions) {
       const regionOutHandler = (region: Region) => {
-        region.play();
-      };
+        region.play()
+      }
 
       if (loop) {
-        wsRegions.on("region-out", regionOutHandler);
+        wsRegions.on("region-out", regionOutHandler)
       } else {
-        wsRegions.un("region-out", regionOutHandler);
+        wsRegions.un("region-out", regionOutHandler)
       }
 
       return () => {
-        wsRegions.un("region-out", regionOutHandler);
-      };
+        wsRegions.un("region-out", regionOutHandler)
+      }
     }
-  }, [loop, wsRegions]);
+  }, [loop, wsRegions])
 
   return (
     <Stack>
@@ -100,17 +100,17 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
                 key={i}
                 color={theme.colors.yellow[9 - i]}
                 onClick={() => {
-                  region.play();
-                  setActiveRegion(region);
+                  region.play()
+                  setActiveRegion(region)
                 }}
               >
                 {i}
               </Button>
-            )
+            ),
         )}
       </Group>
     </Stack>
-  );
-};
+  )
+}
 
-export default RegionsFile;
+export default RegionsFile

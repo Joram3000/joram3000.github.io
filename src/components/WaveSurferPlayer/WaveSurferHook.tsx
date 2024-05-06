@@ -1,28 +1,28 @@
-import { RefObject, useState, useEffect } from "react";
-import WaveSurfer, { WaveSurferOptions } from "wavesurfer.js";
-import HoverPlugin from "wavesurfer.js/dist/plugins/hover.js";
-import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline.js";
-import ZoomPlugin from "wavesurfer.js/dist/plugins/zoom.js";
+import { RefObject, useState, useEffect } from "react"
+import WaveSurfer, { WaveSurferOptions } from "wavesurfer.js"
+import HoverPlugin from "wavesurfer.js/dist/plugins/hover.js"
+import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline.js"
+import ZoomPlugin from "wavesurfer.js/dist/plugins/zoom.js"
 
 export const useWavesurfer = (
   containerRef: RefObject<HTMLDivElement>,
-  options: WaveSurferOptions
+  options: WaveSurferOptions,
 ): WaveSurfer | null => {
-  const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null);
+  const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null)
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current) return
     const ws = WaveSurfer.create({
       ...options,
       container: containerRef.current,
-    });
-    ws.registerPlugin(ZoomPlugin.create({ scale: 0.01 }));
+    })
+    ws.registerPlugin(ZoomPlugin.create({ scale: 0.01 }))
     ws.registerPlugin(
       HoverPlugin.create({
         lineColor: "#ff0000",
         lineWidth: 1,
-      })
-    );
+      }),
+    )
     ws.registerPlugin(
       TimelinePlugin.create({
         height: 40,
@@ -30,14 +30,14 @@ export const useWavesurfer = (
           color: "orange",
           transform: "translate(-0px,-40px)",
         },
-      })
-    );
+      }),
+    )
 
-    setWavesurfer(ws);
+    setWavesurfer(ws)
 
     return () => {
-      ws.destroy();
-    };
-  }, [options, containerRef]);
-  return wavesurfer;
-};
+      ws.destroy()
+    }
+  }, [options, containerRef])
+  return wavesurfer
+}
