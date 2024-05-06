@@ -48,19 +48,18 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
     if (wavesurfer) {
       wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer?.playPause()
     }
-  }, [wavesurfer, cuePoint])
+  }, [wavesurfer])
 
   const onCueUp = () => {
     const seekToPercentage =
       cuePoint!.start / wavesurfer!.getDecodedData()!.duration
-
     wavesurfer?.pause()
     wavesurfer?.seekTo(seekToPercentage)
   }
 
   useEffect(() => {
     wavesurfer?.setOptions({ autoScroll: follow })
-  }, [follow])
+  }, [follow, wavesurfer])
 
   useEffect(() => {
     if (!wavesurfer) return
