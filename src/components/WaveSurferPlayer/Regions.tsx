@@ -72,27 +72,23 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
           setActiveRegion(null)
         })
       })
-    }
-  }, [setActiveRegion, setCuePoint, wavesurfer, wsRegions])
+      if (wsRegions) {
+        const regionOutHandler = (region: Region) => {
+          region.play()
+        }
 
-  // looper
-  useEffect(() => {
-    if (wsRegions) {
-      const regionOutHandler = (region: Region) => {
-        region.play()
-      }
+        if (loop) {
+          wsRegions.on("region-out", regionOutHandler)
+        } else {
+          wsRegions.un("region-out", regionOutHandler)
+        }
 
-      if (loop) {
-        wsRegions.on("region-out", regionOutHandler)
-      } else {
-        wsRegions.un("region-out", regionOutHandler)
-      }
-
-      return () => {
-        wsRegions.un("region-out", regionOutHandler)
+        return () => {
+          wsRegions.un("region-out", regionOutHandler)
+        }
       }
     }
-  }, [loop, wsRegions])
+  }, [loop, setActiveRegion, setCuePoint, wavesurfer, wsRegions])
 
   return (
     <Stack>
