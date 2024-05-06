@@ -52,11 +52,6 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
           setSavedRegions([...newRegions])
         })
 
-        wsRegions.on("region-in", (region: Region) => setActiveRegion(region))
-        wsRegions.on("region-out", () => {
-          setActiveRegion(null)
-        })
-
         wsRegions.on("region-created", () => {
           const newRegions = wsRegions.getRegions()
           setSavedRegions([...newRegions])
@@ -69,9 +64,18 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
           if (!wavesurfer.isPlaying()) wavesurfer?.seekTo(seekToPercentage)
         })
       })
+      wavesurfer.on("audioprocess", () => {
+        wsRegions.on("region-in", (region: Region) => {
+          setActiveRegion(region)
+        })
+        wsRegions.on("region-out", () => {
+          setActiveRegion(null)
+        })
+      })
     }
-  }, [wsRegions])
+  }, [setActiveRegion, setCuePoint, wavesurfer, wsRegions])
 
+  // looper
   useEffect(() => {
     if (wsRegions) {
       const regionOutHandler = (region: Region) => {
