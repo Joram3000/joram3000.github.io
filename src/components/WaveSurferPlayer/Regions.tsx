@@ -6,20 +6,23 @@ import { Button, Group, useMantineTheme, Stack } from "@mantine/core"
 interface RegionsFileProps {
   wavesurfer: WaveSurfer
   setActiveRegion: (region: Region | null) => void
+  activeRegion: Region | null
   setCuePoint: (region: Region | null) => void
+  cuePoint: Region | null
   loop?: boolean
 }
 
 const RegionsFile: React.FC<RegionsFileProps> = ({
   wavesurfer,
   setActiveRegion,
+  activeRegion,
   setCuePoint,
+  cuePoint,
   loop,
 }) => {
   const theme = useMantineTheme()
   const [wsRegions, setWsRegions] = useState<RegionsPlugin | null>(null)
   const [savedRegions, setSavedRegions] = useState<Region[] | null>([])
-
   useEffect(() => {
     if (wavesurfer) {
       setWsRegions(wavesurfer.registerPlugin(RegionsPlugin.create()))
@@ -28,13 +31,6 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
 
   useEffect(() => {
     if (wsRegions) {
-      const regionOutHandler = (region: Region) => {
-        if (loop) {
-          region.play()
-        } else {
-          setActiveRegion(null)
-        }
-      }
       const subscriptions = [
         wavesurfer.on("decode", () => {
           wsRegions.enableDragSelection({
@@ -66,24 +62,57 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
           })
 
           wsRegions.on("region-updated", () => {
+            console.log("region-updated")
             const updatedCuepoint = wsRegions.getRegions()[0]
             const seekToPercentage =
               updatedCuepoint!.start / wavesurfer!.getDecodedData()!.duration
             if (!wavesurfer.isPlaying()) wavesurfer?.seekTo(seekToPercentage)
           })
         }),
-        wavesurfer.on("audioprocess", () => {
-          wsRegions.on("region-in", (region: Region) => {
-            setActiveRegion(region)
-          })
+        // wavesurfer.on("click", (e) => {
+        //   const percentage = e
+        //   // console.log("percentage", percentage)
+        //   wavesurfer.seekTo(percentage)
+        // }),
+        wsRegions.on("region-in", (region: Region) => {
+          setActiveRegion(region)
         }),
-        wsRegions.on("region-out", regionOutHandler),
+        wsRegions.on("region-out", (region: Region) => {
+          if (region === cuePoint) {
+            setActiveRegion(null)
+            const seekToPercentage =
+              cuePoint.start / wavesurfer.getDecodedData()!.duration
+            wavesurfer.seekTo(seekToPercentage)
+          } else if (loop) {
+            setActiveRegion(region)
+            region.play()
+          } else {
+            setActiveRegion(null)
+            console.log("last active region", region.id, "nou NULLED")
+          }
+        }),
       ]
       return () => {
         subscriptions.forEach((unsub) => unsub())
       }
     }
-  }, [loop, setActiveRegion, setCuePoint, wavesurfer, wsRegions])
+  }, [
+    activeRegion,
+    cuePoint,
+    loop,
+    savedRegions,
+    setActiveRegion,
+    setCuePoint,
+    wavesurfer,
+    wsRegions,
+  ])
+
+  const onClickRegionPlay = (region: Region) => {
+    const seekToPercentage =
+      region.start / wavesurfer.getDecodedData()!.duration
+    wavesurfer.seekTo(seekToPercentage)
+    wavesurfer.play()
+  }
 
   return (
     <Stack>
@@ -95,7 +124,8 @@ const RegionsFile: React.FC<RegionsFileProps> = ({
                 key={i}
                 color={theme.colors.yellow[9 - i]}
                 onClick={() => {
-                  region.play()
+                  // setActiveRegion(region)
+                  onClickRegionPlay(region) // Set the active region to the region associated with the button clicked
                 }}
               >
                 {i}
