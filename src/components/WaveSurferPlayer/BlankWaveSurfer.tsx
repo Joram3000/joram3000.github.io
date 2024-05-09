@@ -65,7 +65,7 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
     if (!wavesurfer) return
     setCurrentTime(0)
     setIsPlaying(false)
-
+    // wavesurfer.setVolume(0.01)
     const subscriptions = [
       wavesurfer.on("play", () => setIsPlaying(true)),
       wavesurfer.on("pause", () => setIsPlaying(false)),
@@ -76,6 +76,15 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
       subscriptions.forEach((unsub) => unsub())
     }
   }, [wavesurfer])
+
+  const onCueDown = () => {
+    console.log("kom ik hier ooit wel die is de CUE DOWN")
+    // const seekToPercentage =
+    //   cuePoint.start / wavesurfer!.getDecodedData()!.duration
+    // wavesurfer.seekTo(seekToPercentage)
+    // wavesurfer.play()
+    cuePoint?.play()
+  }
 
   return (
     <Box>
@@ -122,7 +131,7 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
             {!isPlaying ? <IconPlayerPlayFilled /> : <IconPlayerPauseFilled />}
           </ActionIcon>
           <ActionIcon
-            onMouseDown={() => cuePoint?.play()}
+            onMouseDown={() => onCueDown()}
             onMouseUp={onCueUp}
             bg="gray"
           >
@@ -134,7 +143,9 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
           wavesurfer={wavesurfer!}
           loop={loop}
           setActiveRegion={setActiveRegion}
+          activeRegion={activeRegion}
           setCuePoint={setCuePoint}
+          cuePoint={cuePoint}
         />
 
         <Group>
