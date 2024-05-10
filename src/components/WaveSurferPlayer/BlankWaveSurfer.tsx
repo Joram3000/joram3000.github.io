@@ -9,11 +9,13 @@ import { WaveSurferOptions } from "wavesurfer.js"
 import {
   ActionIcon,
   Box,
+  Button,
   Flex,
   Group,
   Slider,
+  Stack,
   Text,
-  VisuallyHidden,
+  useMantineTheme,
 } from "@mantine/core"
 import {
   IconZoomIn,
@@ -29,61 +31,144 @@ import {
 import PitchSlider from "./PitchSlider"
 import { useDisclosure } from "@mantine/hooks"
 import { useWavesurfer } from "./WaveSurferHook"
-import RegionsFile from "./Regions"
-import { Region } from "wavesurfer.js/dist/plugins/regions.js"
+import RegionsPlugin, { Region } from "wavesurfer.js/dist/plugins/regions.js"
 
 const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
   const containerRef: RefObject<HTMLDivElement> =
     useRef() as RefObject<HTMLDivElement>
   const wavesurfer = useWavesurfer(containerRef, props)
+  const [wsRegions, setWsRegions] = useState<RegionsPlugin | null>(null)
+  const [savedRegions, setSavedRegions] = useState<Region[] | null>([])
+  const theme = useMantineTheme()
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
-  const [zoom, setZoom] = useState(10)
+  const [zoom, setZoom] = useState(11) // is dit niet updated?
   const [follow, { toggle: toggleFollow }] = useDisclosure(true)
   const [loop, setLoop] = useState<boolean>(false)
   const [activeRegion, setActiveRegion] = useState<Region | null>(null)
   const [cuePoint, setCuePoint] = useState<Region | null>(null)
 
-  const onPlayClick = useCallback(() => {
-    if (wavesurfer) {
-      wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer?.playPause()
-    }
-  }, [wavesurfer])
-
-  const onCueUp = () => {
-    const seekToPercentage =
-      cuePoint!.start / wavesurfer!.getDecodedData()!.duration
-    wavesurfer?.pause()
-    wavesurfer?.seekTo(seekToPercentage)
-  }
-
-  useEffect(() => {
-    wavesurfer?.setOptions({ autoScroll: follow })
-  }, [follow, wavesurfer])
-
   useEffect(() => {
     if (!wavesurfer) return
-    setCurrentTime(0)
-    setIsPlaying(false)
-    // wavesurfer.setVolume(0.01)
+    setWsRegions(wavesurfer.registerPlugin(RegionsPlugin.create()))
+  }, [wavesurfer])
+
+  // WAVESURFER INIT
+  useEffect(() => {
+    if (!wavesurfer || !wsRegions) return
+    // setCurrentTime(0)
+
     const subscriptions = [
       wavesurfer.on("play", () => setIsPlaying(true)),
       wavesurfer.on("pause", () => setIsPlaying(false)),
       wavesurfer.on("timeupdate", (currentTime) => setCurrentTime(currentTime)),
-      wavesurfer.on("zoom", (e) => setZoom(e)),
+      wavesurfer.on("zoom", (e) => {
+        setZoom(e), setCurrentTime(currentTime)
+      }),
     ]
     return () => {
       subscriptions.forEach((unsub) => unsub())
     }
+  }, [currentTime, wavesurfer, wsRegions])
+
+  useEffect(() => {
+    if (wsRegions && wavesurfer) {
+      const subscriptions = [
+        wavesurfer.on("decode", () => {
+          wsRegions.enableDragSelection({
+            color: "rgba(255, 0, 0, 0.2)",
+          })
+          setCuePoint(
+            wsRegions.addRegion({
+              id: "CUE",
+              start: 4.96,
+              color: "orange",
+            }),
+          )
+          const seekToPercentage =
+            wsRegions.getRegions()[0].start /
+            wavesurfer!.getDecodedData()!.duration
+          wavesurfer?.seekTo(seekToPercentage)
+        }),
+
+        wavesurfer.on("ready", () => {
+          const subscriptions = [
+            wsRegions.on("region-double-clicked", (region: Region) => {
+              if (region !== wsRegions.getRegions()[0]) region.remove()
+              const newRegions = wsRegions.getRegions()
+              setSavedRegions([...newRegions])
+            }),
+
+            wsRegions.on("region-created", () => {
+              const newRegions = wsRegions.getRegions()
+              setSavedRegions([...newRegions])
+            }),
+            wsRegions.on("region-updated", () => {
+              console.log("region-updated")
+              const updatedCuepoint = wsRegions.getRegions()[0]
+              const seekToPercentage =
+                updatedCuepoint!.start / wavesurfer!.getDecodedData()!.duration
+              if (!wavesurfer.isPlaying()) wavesurfer?.seekTo(seekToPercentage)
+            }),
+          ]
+          return () => {
+            subscriptions.forEach((unsub) => unsub()) // TODO BETERE UNSUBS
+          }
+        }),
+        wsRegions.on("region-in", (region: Region) => {
+          setActiveRegion(region)
+        }),
+        wsRegions.on("region-out", (region: Region) => {
+          if (region === cuePoint) {
+            setActiveRegion(null)
+            const seekToPercentage =
+              cuePoint.start / wavesurfer.getDecodedData()!.duration
+            wavesurfer.seekTo(seekToPercentage)
+            //this is go to cue point and set active region to null
+          } else if (loop === false) {
+            //what is happening here hier gaat iets nog niet helemaal goed
+            setActiveRegion(region ? region : null)
+          } else if (loop === true) {
+            region.play()
+            // setActiveRegion(region)
+          }
+        }),
+      ]
+      return () => {
+        subscriptions.forEach((unsub) => unsub()) // TODO BETERE UNSUBS
+      }
+    }
+  }, [cuePoint, loop, wavesurfer, wsRegions])
+
+  // FOLLOW
+  useEffect(() => {
+    wavesurfer?.setOptions({ autoScroll: follow })
+  }, [follow, wavesurfer])
+
+  // PLAY
+  const onPlayClick = useCallback(() => {
+    if (!wavesurfer) return
+    wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer?.playPause()
   }, [wavesurfer])
 
-  const onCueDown = () => {
-    console.log("kom ik hier ooit wel die is de CUE DOWN")
-    // const seekToPercentage =
-    //   cuePoint.start / wavesurfer!.getDecodedData()!.duration
-    // wavesurfer.seekTo(seekToPercentage)
-    // wavesurfer.play()
-    cuePoint?.play()
+  // CUE
+  const onCueClick = (isDown: boolean) => {
+    if (!cuePoint || !wavesurfer) return
+    const seekToPercentage =
+      cuePoint.start / wavesurfer!.getDecodedData()!.duration
+    isDown
+      ? cuePoint.play()
+      : (wavesurfer.pause(), wavesurfer.seekTo(seekToPercentage))
+  }
+
+  // HOT CUE
+  const onClickRegionPlay = (region: Region) => {
+    if (!wavesurfer) return
+    const seekToPercentage =
+      region.start / wavesurfer.getDecodedData()!.duration
+    wavesurfer.seekTo(seekToPercentage)
+    wavesurfer.play()
+    // setActiveRegion(region) //todo unnesesary
   }
 
   return (
@@ -131,23 +216,31 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
             {!isPlaying ? <IconPlayerPlayFilled /> : <IconPlayerPauseFilled />}
           </ActionIcon>
           <ActionIcon
-            onMouseDown={() => onCueDown()}
-            onMouseUp={onCueUp}
+            onMouseDown={() => onCueClick(true)}
+            onMouseUp={() => onCueClick(false)}
             bg="gray"
           >
             <IconCircle />
           </ActionIcon>
         </Group>
-
-        <RegionsFile
-          wavesurfer={wavesurfer!}
-          loop={loop}
-          setActiveRegion={setActiveRegion}
-          activeRegion={activeRegion}
-          setCuePoint={setCuePoint}
-          cuePoint={cuePoint}
-        />
-
+        <Stack>
+          <Group>
+            {savedRegions?.map(
+              (region: Region, i) =>
+                i > 0 && (
+                  <Button
+                    key={i}
+                    color={theme.colors.yellow[9 - i]}
+                    onClick={() => {
+                      onClickRegionPlay(region)
+                    }}
+                  >
+                    {i}
+                  </Button>
+                ),
+            )}
+          </Group>
+        </Stack>
         <Group>
           <ActionIcon
             onClick={toggleFollow}
@@ -184,25 +277,23 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
           <IconVolume />
         </Group>
 
-        <VisuallyHidden>
-          <Group justify="flex-end">
-            <IconZoomOut
-              onClick={() => zoom > 10 && wavesurfer?.zoom(zoom - 5)}
-            />
-            <Slider
-              p="0"
-              w="30%"
-              min={10}
-              max={300}
-              color="orange"
-              value={zoom}
-              onChange={(e) => wavesurfer?.zoom(e)}
-              size="lg"
-              showLabelOnHover={false}
-            />
-            <IconZoomIn onClick={() => wavesurfer?.zoom(zoom + 5)} />
-          </Group>
-        </VisuallyHidden>
+        <Group justify="flex-end">
+          <IconZoomOut
+            onClick={() => zoom > 10 && wavesurfer?.zoom(zoom - 5)}
+          />
+          <Slider
+            p="0"
+            w="30%"
+            min={10}
+            max={300}
+            color="orange"
+            value={zoom}
+            onChange={(e) => wavesurfer?.zoom(e)}
+            size="lg"
+            showLabelOnHover={false}
+          />
+          <IconZoomIn onClick={() => wavesurfer?.zoom(zoom + 5)} />
+        </Group>
       </Group>
     </Box>
   )
