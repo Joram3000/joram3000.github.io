@@ -1,6 +1,8 @@
-import { Title, Text, Container } from "@mantine/core";
-import treingv from "../../assets/music/treingv.mp3";
-import BlankWaveSurfer from "../../components/WaveSurferPlayer/BlankWaveSurfer";
+import { Title, Text, Container } from "@mantine/core"
+import treingv from "../../assets/music/treingv.mp3"
+import treingvbluesberber from "../../assets/music/treingvbluesberber.mp3"
+
+import BlankWaveSurfer from "../../components/WaveSurferPlayer/BlankWaveSurfer"
 
 export default function AudioplayerPage() {
   return (
@@ -13,7 +15,7 @@ export default function AudioplayerPage() {
       </Text>
 
       <BlankWaveSurfer
-        url={treingv}
+        url={treingvbluesberber}
         dragToSeek
         width="100%"
         height="auto"
@@ -40,5 +42,5 @@ export default function AudioplayerPage() {
         <li>Scroll-zoom werkt ook nog niet optimaal</li>
       </ul>
     </Container>
-  );
+  )
 }
