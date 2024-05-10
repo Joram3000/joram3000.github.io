@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import PatternMaker from "./components/PatternMaker";
+import React, { useEffect, useState } from "react"
+import PatternMaker from "./components/PatternMaker"
 import {
   selectedPatternSelector,
   soundSettingsSelector,
-} from "../../store/patternmaker/selectors";
-import { useSelector } from "react-redux";
-import SelectSound from "./components/SelectSound";
-import { useDispatch } from "react-redux";
+} from "../../store/patternmaker/selectors"
+import { useSelector } from "react-redux"
+import SelectSound from "./components/SelectSound"
+import { useDispatch } from "react-redux"
 import {
   SetTempo,
   SetVolume,
   SetFilters,
-} from "../../store/patternmaker/actions";
-import * as Tone from "tone";
-import SelectPattern from "./components/SelectPattern";
+} from "../../store/patternmaker/actions"
+import * as Tone from "tone"
+import SelectPattern from "./components/SelectPattern"
 import {
   Group,
   Title,
@@ -22,51 +22,51 @@ import {
   Center,
   Flex,
   Container,
-} from "@mantine/core";
-import CustomDoubleSlider from "./components/CustomDoubleSlider";
-import CustomSlider from "./components/CustomSlider";
-import TransporterButton from "./components/TransporterButton";
-import P5WaveFormSketchWrapper from "./components/P5WaveFormSketchWrapper";
-import DrawerComponent from "../../components/drawer/Drawer";
-import Uitleg from "./Uitleg";
+} from "@mantine/core"
+import CustomDoubleSlider from "./components/CustomDoubleSlider"
+import CustomSlider from "./components/CustomSlider"
+import TransporterButton from "./components/TransporterButton"
+import P5WaveFormSketchWrapper from "./components/P5WaveFormSketchWrapper"
+import DrawerComponent from "../../components/drawer/Drawer"
+import Uitleg from "./uitleg"
 
-const output = new Tone.Volume(-12).toDestination();
-const lpFilter = new Tone.Filter(8000, "lowpass", -48).connect(output);
-const hpFilter = new Tone.Filter(0, "highpass").connect(lpFilter);
+const output = new Tone.Volume(-12).toDestination()
+const lpFilter = new Tone.Filter(8000, "lowpass", -48).connect(output)
+const hpFilter = new Tone.Filter(0, "highpass").connect(lpFilter)
 
 const PatternMakerPage: React.FC = () => {
-  const dispatch = useDispatch();
-  const currentPattern = useSelector(selectedPatternSelector);
-  const soundSettings = useSelector(soundSettingsSelector);
-  const [colorValue, setColor] = useState<string>(currentPattern.color);
-  const [titleValue, setTitleValue] = useState<string>(currentPattern.name);
+  const dispatch = useDispatch()
+  const currentPattern = useSelector(selectedPatternSelector)
+  const soundSettings = useSelector(soundSettingsSelector)
+  const [colorValue, setColor] = useState<string>(currentPattern.color)
+  const [titleValue, setTitleValue] = useState<string>(currentPattern.name)
 
   useEffect(() => {
-    setColor(currentPattern.color);
-  }, [currentPattern]);
+    setColor(currentPattern.color)
+  }, [currentPattern])
 
   useEffect(() => {
-    setTitleValue(currentPattern.name);
-  }, [currentPattern.name]);
+    setTitleValue(currentPattern.name)
+  }, [currentPattern.name])
 
   const sendVolume = (value: number) => {
-    dispatch(SetVolume(value));
-  };
+    dispatch(SetVolume(value))
+  }
 
   useEffect(() => {
-    output.volume.value = soundSettings.volume;
-  }, [soundSettings.volume]);
+    output.volume.value = soundSettings.volume
+  }, [soundSettings.volume])
 
   const sendFilters = (value: [number, number]) => {
-    dispatch(SetFilters(value));
-    lpFilter.frequency.value = value[1];
-    hpFilter.frequency.value = value[0];
-  };
+    dispatch(SetFilters(value))
+    lpFilter.frequency.value = value[1]
+    hpFilter.frequency.value = value[0]
+  }
 
   const sendTempo = (value: number) => {
-    Tone.Transport.bpm.value = value;
-    dispatch(SetTempo(Tone.Transport.bpm.value));
-  };
+    Tone.Transport.bpm.value = value
+    dispatch(SetTempo(Tone.Transport.bpm.value))
+  }
 
   return (
     <Container p={0} h="calc(100vh - 120px)">
@@ -163,7 +163,7 @@ const PatternMakerPage: React.FC = () => {
         </Stack>
       </Box>
     </Container>
-  );
-};
+  )
+}
 
-export default PatternMakerPage;
+export default PatternMakerPage

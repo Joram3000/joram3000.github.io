@@ -6,15 +6,16 @@ import {
   Group,
   Stack,
   Anchor,
-} from "@mantine/core";
-import Curriculum from "./Curriculum";
+} from "@mantine/core"
+// import Curriculum from "./Curriculum";
 import {
   IconAppWindow,
   IconBrandInstagram,
   IconMail,
   IconPhone,
-} from "@tabler/icons-react";
-import joram from "../../assets/images/joram/joramcutout.webp";
+} from "@tabler/icons-react"
+import joram from "../../assets/images/joram/joramcutout.webp"
+import Curriculum from "./curriculum"
 
 export default function ContactPage() {
   const contactInfo = [
@@ -36,7 +37,7 @@ export default function ContactPage() {
       text: "Github.com/Joram3000",
       url: "https://github.com/joram3000",
     },
-  ];
+  ]
 
   return (
     <Container>
@@ -70,5 +71,5 @@ export default function ContactPage() {
         style={{ transform: "translate(-50%,50%)" }}
       />
     </Container>
-  );
+  )
 }
