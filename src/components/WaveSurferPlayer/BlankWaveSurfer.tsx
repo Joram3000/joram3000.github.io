@@ -47,6 +47,7 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
   const [loop, setLoop] = useState<boolean>(false)
   const [activeRegion, setActiveRegion] = useState<Region | null>(null)
   const [cuePoint, setCuePoint] = useState<Region | null>(null)
+  const [pitchValue, setPitchValue] = useState(0.5)
 
   useEffect(() => {
     if (!wavesurfer) return
@@ -203,6 +204,8 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
           changePitch={(e: number) => {
             if (e > 0.07) wavesurfer!.setPlaybackRate(e, false)
           }}
+          setPitchValue={setPitchValue}
+          pitchValue={pitchValue}
         />
       </Flex>
       <Group
@@ -294,6 +297,11 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
           />
           <IconZoomIn onClick={() => wavesurfer?.zoom(zoom + 5)} />
         </Group>
+      </Group>
+      <Group>
+        <Box w="100%" h="30vh" bg="grape">
+          <Text>Hoi ik zit in de doos</Text>
+        </Box>
       </Group>
     </Box>
   )
