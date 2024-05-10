@@ -1,8 +1,8 @@
 import { Title, Text, Container } from "@mantine/core"
-// import treingv from "../../assets/music/treingv.mp3"
 import treingvbluesberber from "../../assets/music/treingvbluesberber.mp3"
 
 import BlankWaveSurfer from "../../components/WaveSurferPlayer/BlankWaveSurfer"
+import AudioContextt from "../../components/audiocontext/audiocontext"
 
 export default function AudioplayerPage() {
   return (
@@ -13,17 +13,18 @@ export default function AudioplayerPage() {
         teveel functies. Aangezien ik de web-audio API al beheers kan ik dit
         component gebruiken om een online/mobile DJ-App te maken.
       </Text>
-
-      <BlankWaveSurfer
-        url={treingvbluesberber}
-        dragToSeek
-        width="100%"
-        height="auto"
-        autoScroll
-        normalize
-        autoCenter
-        container={"#Waveforrm"}
-      />
+      <AudioContextt>
+        <BlankWaveSurfer
+          url={treingvbluesberber}
+          dragToSeek
+          width="100%"
+          height="auto"
+          autoScroll
+          normalize
+          autoCenter
+          container={"#Waveforrm"}
+        />
+      </AudioContextt>
 
       <Title order={2} pt="md">
         Wat moet er nog gebeuren?
