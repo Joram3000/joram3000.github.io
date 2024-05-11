@@ -1,45 +1,84 @@
-import React from "react"
-// import treingvbluesberber from "../../assets/music/treingvbluesberber.mp3"
+import React, { useState } from "react"
+import BlankWaveSurfer from "../WaveSurferPlayer/BlankWaveSurfer"
+import treingvbluesberber from "../../assets/music/treingvbluesberber.mp3"
 
-interface AudioContextProps {
-  children: React.ReactNode
-}
+const AudioContextt: React.FC = () => {
+  const audio = new Audio()
+  const audioContext = new AudioContext()
+  audio.src = treingvbluesberber
 
-const AudioContextt: React.FC<AudioContextProps> = ({ children }) => {
-  console.log("AudioContextt")
-  // Create your own media element
-  // const audio = new Audio()
-  // audio.controls = true
-  // audio.src = treingvbluesberber
+  const [eqBandsP, setEqBandsP] = useState<{ freq: number; gain: number }[]>([
+    { freq: 32, gain: -20 },
+    { freq: 64, gain: 10 },
+    { freq: 250, gain: 0 },
+    { freq: 2000, gain: 30 },
+    { freq: 16000, gain: 40 },
+  ])
 
-  // Optionally, add the audio to the page to see the controls
-  // document.body.appendChild(audio)
+  const filters = eqBandsP.map((band) => {
+    const filter = audioContext.createBiquadFilter()
+    filter.type =
+      band.freq <= 32
+        ? "lowshelf"
+        : band.freq >= 16000
+        ? "highshelf"
+        : "peaking"
+    filter.gain.value = Math.random() * 40 - 20
+    filter.Q.value = 1
+    filter.frequency.value = band.freq // the cut-off frequency
+    return filter
+  })
 
-  // Now, create a Web Audio equalizer
-  // Create Web Audio context
-  // const audioContext = new AudioContext()
+  audio.addEventListener(
+    "canplay",
+    () => {
+      const mediaNode = audioContext.createMediaElementSource(audio)
+      const equalizer = filters.reduce((prev, curr) => {
+        prev.connect(curr)
+        return curr
+      }, mediaNode)
+      equalizer.connect(audioContext.destination)
+    },
+    { once: true },
+  )
 
-  // Create a biquad filter for each band
-
-  // Connect the audio to the equalizer
-  // audio.addEventListener(
-  //   "canplay",
-  //   () => {
-  //     // Create a MediaElementSourceNode from the audio element
-  //     const mediaNode = audioContext.createMediaElementSource(audio)
-
-  //     // Connect the node to the audio output
-  //     mediaNode.connect(audioContext.destination)
-  //   },
-  //   { once: true },
-  // )
-
-  // // Create a vertical slider for each band
-  // const container = document.createElement("p")
-
-  // document.body.appendChild(container)
-
-  return children
+  const startAudio = () => {
+    audioContext.resume().then(() => {
+      audio.play()
+    })
+  }
+  return (
+    <>
+      <button onClick={startAudio}>Start Audio</button>
+      {eqBandsP.map((band, index) => (
+        <input
+          key={index}
+          type="range"
+          min={-40}
+          max={40}
+          value={band.gain}
+          onChange={(e) => {
+            const newGain = parseFloat(e.target.value)
+            const newEqBandsP = [...eqBandsP]
+            newEqBandsP[index].gain = newGain
+            setEqBandsP(newEqBandsP)
+            // filters[index].gain.value = newGain
+          }}
+          step={0.1}
+        />
+      ))}
+      <BlankWaveSurfer
+        media={audio}
+        dragToSeek
+        width="100%"
+        height="auto"
+        autoScroll
+        normalize
+        autoCenter
+        container={"#Waveforrm"}
+      />
+    </>
+  )
 }
 
 export default AudioContextt
