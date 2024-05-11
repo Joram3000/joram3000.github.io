@@ -57,13 +57,13 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
   // WAVESURFER INIT
   useEffect(() => {
     if (!wavesurfer || !wsRegions) return
-    // setCurrentTime(0)
-
     const subscriptions = [
       wavesurfer.on("play", () => setIsPlaying(true)),
       wavesurfer.on("pause", () => setIsPlaying(false)),
-      wavesurfer.on("timeupdate", (currentTime) => setCurrentTime(currentTime)),
-      wavesurfer.on("zoom", (e) => {
+      wavesurfer.on("timeupdate", (currentTime: number) =>
+        setCurrentTime(currentTime),
+      ),
+      wavesurfer.on("zoom", (e: number) => {
         setZoom(e), setCurrentTime(currentTime)
       }),
     ]
@@ -143,12 +143,13 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
 
   // FOLLOW
   useEffect(() => {
-    wavesurfer?.setOptions({ autoScroll: follow })
+    wavesurfer?.setOptions({ autoScroll: follow, autoCenter: follow })
   }, [follow, wavesurfer])
 
   // PLAY
   const onPlayClick = useCallback(() => {
     if (!wavesurfer) return
+    console.log(wavesurfer.isPlaying())
     wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer?.playPause()
   }, [wavesurfer])
 
@@ -298,11 +299,11 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
           <IconZoomIn onClick={() => wavesurfer?.zoom(zoom + 5)} />
         </Group>
       </Group>
-      <Group>
+      {/* <Group>
         <Box w="100%" h="30vh" bg="grape">
           <Text>Hoi ik zit in de doos</Text>
         </Box>
-      </Group>
+      </Group> */}
     </Box>
   )
 }
