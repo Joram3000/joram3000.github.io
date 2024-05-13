@@ -1,25 +1,28 @@
 import React, { useEffect, useState, useCallback, useRef } from "react"
 import treingvbluesberber from "../../assets/music/treingvbluesberber.mp3"
 import BlankWaveSurfer from "../WaveSurferPlayer/BlankWaveSurfer"
+import { Slider } from "@mantine/core"
 
 const AudioEqualizer: React.FC = () => {
   const [audio] = useState(new Audio(treingvbluesberber))
-  const [audioContextJ, setAudioContext] = useState<AudioContext | null>(null)
+  const [audioContextJ, setAudioContext] = useState<AudioContext | null>(
+    new AudioContext(),
+  )
+  // const feedbackGainNode = useRef<GainNode>(audioContextJ.createGain())
+  // console.log(feedbackGainNode.current)
   const filters = useRef<BiquadFilterNode[]>([])
   const [filtersReady, setFiltersReady] = useState(false)
   const delay = useRef<DelayNode | null>(null)
   const mediaNode = useRef<MediaElementAudioSourceNode | null>(null)
-  const initializeAudioContext = async () => {
-    const context = new AudioContext()
-    setAudioContext(context)
-  }
 
   useEffect(() => {
+    const eqBands = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
+
     if (audioContextJ) {
       if (!mediaNode.current) {
         mediaNode.current = audioContextJ.createMediaElementSource(audio)
       }
-      const eqBands = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
+
       delay.current = audioContextJ.createDelay(3)
       filters.current = eqBands.map((band) => {
         const filter = audioContextJ.createBiquadFilter()
@@ -42,7 +45,7 @@ const AudioEqualizer: React.FC = () => {
         filters.current[filters.current.length - 1].connect(
           audioContextJ.destination,
         )
-        delay.current.delayTime.setValueAtTime(0.5, audioContextJ.currentTime)
+        delay.current.delayTime.setValueAtTime(0.1, audioContextJ.currentTime)
         delay.current.connect(audioContextJ.destination)
         return () => {
           mediaNode.current?.disconnect()
@@ -67,22 +70,20 @@ const AudioEqualizer: React.FC = () => {
       filters.current[index].gain.value = parseFloat(value)
     }
   }, [])
+
   return (
     <div>
       {filtersReady &&
         filters.current.map((filter, index) => (
-          <input
+          <Slider
             key={index}
-            type="range"
             min={-40}
             max={40}
             step={0.1}
             defaultValue={filter.gain.value}
-            onChange={(e) => handleSliderChange(index, e.target.value)}
+            onChange={(e) => handleSliderChange(index, e.toString())}
           />
         ))}
-
-      <button onClick={initializeAudioContext}>Initialize Audio Context</button>
       <BlankWaveSurfer
         media={audio}
         dragToSeek
