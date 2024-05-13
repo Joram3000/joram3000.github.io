@@ -1,8 +1,6 @@
 import { Title, Text, Container } from "@mantine/core"
 // import treingvbluesberber from "../../assets/music/treingvbluesberber.mp3"
-
-// import BlankWaveSurfer from "../../components/WaveSurferPlayer/BlankWaveSurfer"
-import AudioContextt from "../../components/audiocontext/audiocontext"
+import AudioEqualizer from "../../components/audiocontext/wavesurferExample"
 
 export default function AudioplayerPage() {
   return (
@@ -13,7 +11,8 @@ export default function AudioplayerPage() {
         teveel functies. Aangezien ik de web-audio API al beheers kan ik dit
         component gebruiken om een online/mobile DJ-App te maken.
       </Text>
-      <AudioContextt></AudioContextt>
+
+      <AudioEqualizer />
 
       <Title order={2} pt="md">
         Wat moet er nog gebeuren?
