@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useCallback, useRef } from "react"
 import treingvbluesberber from "../../assets/music/treingvbluesberber.mp3"
 import BlankWaveSurfer from "../WaveSurferPlayer/BlankWaveSurfer"
-import P5WaveFormSketchWrapper from "../../pages/patternmaker-page/components/P5WaveFormSketchWrapper"
 
 const AudioEqualizer: React.FC = () => {
   const [audio] = useState(new Audio(treingvbluesberber))
   const [audioContextJ, setAudioContext] = useState<AudioContext | null>(null)
   const filters = useRef<BiquadFilterNode[]>([])
+  const [filtersReady, setFiltersReady] = useState(false)
   const delay = useRef<DelayNode | null>(null)
   const mediaNode = useRef<MediaElementAudioSourceNode | null>(null)
-  const analyser = useRef<AnalyserNode | null>(null)
   const initializeAudioContext = async () => {
     const context = new AudioContext()
     setAudioContext(context)
@@ -21,8 +20,7 @@ const AudioEqualizer: React.FC = () => {
         mediaNode.current = audioContextJ.createMediaElementSource(audio)
       }
       const eqBands = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
-      delay.current = audioContextJ.createDelay(4)
-      analyser.current = audioContextJ.createAnalyser()
+      delay.current = audioContextJ.createDelay(3)
       filters.current = eqBands.map((band) => {
         const filter = audioContextJ.createBiquadFilter()
         filter.type =
@@ -35,7 +33,7 @@ const AudioEqualizer: React.FC = () => {
 
       if (mediaNode.current && filters.current.length > 0 && delay.current) {
         mediaNode.current.connect(filters.current[0])
-        mediaNode.current.connect(analyser.current)
+        setFiltersReady(true)
 
         for (let i = 0; i < filters.current.length - 1; i++) {
           filters.current[i].connect(filters.current[i + 1])
@@ -71,9 +69,8 @@ const AudioEqualizer: React.FC = () => {
   }, [])
   return (
     <div>
-      {filters.current.map((filter, index) => (
-        <>
-          <p>hoi</p>
+      {filtersReady &&
+        filters.current.map((filter, index) => (
           <input
             key={index}
             type="range"
@@ -83,8 +80,7 @@ const AudioEqualizer: React.FC = () => {
             defaultValue={filter.gain.value}
             onChange={(e) => handleSliderChange(index, e.target.value)}
           />
-        </>
-      ))}
+        ))}
 
       <button onClick={initializeAudioContext}>Initialize Audio Context</button>
       <BlankWaveSurfer
@@ -97,7 +93,6 @@ const AudioEqualizer: React.FC = () => {
         autoCenter
         container={"#Waveform"}
       />
-      <P5WaveFormSketchWrapper colorValue={"colorValue"} />
     </div>
   )
 }
