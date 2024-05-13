@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import BlankWaveSurfer from "../WaveSurferPlayer/BlankWaveSurfer"
 import treingvbluesberber from "../../assets/music/treingvbluesberber.mp3"
+import { Slider } from "@mantine/core"
 
 const AudioContextt: React.FC = () => {
   const audio = new Audio()
@@ -33,41 +34,40 @@ const AudioContextt: React.FC = () => {
     "canplay",
     () => {
       const mediaNode = audioContext.createMediaElementSource(audio)
-      const equalizer = filters.reduce((prev, curr) => {
-        prev.connect(curr)
-        return curr
-      }, mediaNode)
+      const equalizer = filters.reduce(
+        (prev: BiquadFilterNode, curr: BiquadFilterNode) => {
+          prev.connect(curr)
+          return curr
+        },
+        mediaNode as any,
+      ) // Change the initial value to mediaNode as BiquadFilterNode
       equalizer.connect(audioContext.destination)
     },
     { once: true },
   )
 
-  const startAudio = () => {
-    audioContext.resume().then(() => {
-      audio.play()
-    })
+  const onChangerino = (e: number, index: number) => {
+    const newGain = e
+    const newEqBandsP = [...eqBandsP]
+    newEqBandsP[index].gain = newGain
+    setEqBandsP(newEqBandsP)
+    filters[index].gain.value = newGain
   }
+
   return (
     <>
-      <button onClick={startAudio}>Start Audio</button>
-      {eqBandsP.map((band, index) => (
-        <input
+      {/* {eqBandsP.map((band, index) => (
+        <Slider
           key={index}
-          type="range"
           min={-40}
           max={40}
           value={band.gain}
-          onChange={(e) => {
-            const newGain = parseFloat(e.target.value)
-            const newEqBandsP = [...eqBandsP]
-            newEqBandsP[index].gain = newGain
-            setEqBandsP(newEqBandsP)
-            // filters[index].gain.value = newGain
-          }}
+          onChange={(e) => onChangerino(e, index)}
           step={0.1}
         />
-      ))}
+      ))} */}
       <BlankWaveSurfer
+        backend="WebAudio"
         media={audio}
         dragToSeek
         width="100%"
@@ -75,7 +75,7 @@ const AudioContextt: React.FC = () => {
         autoScroll
         normalize
         autoCenter
-        container={"#Waveforrm"}
+        container={"#Waveform"}
       />
     </>
   )
