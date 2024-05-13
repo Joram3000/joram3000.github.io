@@ -17,7 +17,7 @@
     "@mantine/core": "^7.1.5",
     "@mantine/form": "^7.1.7",
     "@mantine/hooks": "^7.1.5",
-    "@p5-wrapper/react": "^4.2.0",
+    "@p5-wrapper/react": "^4.4.0",
     "@reduxjs/toolkit": "^1.9.7",
     "@tabler/icons-react": "^2.39.0",
     "clsx": "^2.0.0",
