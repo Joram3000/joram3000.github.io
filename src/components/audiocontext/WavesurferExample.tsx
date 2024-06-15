@@ -1,23 +1,22 @@
-import React, { useEffect, useState, useRef } from "react" // Importing necessary modules from React
-import treingvbluesberber from "../../assets/music/treingvbluesberber.mp3" // Importing the audio file
-import BlankWaveSurfer from "../WaveSurferPlayer/BlankWaveSurfer" // Importing a WaveSurfer component
+import React, { useEffect, useState, useRef } from "react"
+import BlankWaveSurfer from "../WaveSurferPlayer/BlankWaveSurfer"
 import { Slider } from "@mantine/core"
 
-const AudioEqualizer: React.FC = () => {
-  const [audio] = useState(new Audio(treingvbluesberber)) // State hook for audio
+interface AudioEqualizerProps {
+  audiofile: string
+}
 
-  const [audioContext] = useState<AudioContext | null>(
-    new AudioContext(), // State hook for audio context
-  )
-  const mediaNode = useRef<MediaElementAudioSourceNode | null>(null) // Ref for media node
-  const lowPassFilter = useRef<BiquadFilterNode | null>(null) // Ref for low-pass filter
-  const [lowpassFilterFrequency, setLowpassFilterFrequency] = useState(300) // State hook for lowpass filter frequency
+const AudioEqualizer: React.FC<AudioEqualizerProps> = ({ audiofile }) => {
+  const [audio] = useState(new Audio(audiofile))
+  const [audioContext] = useState<AudioContext | null>(new AudioContext())
+  const mediaNode = useRef<MediaElementAudioSourceNode | null>(null)
+  const lowPassFilter = useRef<BiquadFilterNode | null>(null)
+  const [lowpassFilterFrequency, setLowpassFilterFrequency] = useState(300)
 
   useEffect(() => {
     if (audioContext) {
-      // Create a low-pass filter
       lowPassFilter.current = audioContext.createBiquadFilter()
-      lowPassFilter.current.type = "lowpass" // Set filter type to lowpass
+      lowPassFilter.current.type = "lowpass"
 
       if (!mediaNode.current) {
         mediaNode.current = audioContext.createMediaElementSource(audio)

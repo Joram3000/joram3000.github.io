@@ -1,90 +1,77 @@
-import React, { useState, useEffect } from "react";
-import * as Tone from "tone";
-import { useDispatch, useSelector } from "react-redux";
-import { CurrentPatternUpdater } from "../../../store/patternmaker/actions";
-import { Container, Flex } from "@mantine/core";
-import { selectedPatternSelector } from "../../../store/patternmaker/selectors";
-import { SoundStyle } from "../../../store/patternmaker/types";
-import classes from "./PatternMaker.module.css";
-import { isMobile } from "react-device-detect";
+import React, { useState, useEffect } from "react"
+import * as Tone from "tone"
+import { useDispatch, useSelector } from "react-redux"
+import { CurrentPatternUpdater } from "../../../store/patternmaker/actions"
+import { Container, Flex } from "@mantine/core"
+import { selectedPatternSelector } from "../../../store/patternmaker/selectors"
+import { SoundStyle } from "../../../store/patternmaker/types"
+import classes from "./PatternMaker.module.css"
+import { isMobile } from "react-device-detect"
+
 interface PatternMakerProps {
-  output: Tone.OutputNode;
-  colorValue?: string;
+  samples: Tone.Sampler | null
+  colorValue?: string
 }
 
-let notes: [string, string];
+let notes: [string, string]
 
-const samples = new Tone.Sampler({
-  urls: {
-    A1: "/Loud/cymkik_b3staa.wav",
-    B1: "/Loud/jaydeesnare_qc9dw5.wav",
-    C1: "/Metal/cowbell_aihfsc.wav",
-    D1: "/Metal/hih_gmxx95.wav",
-    E1: "/Soft/conga_uvdi3n.wav",
-    F1: "/Soft/snap_mtp0yq.wav",
-    G1: "/Wood/kick_i1pqe6.wav",
-    A2: "/Wood/clap_xmxx6f.wav",
-  },
-  baseUrl:
-    "https://res.cloudinary.com/dqqb0ldgk/video/upload/v1651657689/Drumsounds",
-});
-
-const PatternMaker: React.FC<PatternMakerProps> = ({ output, colorValue }) => {
-  samples.connect(output);
-  const dispatch = useDispatch();
-  const reduxSequencerPattern = useSelector(selectedPatternSelector);
+const PatternMaker: React.FC<PatternMakerProps> = ({ samples, colorValue }) => {
+  const dispatch = useDispatch()
+  const reduxSequencerPattern = useSelector(selectedPatternSelector)
   const [currentPattern, updateCurrentPattern] = useState<
     [boolean[], boolean[]]
-  >(reduxSequencerPattern.pattern);
+  >(reduxSequencerPattern.pattern)
 
   useEffect(() => {
-    const loop = new Tone.Sequence(
-      (time, col) => {
-        currentPattern.map((rowArray: boolean[], rowIndex: number) => {
-          if (rowArray[col]) {
-            samples.triggerAttackRelease(notes[rowIndex], "8n", time);
-          }
-        });
-      },
-      [0, 1, 2, 3, 4, 5, 6, 7],
-      "8n"
-    ).start(0);
-    return () => {
-      loop.dispose();
-    };
-  }, [currentPattern]);
+    if (samples) {
+      const loop = new Tone.Sequence(
+        (time, col) => {
+          currentPattern.map((rowArray: boolean[], rowIndex: number) => {
+            if (rowArray[col]) {
+              samples.triggerAttackRelease(notes[rowIndex], "8n", time)
+            }
+          })
+        },
+        [0, 1, 2, 3, 4, 5, 6, 7],
+        "8n",
+      ).start(0)
+      return () => {
+        loop.dispose()
+      }
+    }
+  }, [currentPattern, samples])
 
   function setPattern({
     rowIndex,
     rowNumber,
     trigger,
   }: {
-    rowIndex: number;
-    rowNumber: number;
-    trigger: boolean;
+    rowIndex: number
+    rowNumber: number
+    trigger: boolean
   }) {
-    dispatch(CurrentPatternUpdater({ rowNumber, rowIndex, trigger }));
+    dispatch(CurrentPatternUpdater({ rowNumber, rowIndex, trigger }))
   }
 
   useEffect(() => {
-    updateCurrentPattern(reduxSequencerPattern.pattern);
-  }, [reduxSequencerPattern]);
+    updateCurrentPattern(reduxSequencerPattern.pattern)
+  }, [reduxSequencerPattern])
 
   switch (reduxSequencerPattern.sound) {
     case SoundStyle.LOUD:
-      notes = ["B1", "A1"];
-      break;
+      notes = ["B1", "A1"]
+      break
     case SoundStyle.ELECTRONIC:
-      notes = ["D1", "C1"];
-      break;
+      notes = ["D1", "C1"]
+      break
     case SoundStyle.PERCUSSION:
-      notes = ["F1", "E1"];
-      break;
+      notes = ["F1", "E1"]
+      break
     case SoundStyle.NEOSOUL:
-      notes = ["A2", "G1"];
-      break;
+      notes = ["A2", "G1"]
+      break
     default:
-      notes = ["E2", "G1"];
+      notes = ["E2", "G1"]
   }
 
   return (
@@ -114,14 +101,14 @@ const PatternMaker: React.FC<PatternMakerProps> = ({ output, colorValue }) => {
                   : undefined,
               }}
               onClick={() => {
-                setPattern({ rowNumber, rowIndex, trigger });
+                setPattern({ rowNumber, rowIndex, trigger })
               }}
             />
           ))}
         </Flex>
       ))}
     </Container>
-  );
-};
+  )
+}
 
-export default PatternMaker;
+export default PatternMaker

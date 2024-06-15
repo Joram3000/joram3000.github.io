@@ -1,7 +1,7 @@
 import { Title, Text, Container } from "@mantine/core"
-// import treingvbluesberber from "../../assets/music/treingvbluesberber.mp3"
-import AudioEqualizer from "../../components/audiocontext/wavesurferExample"
+import treingvbluesberber from "../../assets/music/treingvbluesberber.mp3"
 
+import Boombox from "../../components/audiocontext/Boombox"
 export default function AudioplayerPage() {
   return (
     <Container>
@@ -11,9 +11,9 @@ export default function AudioplayerPage() {
         teveel functies. Aangezien ik de web-audio API al beheers kan ik dit
         component gebruiken om een online/mobile DJ-App te maken.
       </Text>
-
-      <AudioEqualizer />
-
+      <Boombox />
+      {/* <AudioEqualizer audiofile={treingvbluesberber} /> */}
+      {/* <AudioAnalyser audiofile={treingvbluesberber} /> */}
       <Title order={2} pt="md">
         Wat moet er nog gebeuren?
       </Title>

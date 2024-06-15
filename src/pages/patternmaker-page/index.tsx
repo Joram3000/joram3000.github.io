@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import PatternMaker from "./components/PatternMaker"
 import {
   selectedPatternSelector,
@@ -31,8 +31,8 @@ import DrawerComponent from "../../components/drawer/Drawer"
 import Uitleg from "./uitleg"
 
 const output = new Tone.Volume(-12).toDestination()
-const lpFilter = new Tone.Filter(8000, "lowpass", -48).connect(output)
-const hpFilter = new Tone.Filter(0, "highpass").connect(lpFilter)
+// const lpFilter = new Tone.Filter(8000, "lowpass", -48).connect(output)
+// const hpFilter = new Tone.Filter(0, "highpass").connect(lpFilter)
 
 const PatternMakerPage: React.FC = () => {
   const dispatch = useDispatch()
@@ -40,6 +40,36 @@ const PatternMakerPage: React.FC = () => {
   const soundSettings = useSelector(soundSettingsSelector)
   const [colorValue, setColor] = useState<string>(currentPattern.color)
   const [titleValue, setTitleValue] = useState<string>(currentPattern.name)
+  const [samples, setSampler] = useState<Tone.Sampler | null>(null)
+
+  const samplerRef = useRef<Tone.Sampler | null>(null)
+
+  useEffect(() => {
+    const sampless = new Tone.Sampler({
+      urls: {
+        A1: "/Loud/cymkik_b3staa.wav",
+        B1: "/Loud/jaydeesnare_qc9dw5.wav",
+        C1: "/Metal/cowbell_aihfsc.wav",
+        D1: "/Metal/hih_gmxx95.wav",
+        E1: "/Soft/conga_uvdi3n.wav",
+        F1: "/Soft/snap_mtp0yq.wav",
+        G1: "/Wood/kick_i1pqe6.wav",
+        A2: "/Wood/clap_xmxx6f.wav",
+      },
+      baseUrl:
+        "https://res.cloudinary.com/dqqb0ldgk/video/upload/v1651657689/Drumsounds",
+    })
+    setSampler(sampless)
+    samplerRef.current = sampless // Store the instance in the ref
+    sampless.connect(output)
+    return () => {
+      // Clean up the instance stored in the ref
+      samplerRef.current?.releaseAll(0)
+      // Clean up the instance stored in the ref
+      samplerRef.current?.dispose()
+      samplerRef.current?.disconnect()
+    }
+  }, [])
 
   useEffect(() => {
     setColor(currentPattern.color)
@@ -59,8 +89,8 @@ const PatternMakerPage: React.FC = () => {
 
   const sendFilters = (value: [number, number]) => {
     dispatch(SetFilters(value))
-    lpFilter.frequency.value = value[1]
-    hpFilter.frequency.value = value[0]
+    // lpFilter.frequency.value = value[1]
+    // hpFilter.frequency.value = value[0]
   }
 
   const sendTempo = (value: number) => {
@@ -101,7 +131,7 @@ const PatternMakerPage: React.FC = () => {
               transform: "translate(0px ,-5px )",
             }}
           >
-            <PatternMaker output={hpFilter} colorValue={colorValue} />
+            <PatternMaker colorValue={colorValue} samples={samples} />
           </Flex>
         </Container>
 
