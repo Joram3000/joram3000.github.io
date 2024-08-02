@@ -70,7 +70,7 @@ const PatternMakerPage: React.FC = () => {
 
   return (
     <Container p={0} h="calc(100vh - 120px)">
-      <DrawerComponent uitleg={Uitleg()} />
+      <DrawerComponent>{Uitleg()}</DrawerComponent>
       <Center
         left={0}
         pos="absolute"

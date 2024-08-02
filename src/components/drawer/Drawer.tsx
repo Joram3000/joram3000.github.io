@@ -1,16 +1,16 @@
-import { Button, Drawer, ScrollArea } from "@mantine/core";
-import { useDispatch, useSelector } from "react-redux";
-import { DrawerToggle } from "../../store/ui/actions";
-import { getUIStateSelector } from "../../store/ui/selectors";
-import { IconQuestionMark } from "@tabler/icons-react";
+import { Button, Drawer, ScrollArea } from "@mantine/core"
+import { useDispatch, useSelector } from "react-redux"
+import { DrawerToggle } from "../../store/ui/actions"
+import { getUIStateSelector } from "../../store/ui/selectors"
+import { IconQuestionMark } from "@tabler/icons-react"
 
 interface DrawerComponentProps {
-  uitleg: React.ReactNode;
+  children: React.ReactNode
 }
 
-const DrawerComponent: React.FC<DrawerComponentProps> = ({ uitleg }) => {
-  const dispatch = useDispatch();
-  const getUIState = useSelector(getUIStateSelector);
+const DrawerComponent: React.FC<DrawerComponentProps> = ({ children }) => {
+  const dispatch = useDispatch()
+  const getUIState = useSelector(getUIStateSelector)
 
   return (
     <>
@@ -20,7 +20,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ uitleg }) => {
         onClose={() => dispatch(DrawerToggle(false))}
       >
         <ScrollArea offsetScrollbars type="never">
-          {uitleg}
+          {children}
         </ScrollArea>
       </Drawer>
 
@@ -36,7 +36,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ uitleg }) => {
         <IconQuestionMark />
       </Button>
     </>
-  );
-};
+  )
+}
 
-export default DrawerComponent;
+export default DrawerComponent

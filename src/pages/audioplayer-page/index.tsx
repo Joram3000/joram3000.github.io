@@ -1,7 +1,5 @@
 import { Title, Text, Container } from "@mantine/core"
-// import treingv from "../../assets/music/treingv.mp3"
 import treingvbluesberber from "../../assets/music/treingvbluesberber.mp3"
-
 import BlankWaveSurfer from "../../components/WaveSurferPlayer/BlankWaveSurfer"
 
 export default function AudioplayerPage() {

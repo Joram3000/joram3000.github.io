@@ -25,6 +25,7 @@ import AudioplayerPage from "./pages/audioplayer-page"
 import Experimenten from "./pages/experimenten-page"
 import ParallaxTest from "./pages/experimenten-page/parallax"
 import VideoScroll from "./pages/experimenten-page/videoscroll"
+import LubadhPresetmaker from "./pages/experimenten-page/lubadhPresetmaker"
 
 const router = createHashRouter([
   {
@@ -48,6 +49,10 @@ const router = createHashRouter([
       { path: "/experimenten/", element: <Experimenten /> },
       { path: "/experimenten/parallax", element: <ParallaxTest /> },
       { path: "/experimenten/videoscroll", element: <VideoScroll /> },
+      {
+        path: "/experimenten/lubadhPresetmaker",
+        element: <LubadhPresetmaker />,
+      },
     ],
   },
 ])

@@ -1,4 +1,4 @@
-import { Container, SimpleGrid, Title } from "@mantine/core"
+import { Flex, Container, SimpleGrid, Title, Text } from "@mantine/core"
 import GridCard from "../../components/GridCard"
 
 export default function Experimenten() {
@@ -13,10 +13,18 @@ export default function Experimenten() {
       projectUrl: "experimenten/videoscroll",
       projectOmschrijving: " videoscroll",
     },
+    {
+      projectNaam: "lubadhPresetmaker",
+      projectUrl: "experimenten/lubadhPresetmaker",
+      projectOmschrijving: "Lubadh Presetmaker",
+    },
   ]
 
   return (
     <Container>
+      <Flex w="80" h="80" bg="orange" justify="center" align="center">
+        <Text>Hoi</Text>
+      </Flex>
       <Title pt="md">experimenteer pagina</Title>
       <SimpleGrid py="md" cols={{ base: 1, sm: 2, lg: 4 }}>
         {Experimenten.map((project) => (

@@ -6,39 +6,14 @@ import {
   Group,
   Stack,
   Anchor,
+  Box,
 } from "@mantine/core"
-// import Curriculum from "./Curriculum";
-import {
-  IconAppWindow,
-  IconBrandInstagram,
-  IconMail,
-  IconPhone,
-} from "@tabler/icons-react"
+
 import joram from "../../assets/images/joram/joramcutout.webp"
-import Curriculum from "./curriculum"
+import { DataTable } from "mantine-datatable"
+import { contactInfo, curriculumVitae } from "./data"
 
 export default function ContactPage() {
-  const contactInfo = [
-    {
-      icon: <IconPhone />,
-      text: "06 185 120 84",
-    },
-    {
-      icon: <IconMail />,
-      text: "joramkroon@live.nl",
-    },
-    {
-      icon: <IconBrandInstagram />,
-      text: "Instagram/pracemusic",
-      url: "https://www.instagram.com/pracemusic",
-    },
-    {
-      icon: <IconAppWindow />,
-      text: "Github.com/Joram3000",
-      url: "https://github.com/joram3000",
-    },
-  ]
-
   return (
     <Container>
       <Title pt="md">Contact</Title>
@@ -60,7 +35,48 @@ export default function ContactPage() {
 
       <Title py="md">Curriculum Vitae</Title>
 
-      <Curriculum />
+      <DataTable
+        withTableBorder
+        striped
+        highlightOnHover
+        records={curriculumVitae}
+        columns={[
+          {
+            accessor: "start",
+            render: (item) => (
+              <Text>
+                {item.start}-{item.finish}
+              </Text>
+            ),
+          },
+          {
+            accessor: "title",
+            render: (item, i) => <Text key={i}>{item.title}</Text>,
+          },
+          {
+            accessor: "company",
+            render: (item) =>
+              item.url ? (
+                <Anchor href={item.url} target="_blank">
+                  {item.company}
+                </Anchor>
+              ) : (
+                <Text>{item.company}</Text>
+              ),
+          },
+        ]}
+        idAccessor={({ title, company }) => `${title}:${company}`}
+        rowExpansion={{
+          content: ({ record }) =>
+            record.description ? (
+              <Box m="md">
+                <Text>{record.description}</Text>
+              </Box>
+            ) : (
+              false
+            ),
+        }}
+      />
 
       <Image
         pos="relative"

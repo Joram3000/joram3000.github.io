@@ -1,6 +1,6 @@
-import { useState } from "react";
-import ReactPlayer from "react-player";
-import "./VideoPlayer.css";
+import { useState } from "react"
+import ReactPlayer from "react-player"
+import "./VideoPlayer.css"
 import {
   AspectRatio,
   ColorPicker,
@@ -12,39 +12,39 @@ import {
   Text,
   Title,
   Image,
-} from "@mantine/core";
-import { isSafari } from "react-device-detect";
-import safariVideo from "../../../assets/video/animation09.mp4";
-import chromeVideo from "../../../assets/video/animation09-vp9-chrome.webm";
-import feather from "../../../assets/images/feather.png";
-import DrawerComponent from "../../../components/drawer/Drawer";
-import Uitleg from "./Uitleg";
-import vtgnarrowcastingdesign from "../../../assets/images/vtgnarrowcastingdesign.webp";
+} from "@mantine/core"
+import { isSafari } from "react-device-detect"
+import safariVideo from "../../../assets/video/animation09.mp4"
+import chromeVideo from "../../../assets/video/animation09-vp9-chrome.webm"
+import feather from "../../../assets/images/feather.png"
+import DrawerComponent from "../../../components/drawer/Drawer"
+import Uitleg from "./Uitleg"
+import vtgnarrowcastingdesign from "../../../assets/images/vtgnarrowcastingdesign.webp"
 
 function VideoPlayer() {
-  const [color, setColor] = useState<string>("#0000ff");
-  const [greetingIndex, setGreetingIndex] = useState(0);
+  const [color, setColor] = useState<string>("#0000ff")
+  const [greetingIndex, setGreetingIndex] = useState(0)
 
-  const [showOverlay, setShowOverlay] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false)
   const [arrayValues, setArrayValues] = useState<string[]>([
     "Goedesnavels",
     "Hallo goedemiddag",
-  ]);
+  ])
 
   const handleProgress = (progress: { playedSeconds: number }) => {
     if (progress.playedSeconds < 1) {
-      setShowOverlay(true);
+      setShowOverlay(true)
       setTimeout(() => {
-        setShowOverlay(false);
-      }, 3300);
-      setGreetingIndex((prevIndex) => (prevIndex + 1) % arrayValues.length);
+        setShowOverlay(false)
+      }, 3300)
+      setGreetingIndex((prevIndex) => (prevIndex + 1) % arrayValues.length)
     }
-  };
+  }
 
   return (
     <Container p="md">
       <Title pb="md">Dynamic Video voor instore narrowcasting</Title>
-      <DrawerComponent uitleg={Uitleg()} />
+      <DrawerComponent>{Uitleg()}</DrawerComponent>
       <AspectRatio ratio={960 / 270} maw={"100%"} mx="auto" mt="xl">
         <div
           className="canvas-layer"
@@ -144,7 +144,7 @@ function VideoPlayer() {
         <Image src={vtgnarrowcastingdesign} />
       </Stack>
     </Container>
-  );
+  )
 }
 
-export default VideoPlayer;
+export default VideoPlayer

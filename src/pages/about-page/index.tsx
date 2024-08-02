@@ -5,15 +5,15 @@ import {
   SimpleGrid,
   Image,
   AspectRatio,
-} from "@mantine/core";
-import joramStudio from "../../assets/images/joram/joramstudio.webp";
-import codaisseur from "../../assets/images/joram/codaisseur.jpg";
-import pressprace from "../../assets/images/joram/prace1bewerkt.webp";
-import { useTranslation } from "react-i18next";
-import ReactPlayer from "react-player";
+} from "@mantine/core"
+import joramStudio from "../../assets/images/joram/joramstudio.webp"
+import codaisseur from "../../assets/images/joram/codaisseur.jpg"
+import pressprace from "../../assets/images/joram/prace1bewerkt.webp"
+import { useTranslation } from "react-i18next"
+import ReactPlayer from "react-player"
 
 export default function Aboutpage() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <Container>
       <Title pt="md">{t("about.title")}</Title>
@@ -44,5 +44,5 @@ export default function Aboutpage() {
         </AspectRatio>
       </SimpleGrid>
     </Container>
-  );
+  )
 }
