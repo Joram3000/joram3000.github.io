@@ -267,8 +267,7 @@ const BlankWaveSurfer: React.FC<BlankWaveSurferProps> = memo((props) => {
     cursorColor: "#ff0000", // Red cursor
     progressColor: "#999999", // Slightly grey progress (played portion)
     waveColor: "#999999", // Purple waveform
-    // Audio rate is always from state
-    audioRate: playerState.audioRate, // Use current audioRate value as initial audioRate
+    audioRate: playerState.audioRate,
   })
 
   const [wsRegions, setWsRegions] = useState<RegionsPlugin | null>(null)
@@ -432,7 +431,6 @@ const BlankWaveSurfer: React.FC<BlankWaveSurferProps> = memo((props) => {
 
   return (
     <Box>
-      {/* Audio Error Alert */}
       {audioError && (
         <Alert
           icon={<IconAlertCircle size="1rem" />}

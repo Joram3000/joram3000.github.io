@@ -179,7 +179,7 @@ export const useRegionManagement = (
       wsRegions.on("region-created", handleRegionCreated),
       wsRegions.on("region-updated", handleRegionUpdated),
       wsRegions.on("region-in", (region: Region) => {
-        console.log("Region-in:", region.id, "Loop:", playerState.loop)
+        // console.log("Region-in:", region.id, "Loop:", playerState.loop)
 
         // Check if this should be the priority region
         const currentTime = wavesurfer.getCurrentTime()
@@ -194,12 +194,12 @@ export const useRegionManagement = (
         }
       }),
       wsRegions.on("region-out", (region: Region) => {
-        console.log(
-          "Region-out:",
-          region.id,
-          "Was looping:",
-          loopingRegionRef.current?.id,
-        )
+        // console.log(
+        //   "Region-out:",
+        //   region.id,
+        //   "Was looping:",
+        //   loopingRegionRef.current?.id,
+        // )
 
         if (region === cuePoint) {
           setActiveRegion(null)
@@ -253,7 +253,7 @@ export const useRegionManagement = (
             setActiveRegion(nextPriorityRegion)
             if (playerState.loop) {
               loopingRegionRef.current = nextPriorityRegion
-              console.log("Switched to priority region:", nextPriorityRegion.id)
+              // console.log("Switched to priority region:", nextPriorityRegion.id)
             }
           } else if (!nextPriorityRegion) {
             // No more regions at current position
@@ -284,7 +284,7 @@ export const useRegionManagement = (
 
       // Set this as the selected region for priority
       selectedRegionRef.current = region
-      console.log("Selected region for priority:", region.id)
+      // console.log("Selected region for priority:", region.id)
 
       try {
         const duration = wavesurfer.getDuration()
