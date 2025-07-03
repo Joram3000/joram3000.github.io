@@ -261,11 +261,14 @@ const BlankWaveSurfer: React.FC<BlankWaveSurferProps> = memo((props) => {
 
   // Pass initial audioRate value to WaveSurfer
   const wavesurfer = useWavesurfer(containerRef, {
+    // Spread incoming options first
     ...wavesurferOptions,
-    audioRate: playerState.audioRate, // Use current audioRate value as initial audioRate
+    // Then override with our desired colors (these take priority)
     cursorColor: "#ff0000", // Red cursor
     progressColor: "#999999", // Slightly grey progress (played portion)
-    waveColor: "#a259ff", // Purple waveform
+    waveColor: "#999999", // Purple waveform
+    // Audio rate is always from state
+    audioRate: playerState.audioRate, // Use current audioRate value as initial audioRate
   })
 
   const [wsRegions, setWsRegions] = useState<RegionsPlugin | null>(null)

@@ -77,7 +77,6 @@ export const usePlayerControls = (
   const onZoomChange = useCallback(
     (zoom: number) => {
       updatePlayerState({ zoom })
-      // Apply zoom instantly without waiting for re-render! 👑
       if (wavesurfer) {
         try {
           wavesurfer.zoom(zoom)
@@ -91,18 +90,11 @@ export const usePlayerControls = (
 
   const onAudioRateChange = useCallback(
     (audioRate: number) => {
-      if (audioRate >= 0.1 && audioRate <= 2.0 && wavesurfer) {
+      if (audioRate >= 0.01 && audioRate <= 2.0 && wavesurfer) {
         updatePlayerState({ audioRate: audioRate })
-
         try {
-          // Direct playback rate zetten tijdens dragging
           wavesurfer.setPlaybackRate(audioRate, false) // false = preserve pitch
-
-          // FORCE UI update immediately - like the official example
-          // This ensures waveform, cursor, and timer update in real-time
-          if (wavesurfer.isPlaying()) {
-            wavesurfer.play() // Force UI refresh for playing audio
-          }
+          wavesurfer.play()
         } catch (error) {
           console.error("Error changing audioRate:", error)
         }
@@ -113,9 +105,8 @@ export const usePlayerControls = (
 
   const onAudioRateChangeEnd = useCallback(
     (audioRate: number) => {
-      if (audioRate >= 0.1 && audioRate <= 2.0 && wavesurfer) {
+      if (audioRate >= 0.01 && audioRate <= 2.0 && wavesurfer) {
         try {
-          // Final state update - the UI sync is already handled in onAudioRateChange
           updatePlayerState({ audioRate: audioRate })
           wavesurfer.setPlaybackRate(audioRate, false)
         } catch (error) {

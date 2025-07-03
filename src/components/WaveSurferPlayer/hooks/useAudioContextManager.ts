@@ -31,13 +31,13 @@ export const useAudioContextManager = (): AudioContextManager => {
         setError(null)
 
         // Get or create global AudioContext
-        const audioContext = await getGlobalAudioContext()
+        // const audioContext = await getGlobalAudioContext()
 
         setIsReady(true)
-        console.log(
-          "AudioContext initialized successfully:",
-          audioContext.state,
-        )
+        // console.log(
+        //   "AudioContext initialized successfully:",
+        //   audioContext.state,
+        // )
       } catch (error) {
         console.error("Failed to initialize AudioContext:", error)
         setError(
