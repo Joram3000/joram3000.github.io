@@ -8,14 +8,14 @@ import {
   Text,
   Title,
   useMantineTheme,
-} from "@mantine/core";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
+} from "@mantine/core"
+import { useState } from "react"
+import { useTranslation } from "react-i18next"
 
 const Uitleg = () => {
-  const { t } = useTranslation();
-  const theme = useMantineTheme();
-  const [value, onChange] = useState(0);
+  const { t } = useTranslation()
+  const theme = useMantineTheme()
+  const [value, onChange] = useState(0)
   return (
     <Container>
       <Title pt="md">{t("patternMaker.title")}</Title>
@@ -46,7 +46,7 @@ const Uitleg = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              transform: `rotateY(${value}deg) rotateY(${value / 2}deg)`,
+              // transform: `rotateY(${value}deg) rotateY(${value / 2}deg)`,
             }}
           >
             <div
@@ -67,7 +67,7 @@ const Uitleg = () => {
                 width: "100%",
                 height: "100%",
                 backgroundColor: theme.colors.grape[8],
-                transform: `translate(${value}px, ${value}px)`,
+                // transform: `translate(${value}px, ${value}px)`,
                 display: "flex",
                 justifyContent: "center",
               }}
@@ -80,7 +80,7 @@ const Uitleg = () => {
                 width: "100%",
                 height: "100%",
                 backgroundColor: theme.colors.grape[7],
-                transform: `translate(${value * 2}px, ${value * 2}px)`,
+                transform: `perspective(${value}px)`,
                 display: "flex",
                 justifyContent: "center",
               }}
@@ -104,7 +104,7 @@ const Uitleg = () => {
         <Text py="md">Hier is een link naar de github</Text>
       </Anchor>
     </Container>
-  );
-};
+  )
+}
 
-export default Uitleg;
+export default Uitleg
