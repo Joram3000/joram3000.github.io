@@ -47,6 +47,7 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
   const [loop, setLoop] = useState<boolean>(false)
   const [activeRegion, setActiveRegion] = useState<Region | null>(null)
   const [cuePoint, setCuePoint] = useState<Region | null>(null)
+  const [pitchValue, setPitchValue] = useState(0.5)
 
   useEffect(() => {
     if (!wavesurfer) return
@@ -56,13 +57,13 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
   // WAVESURFER INIT
   useEffect(() => {
     if (!wavesurfer || !wsRegions) return
-    // setCurrentTime(0)
-
     const subscriptions = [
       wavesurfer.on("play", () => setIsPlaying(true)),
       wavesurfer.on("pause", () => setIsPlaying(false)),
-      wavesurfer.on("timeupdate", (currentTime) => setCurrentTime(currentTime)),
-      wavesurfer.on("zoom", (e) => {
+      wavesurfer.on("timeupdate", (currentTime: number) =>
+        setCurrentTime(currentTime),
+      ),
+      wavesurfer.on("zoom", (e: number) => {
         setZoom(e), setCurrentTime(currentTime)
       }),
     ]
@@ -124,13 +125,25 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
             const seekToPercentage =
               cuePoint.start / wavesurfer.getDecodedData()!.duration
             wavesurfer.seekTo(seekToPercentage)
-            //this is go to cue point and set active region to null
           } else if (loop === false) {
-            //what is happening here hier gaat iets nog niet helemaal goed
-            setActiveRegion(region ? region : null)
+            // Alleen activeRegion op null zetten als we niet al in een andere region zitten
+            setTimeout(() => {
+              // Check of we na een korte delay nog steeds geen nieuwe region hebben
+              const currentTime = wavesurfer.getCurrentTime()
+              const currentRegion = wsRegions
+                .getRegions()
+                .find(
+                  (r) =>
+                    r !== cuePoint &&
+                    currentTime >= r.start &&
+                    currentTime <= r.end,
+                )
+              if (!currentRegion) {
+                setActiveRegion(null)
+              }
+            }, 10)
           } else if (loop === true) {
             region.play()
-            // setActiveRegion(region)
           }
         }),
       ]
@@ -142,12 +155,13 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
 
   // FOLLOW
   useEffect(() => {
-    wavesurfer?.setOptions({ autoScroll: follow })
+    wavesurfer?.setOptions({ autoScroll: follow, autoCenter: follow })
   }, [follow, wavesurfer])
 
   // PLAY
   const onPlayClick = useCallback(() => {
     if (!wavesurfer) return
+    console.log(wavesurfer.isPlaying())
     wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer?.playPause()
   }, [wavesurfer])
 
@@ -168,7 +182,6 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
       region.start / wavesurfer.getDecodedData()!.duration
     wavesurfer.seekTo(seekToPercentage)
     wavesurfer.play()
-    // setActiveRegion(region) //todo unnesesary
   }
 
   return (
@@ -203,6 +216,8 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
           changePitch={(e: number) => {
             if (e > 0.07) wavesurfer!.setPlaybackRate(e, false)
           }}
+          setPitchValue={setPitchValue}
+          pitchValue={pitchValue}
         />
       </Flex>
       <Group
@@ -295,6 +310,11 @@ const BlankWaveSurfer: React.FC<WaveSurferOptions> = (props) => {
           <IconZoomIn onClick={() => wavesurfer?.zoom(zoom + 5)} />
         </Group>
       </Group>
+      {/* <Group>
+        <Box w="100%" h="30vh" bg="grape">
+          <Text>Hoi ik zit in de doos</Text>
+        </Box>
+      </Group> */}
     </Box>
   )
 }

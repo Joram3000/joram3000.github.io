@@ -1,17 +1,21 @@
-import { useState } from "react"
 import { Group, Stack, rem } from "@mantine/core"
 import { useMove } from "@mantine/hooks"
 
 interface PitchSliderProps {
   changePitch: (y: number) => void
+  setPitchValue: (y: number) => void
+  pitchValue: number
 }
 
-const PitchSlider: React.FC<PitchSliderProps> = ({ changePitch }) => {
-  const [value, setValue] = useState(0.5)
+const PitchSlider: React.FC<PitchSliderProps> = ({
+  changePitch,
+  setPitchValue,
+  pitchValue,
+}) => {
   const { ref } = useMove(({ y }) => setter(y))
 
   const setter = (y: number) => {
-    setValue(y)
+    setPitchValue(y)
     // changePitch(y * 0.25 + 0.875);
     // changePitch(y * 0.5 + 0.75);
     // changePitch(y * 1 + 0.5);
@@ -36,7 +40,7 @@ const PitchSlider: React.FC<PitchSliderProps> = ({ changePitch }) => {
           <div
             style={{
               position: "absolute",
-              top: `calc(${value * 99}%`,
+              top: `calc(${pitchValue * 99}%`,
               left: 0,
               width: rem(16),
               height: rem(1),
@@ -47,7 +51,12 @@ const PitchSlider: React.FC<PitchSliderProps> = ({ changePitch }) => {
         </div>
       </Group>
 
-      {/* <Text ta="center">{(value * 2).toFixed(1)}</Text> */}
+      {/* <Text
+        ta="center"
+        style={{ minWidth: rem(32), fontVariantNumeric: "tabular-nums" }}
+      >
+        {(pitchValue * 2).toFixed(1)}
+      </Text> */}
     </Stack>
   )
 }
