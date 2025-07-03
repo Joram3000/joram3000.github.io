@@ -97,7 +97,7 @@ export const usePlayerControls = (
         try {
           // Direct playback rate zetten tijdens dragging
           wavesurfer.setPlaybackRate(audioRate, false) // false = preserve pitch
-          
+
           // FORCE UI update immediately - like the official example
           // This ensures waveform, cursor, and timer update in real-time
           if (wavesurfer.isPlaying()) {

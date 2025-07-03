@@ -272,8 +272,6 @@ const BlankWaveSurfer: React.FC<BlankWaveSurferProps> = memo((props) => {
     onZoomOut,
     onVolumeChange,
     onZoomChange,
-    onAudioRateChange,
-    onAudioRateChangeEnd,
     toggleLoop,
   } = usePlayerControls(wavesurfer, playerState, updatePlayerState, follow)
 
@@ -451,8 +449,18 @@ const BlankWaveSurfer: React.FC<BlankWaveSurferProps> = memo((props) => {
           }}
         />
         <AudioRateSlider
-          changeAudioRate={onAudioRateChange}
-          changeAudioRateEnd={onAudioRateChangeEnd}
+          changeAudioRate={(rate) => {
+            // IMMEDIATE call to setPlaybackRate - like the main branch
+            if (rate > 0.07 && wavesurfer) {
+              wavesurfer.setPlaybackRate(rate, false)
+            }
+            // Update state for UI consistency
+            updatePlayerState({ audioRate: rate })
+          }}
+          changeAudioRateEnd={(rate) => {
+            // Final state update - no additional WaveSurfer calls needed
+            updatePlayerState({ audioRate: rate })
+          }}
           setAudioRateValue={(value) => updatePlayerState({ audioRate: value })}
           audioRateValue={playerState.audioRate}
         />
