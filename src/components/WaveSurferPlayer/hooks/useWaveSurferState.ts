@@ -30,7 +30,7 @@ export const useWaveSurferState = (
     currentTime: 0,
     zoom: 11,
     loop: false,
-    audioRate: 0.5,
+    audioRate: 1.0,
     volume: 1,
   })
 

@@ -189,7 +189,11 @@ const AudioRateSlider: React.FC<AudioRateSliderProps> = ({
 
   return (
     <Stack bg="gray" p="sm" style={{ borderRadius: "6px" }}>
-      <Group justify="center" p="" onDoubleClick={() => setter(0.47)}>
+      <Group
+        justify="center"
+        p=""
+        onDoubleClick={() => setter((1.0 - 0.1) / 1.9)}
+      >
         <div
           ref={ref}
           onMouseDown={handleMouseDown}
@@ -206,16 +210,29 @@ const AudioRateSlider: React.FC<AudioRateSliderProps> = ({
             cursor: isDragging ? "grabbing" : "grab",
           }}
         >
+          {/* Center line */}
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: 0,
+              width: "100%",
+              height: "1px",
+              backgroundColor: "rgba(255,255,255,0.3)",
+              transform: "translateY(-50%)",
+            }}
+          />
           {/* Thumb */}
           <div
             style={{
               position: "absolute",
-              top: `calc(${sliderPosition * 99}%)`,
+              // top: `calc(${sliderPosition * 86}% + 6%)`, // Symmetrical: 6% margin top and bottom
+              top: `calc(${sliderPosition * 100}% - 2px)`, // Adjusted for 4px height
               left: 0,
               width: rem(16),
-              height: rem(4), // Maak thumb dikker voor betere zichtbaarheid
+              height: rem(4),
               backgroundColor: "white",
-              borderRadius: "2px",
+              borderRadius: "1px",
               boxShadow: "0 1px 3px rgba(0,0,0,0.3)",
               transition: isDragging ? "none" : "top 0.1s ease-out",
             }}
@@ -246,6 +263,9 @@ const BlankWaveSurfer: React.FC<BlankWaveSurferProps> = memo((props) => {
   const wavesurfer = useWavesurfer(containerRef, {
     ...wavesurferOptions,
     audioRate: playerState.audioRate, // Use current audioRate value as initial audioRate
+    cursorColor: "#ff0000", // Red cursor
+    progressColor: "#999999", // Slightly grey progress (played portion)
+    waveColor: "#a259ff", // Purple waveform
   })
 
   const [wsRegions, setWsRegions] = useState<RegionsPlugin | null>(null)

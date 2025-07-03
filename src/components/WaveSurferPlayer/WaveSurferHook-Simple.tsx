@@ -33,7 +33,29 @@ export const useWavesurfer = (
       setWavesurfer(null)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [containerRef, options.url, options.waveColor, options.progressColor]) // Only re-initialize when critical options change
+  }, [containerRef, options.url]) // Only re-initialize when URL changes
+
+  // Update visual options dynamically without reinitialization
+  useEffect(() => {
+    if (wavesurfer && wsRef.current) {
+      try {
+        wsRef.current.setOptions({
+          waveColor: options.waveColor,
+          progressColor: options.progressColor,
+          cursorColor: options.cursorColor,
+          height: options.height,
+        })
+      } catch (error) {
+        console.warn("Failed to update WaveSurfer options:", error)
+      }
+    }
+  }, [
+    options.waveColor,
+    options.progressColor,
+    options.cursorColor,
+    options.height,
+    wavesurfer,
+  ])
 
   return wavesurfer
 }
