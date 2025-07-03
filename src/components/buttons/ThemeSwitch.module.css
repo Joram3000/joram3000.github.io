@@ -4,21 +4,17 @@
 }
 
 .dark {
-  @mixin dark {
-    display: none;
-  }
-
-  @mixin light {
-    display: block;
-  }
+  display: none;
 }
 
 .light {
-  @mixin light {
-    display: none;
-  }
+  display: block;
+}
 
-  @mixin dark {
-    display: block;
-  }
+/* When in dark mode, show .dark and hide .light */
+.theme-dark .dark {
+  display: block;
+}
+.theme-dark .light {
+  display: none;
 }
