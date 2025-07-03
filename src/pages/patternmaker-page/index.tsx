@@ -29,10 +29,8 @@ import TransporterButton from "./components/TransporterButton"
 import P5WaveFormSketchWrapper from "./components/P5WaveFormSketchWrapper"
 import DrawerComponent from "../../components/drawer/Drawer"
 import Uitleg from "./uitleg"
-
-const output = new Tone.Volume(-12).toDestination()
-const lpFilter = new Tone.Filter(8000, "lowpass", -48).connect(output)
-const hpFilter = new Tone.Filter(0, "highpass").connect(lpFilter)
+import { output, lpFilter, hpFilter } from "./audio/audioConfig"
+import { cleanupAudioResources } from "./audio/audioUtils"
 
 const PatternMakerPage: React.FC = () => {
   const dispatch = useDispatch()
@@ -54,7 +52,7 @@ const PatternMakerPage: React.FC = () => {
   }
 
   useEffect(() => {
-    output.volume.value = soundSettings.volume
+    output.volume.value = soundSettings.volume - 1
   }, [soundSettings.volume])
 
   const sendFilters = (value: [number, number]) => {
@@ -67,6 +65,13 @@ const PatternMakerPage: React.FC = () => {
     Tone.Transport.bpm.value = value
     dispatch(SetTempo(Tone.Transport.bpm.value))
   }
+
+  // Cleanup when component unmounts
+  useEffect(() => {
+    return () => {
+      cleanupAudioResources()
+    }
+  }, [])
 
   return (
     <Container p={0} h="calc(100vh - 120px)">

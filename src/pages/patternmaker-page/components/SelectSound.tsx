@@ -23,7 +23,7 @@ const SelectSound: React.FC<SelectSoundCompProps> = ({
     <SegmentedControl
       orientation="vertical"
       value={currentSound}
-      onChange={() => onClickCHange}
+      onChange={(value) => onClickCHange(value as SoundStyle)}
       color={color}
       data={[
         SoundStyle.ELECTRONIC,
