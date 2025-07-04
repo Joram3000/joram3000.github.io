@@ -157,8 +157,9 @@ export const ModernWaveSurferWithRegions: React.FC<
       // --- CUE POINT LOGIC ---
       // Add a default cue region at 4.96s if not present (like useRegionManagement)
       const existingCue = regions.getRegions().find((r) => r.id === "CUE")
+      let cueRegion: Region
       if (!existingCue) {
-        const cueRegion = regions.addRegion({
+        cueRegion = regions.addRegion({
           id: "CUE",
           start: 4.96,
           color: "orange",
@@ -166,8 +167,13 @@ export const ModernWaveSurferWithRegions: React.FC<
         setCuePoint && setCuePoint(cueRegion)
         console.log("Created cue region:", cueRegion)
       } else {
+        cueRegion = existingCue
         setCuePoint && setCuePoint(existingCue)
       }
+
+      // Set cursor position to cue point on load
+      ws.setTime(cueRegion.start)
+      setCurrentTime(cueRegion.start)
 
       // Set up region event listeners
       regions.on("region-created", (region: Region) => {
@@ -195,7 +201,14 @@ export const ModernWaveSurferWithRegions: React.FC<
           ),
         )
         onRegionUpdated?.(region)
-        if (region.id === "CUE" && setCuePoint) setCuePoint(region)
+        if (region.id === "CUE" && setCuePoint) {
+          setCuePoint(region)
+          // When cue region is moved, update playhead position immediately
+          ws.setTime(region.start)
+          setCurrentTime(region.start)
+          // Set cue as active region for playback
+          setActiveRegion(region)
+        }
       })
 
       regions.on("region-removed", (region: Region) => {
@@ -294,23 +307,32 @@ export const ModernWaveSurferWithRegions: React.FC<
 
   const handlePlayPause = useCallback(() => {
     if (wavesurfer) {
-      // If we're starting to play and no region is active, clear activeRegion
       if (!isPlaying) {
-        const currentTime = wavesurfer.getCurrentTime()
-        // Check if we're clicking outside of any region
-        const clickedRegion = regionsPlugin
-          ?.getRegions()
-          .find(
-            (region) =>
-              currentTime >= region.start && currentTime <= region.end,
-          )
-        if (!clickedRegion) {
-          setActiveRegion(null)
+        // When starting to play, check if there's a cue point and start from there
+        if (cuePoint) {
+          const duration = wavesurfer.getDuration()
+          if (duration && duration > 0) {
+            const seekToPercentage = cuePoint.start / duration
+            wavesurfer.seekTo(seekToPercentage)
+            setActiveRegion(cuePoint)
+          }
+        } else {
+          // No cue point, check if we're clicking outside of any region
+          const currentTime = wavesurfer.getCurrentTime()
+          const clickedRegion = regionsPlugin
+            ?.getRegions()
+            .find(
+              (region) =>
+                currentTime >= region.start && currentTime <= region.end,
+            )
+          if (!clickedRegion) {
+            setActiveRegion(null)
+          }
         }
       }
       wavesurfer.playPause()
     }
-  }, [wavesurfer, isPlaying, regionsPlugin])
+  }, [wavesurfer, isPlaying, regionsPlugin, cuePoint])
 
   const handleVolumeChange = useCallback(
     (newVolume: number) => {
@@ -405,11 +427,15 @@ export const ModernWaveSurferWithRegions: React.FC<
           currentTime < activeRegion.start ||
           currentTime >= activeRegion.end
         ) {
+          // Set a higher lock count to prevent timeupdate infinite loop
+          setRegionJumpLock(5)
           wavesurfer.setTime(activeRegion.start)
           wavesurfer.play()
         }
       } else if (loop && !activeRegion && isPlaying) {
         if (currentTime >= duration) {
+          // Set a higher lock count to prevent timeupdate infinite loop
+          setRegionJumpLock(5)
           wavesurfer.setTime(0)
           wavesurfer.play()
         }
@@ -512,28 +538,111 @@ export const ModernWaveSurferWithRegions: React.FC<
   // --- CUE BUTTON LOGIC (Pioneer CDJ/BlankWaveSurfer style) ---
   // Track cue button state
   const [cueButtonHeld, setCueButtonHeld] = useState(false)
-  // Used to restore play state after cue release
-  const cueWasPlaying = React.useRef(false)
 
   // Handler for cue button down (mouse/touch)
   const handleCueDown = useCallback(() => {
-    if (!wavesurfer || !cuePoint) return
-    cueWasPlaying.current = isPlaying
-    // Always jump to cue and play from there
-    wavesurfer.setTime(cuePoint.start)
-    wavesurfer.play()
-    setActiveRegion(cuePoint)
+    if (!wavesurfer) return
+
+    const wasPlaying = wavesurfer.isPlaying()
+    const currentTime = wavesurfer.getCurrentTime()
+
+    if (!wasPlaying) {
+      // In pause mode: Check if cursor is at cue position or set new cue
+      if (cuePoint && Math.abs(currentTime - cuePoint.start) < 0.1) {
+        // Cursor is at cue position - just play from here (like BlankWaveSurfer)
+        try {
+          wavesurfer.play()
+          setActiveRegion(cuePoint)
+          console.log("Playing from cue position:", cuePoint.start)
+        } catch (error) {
+          console.error("Error playing from cue:", error)
+        }
+      } else {
+        // Cursor is not at cue position - set cue point to current cursor position
+        if (regionsPlugin) {
+          // Remove existing cue region first (ensure only 1 cue point maximum)
+          const existingCue = regionsPlugin
+            .getRegions()
+            .find((r) => r.id === "CUE")
+          if (existingCue) {
+            existingCue.remove()
+          }
+
+          // Create new cue region at current cursor position
+          const newCueRegion = regionsPlugin.addRegion({
+            id: "CUE",
+            start: currentTime,
+            color: "orange",
+          })
+          setCuePoint(newCueRegion)
+          setActiveRegion(newCueRegion)
+          console.log("Set cue to cursor position:", currentTime)
+        }
+      }
+    } else {
+      // In play mode: Hold cue behavior - exactly like BlankWaveSurfer
+      if (!cuePoint) return // Need cue point to proceed
+
+      try {
+        const duration = wavesurfer.getDuration()
+        if (duration && duration > 0) {
+          const wasPlaying = wavesurfer.isPlaying()
+          if (wasPlaying) {
+            wavesurfer.pause()
+          }
+
+          // Smooth transition to cue point (matching BlankWaveSurfer)
+          setTimeout(() => {
+            try {
+              const seekToPercentage = cuePoint.start / duration
+              wavesurfer.seekTo(seekToPercentage)
+              setActiveRegion(cuePoint)
+              setTimeout(() => {
+                wavesurfer.play()
+              }, 20)
+            } catch (seekError) {
+              console.error("Error seeking to cue:", seekError)
+            }
+          }, 10)
+        }
+      } catch (error) {
+        console.error("Error handling cue down:", error)
+      }
+    }
     setCueButtonHeld(true)
-  }, [wavesurfer, cuePoint, isPlaying])
+  }, [wavesurfer, cuePoint, regionsPlugin, setCuePoint, setActiveRegion])
 
   // Handler for cue button up (mouse/touch)
   const handleCueUp = useCallback(() => {
-    if (!wavesurfer || !cuePoint) return
-    wavesurfer.pause()
-    wavesurfer.setTime(cuePoint.start)
-    setActiveRegion(cuePoint)
+    if (!wavesurfer || !cueButtonHeld) return
+
+    // Always jump back to cue position on release (matching BlankWaveSurfer)
+    if (cuePoint) {
+      try {
+        // Stop and return to cue point
+        if (wavesurfer.isPlaying()) {
+          wavesurfer.pause()
+        }
+
+        setTimeout(() => {
+          try {
+            const duration = wavesurfer.getDuration()
+            if (duration && duration > 0) {
+              const seekToPercentage = cuePoint.start / duration
+              wavesurfer.seekTo(seekToPercentage)
+              setActiveRegion(cuePoint)
+            }
+          } catch (seekError) {
+            console.error("Error returning to cue:", seekError)
+          }
+        }, 10)
+      } catch (error) {
+        console.error("Error handling cue up:", error)
+      }
+    }
+
     setCueButtonHeld(false)
-  }, [wavesurfer, cuePoint])
+  }, [wavesurfer, cuePoint, cueButtonHeld, setActiveRegion])
 
   // Keyboard support for cue (spacebar or C)
   useEffect(() => {
@@ -628,7 +737,7 @@ export const ModernWaveSurferWithRegions: React.FC<
             size="lg"
             variant={cueButtonHeld ? "filled" : "outline"}
             style={{ fontWeight: 700, minWidth: 60 }}
-            disabled={!wavesurfer || !cuePoint}
+            disabled={!wavesurfer}
             onMouseDown={handleCueDown}
             onMouseUp={handleCueUp}
             onMouseLeave={() => cueButtonHeld && handleCueUp()}
@@ -636,7 +745,7 @@ export const ModernWaveSurferWithRegions: React.FC<
             onTouchEnd={handleCueUp}
             tabIndex={0}
             aria-pressed={cueButtonHeld}
-            title="Cue (hold to play from cue, release to return)"
+            title="Cue (when playing: hold to play from cue, release to return | when paused at cue: hold to play | when paused elsewhere: set cue to cursor position)"
           >
             Cue
           </Button>
