@@ -31,6 +31,7 @@ import {
   IconEdit,
   IconPlayerPlay,
   IconDotsVertical,
+  IconSquareRoundedChevronRight,
 } from "@tabler/icons-react"
 
 interface RegionData {
@@ -72,11 +73,6 @@ export const ModernWaveSurferWithRegions: React.FC<
   waveColor = "#1976d2",
   progressColor = "#1976d2",
   cursorColor = "#1976d2",
-  showControls = true,
-  showVolumeControl = true,
-  showZoomControls = true,
-  showLoopControl = true,
-  showRegionControls = true,
   onReady,
   onPlay,
   onPause,
@@ -87,8 +83,21 @@ export const ModernWaveSurferWithRegions: React.FC<
   onRegionUpdated,
   onRegionDeleted,
 }) => {
+  // Follow state (like BlankWaveSurfer)
+  const [follow, setFollow] = useState(true)
   const theme = useMantineTheme()
   const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null)
+  // Auto-follow: gebruik WaveSurfer's eigen autoScroll/autoCenter opties zoals in BlankWaveSurfer
+  useEffect(() => {
+    if (wavesurfer) {
+      try {
+        wavesurfer.setOptions({ autoScroll: follow, autoCenter: follow })
+      } catch {
+        // ignore
+      }
+    }
+  }, [wavesurfer, follow])
+  // ...existing code...
   const [regionsPlugin, setRegionsPlugin] = useState<RegionsPlugin | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -331,15 +340,16 @@ export const ModernWaveSurferWithRegions: React.FC<
   // Gebruik een module-scope variable voor de lock (geen window property nodig)
   // Module-scope lock for hotcue/loop race condition
   // Nu met counter zodat meerdere timeupdates worden geblokkeerd na een jump
-  let regionJumpLockCount = 0
-  function setRegionJumpLock(count: number) {
-    regionJumpLockCount = count
+  // Region jump lock (module scope, but useRef for React safety)
+  const regionJumpLockCount = React.useRef(0)
+  const setRegionJumpLock = (count: number) => {
+    regionJumpLockCount.current = count
   }
-  function decRegionJumpLock() {
-    if (regionJumpLockCount > 0) regionJumpLockCount--
+  const decRegionJumpLock = () => {
+    if (regionJumpLockCount.current > 0) regionJumpLockCount.current--
   }
-  function getRegionJumpLock() {
-    return regionJumpLockCount > 0
+  const getRegionJumpLock = () => {
+    return regionJumpLockCount.current > 0
   }
 
   // Gebruik useCallback zodat handlePlayRegion stabiel blijft voor useMemo
@@ -363,19 +373,13 @@ export const ModernWaveSurferWithRegions: React.FC<
   // Loop/region loop: altijd region loopen, maar onderdruk race condition met lock
   useEffect(() => {
     if (!wavesurfer) return
-
-    // Gebruik module-scope lock variable
     const handleTimeUpdate = (currentTime: number) => {
       setCurrentTime(currentTime)
       onSeek?.(currentTime)
-
-      // Robuuste lock: als er net een hotcue jump was, skip 2x de loop check
       if (getRegionJumpLock()) {
         decRegionJumpLock()
         return
       }
-
-      // Alleen loopen als cursor buiten de actieve region is
       if (loop && activeRegion && isPlaying) {
         if (
           currentTime < activeRegion.start ||
@@ -384,22 +388,17 @@ export const ModernWaveSurferWithRegions: React.FC<
           wavesurfer.setTime(activeRegion.start)
           wavesurfer.play()
         }
-      }
-      // Als geen activeRegion, loop hele track
-      else if (loop && !activeRegion && isPlaying) {
+      } else if (loop && !activeRegion && isPlaying) {
         if (currentTime >= duration) {
           wavesurfer.setTime(0)
           wavesurfer.play()
         }
       }
     }
-
     wavesurfer.on("timeupdate", handleTimeUpdate)
-
     return () => {
       wavesurfer.un("timeupdate", handleTimeUpdate)
     }
-    // getRegionJumpLock en setRegionJumpLock zijn module-functies, hoeven niet in deps-array
   }, [wavesurfer, loop, activeRegion, isPlaying, onSeek, duration])
 
   // Region buttons (orange style from original)
@@ -505,7 +504,24 @@ export const ModernWaveSurferWithRegions: React.FC<
 
   return (
     <Stack gap="md">
-      <Box>
+      {/* Info bar boven de player */}
+      <Group justify="space-between" align="center">
+        <Text fw={700}>Playing Region: {activeRegion?.id ?? "-"}</Text>
+        <Group justify="space-around" gap="xs">
+          <Text size="sm">{formatTime(currentTime)}</Text>
+          <Text size="sm">Vol: {volume.toFixed(2)}</Text>
+          <Text size="sm" c={follow ? "yellow" : undefined}>
+            Follow
+          </Text>
+          <Text size="sm" c={loop ? "yellow" : undefined}>
+            Loop
+          </Text>
+          <Text size="sm">Zoom: {zoom.toFixed()}</Text>
+          <Text size="sm">Pitch: {((pitch - 1) * 100).toFixed(0)}%</Text>
+        </Group>
+      </Group>
+
+      <Box style={{ width: "100%", overflowX: "hidden", overflowY: "visible" }}>
         <WavesurferPlayer
           height={height}
           waveColor={waveColor}
@@ -523,249 +539,246 @@ export const ModernWaveSurferWithRegions: React.FC<
         />
       </Box>
 
-      {showControls && (
-        <Group justify="space-between" align="center">
-          <Group gap="sm">
-            <ActionIcon
-              onClick={handlePlayPause}
-              disabled={!wavesurfer}
-              variant="filled"
-              size="lg"
-              color={theme.primaryColor}
-            >
-              {isPlaying ? (
-                <IconPlayerPauseFilled size={20} />
+      <Group justify="space-between" align="center">
+        <Group gap="sm">
+          <ActionIcon
+            onClick={handlePlayPause}
+            disabled={!wavesurfer}
+            variant="filled"
+            size="lg"
+            color={theme.primaryColor}
+          >
+            {isPlaying ? (
+              <IconPlayerPauseFilled size={20} />
+            ) : (
+              <IconPlayerPlayFilled size={20} />
+            )}
+          </ActionIcon>
+
+          <ActionIcon
+            onClick={handleLoopToggle}
+            disabled={!wavesurfer}
+            variant={loop ? "filled" : "outline"}
+            size="md"
+            color={theme.primaryColor}
+          >
+            <IconRepeat size={20} />
+          </ActionIcon>
+
+          <ActionIcon
+            onClick={() => setFollow((f) => !f)}
+            variant={follow ? "filled" : "subtle"}
+            size="sm"
+            color={follow ? "yellow" : undefined}
+            title={follow ? "Disable follow" : "Enable follow"}
+            aria-label={follow ? "Disable follow" : "Enable follow"}
+          >
+            <IconSquareRoundedChevronRight size={20} />
+          </ActionIcon>
+          <Text size="sm" c="dimmed">
+            {formatTime(currentTime)} / {formatTime(duration)}
+          </Text>
+        </Group>
+
+        <Group gap="md">
+          <Group gap="xs" style={{ minWidth: 120 }}>
+            <ActionIcon variant="subtle" size="sm">
+              {volume > 0.5 ? (
+                <IconVolume3 size={16} />
               ) : (
-                <IconPlayerPlayFilled size={20} />
+                <IconVolume size={16} />
               )}
             </ActionIcon>
-
-            {showLoopControl && (
-              <ActionIcon
-                onClick={handleLoopToggle}
-                disabled={!wavesurfer}
-                variant={loop ? "filled" : "outline"}
-                size="md"
-                color={theme.primaryColor}
-              >
-                <IconRepeat size={16} />
-              </ActionIcon>
-            )}
-
-            <Text size="sm" c="dimmed">
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </Text>
+            <Slider
+              value={volume}
+              onChange={handleVolumeChange}
+              min={0}
+              max={1}
+              step={0.1}
+              style={{ flex: 1 }}
+              size="sm"
+            />
           </Group>
 
-          <Group gap="md">
-            {showVolumeControl && (
-              <Group gap="xs" style={{ minWidth: 120 }}>
-                <ActionIcon variant="subtle" size="sm">
-                  {volume > 0.5 ? (
-                    <IconVolume3 size={16} />
-                  ) : (
-                    <IconVolume size={16} />
-                  )}
-                </ActionIcon>
-                <Slider
-                  value={volume}
-                  onChange={handleVolumeChange}
-                  min={0}
-                  max={1}
-                  step={0.1}
-                  style={{ flex: 1 }}
-                  size="sm"
-                />
-              </Group>
-            )}
+          <Group gap="xs" style={{ minWidth: 120 }}>
+            <ActionIcon
+              onClick={() => handleZoomChange(Math.max(1, zoom - 10))}
+              disabled={!wavesurfer || zoom <= 1}
+              variant="subtle"
+              size="sm"
+            >
+              <IconZoomOut size={16} />
+            </ActionIcon>
+            <Slider
+              value={zoom}
+              onChange={handleZoomChange}
+              min={1}
+              max={200}
+              step={10}
+              style={{ flex: 1 }}
+              size="sm"
+            />
+            <ActionIcon
+              onClick={() => handleZoomChange(Math.min(200, zoom + 10))}
+              disabled={!wavesurfer || zoom >= 200}
+              variant="subtle"
+              size="sm"
+            >
+              <IconZoomIn size={16} />
+            </ActionIcon>
+          </Group>
 
-            {showZoomControls && (
-              <Group gap="xs" style={{ minWidth: 120 }}>
-                <ActionIcon
-                  onClick={() => handleZoomChange(Math.max(1, zoom - 10))}
-                  disabled={!wavesurfer || zoom <= 1}
-                  variant="subtle"
-                  size="sm"
-                >
-                  <IconZoomOut size={16} />
-                </ActionIcon>
-                <Slider
-                  value={zoom}
-                  onChange={handleZoomChange}
-                  min={1}
-                  max={200}
-                  step={10}
-                  style={{ flex: 1 }}
-                  size="sm"
-                />
-                <ActionIcon
-                  onClick={() => handleZoomChange(Math.min(200, zoom + 10))}
-                  disabled={!wavesurfer || zoom >= 200}
-                  variant="subtle"
-                  size="sm"
-                >
-                  <IconZoomIn size={16} />
-                </ActionIcon>
-              </Group>
-            )}
+          {/* Pitch Control */}
 
-            {/* Pitch Control */}
-
-            <Group gap="xs" style={{ minWidth: 150 }}>
+          <Group gap="xs" style={{ minWidth: 150 }}>
+            <Text size="xs" c="dimmed">
+              Pitch
+            </Text>
+            <Slider
+              value={pitch}
+              onChange={handlePitchChange}
+              min={0.1}
+              max={2.0}
+              step={0.01}
+              style={{ flex: 1 }}
+              size="sm"
+            />
+            <ActionIcon
+              onClick={() => handlePitchChange(1.0)}
+              variant="subtle"
+              size="sm"
+              title="Reset pitch to 1.0x"
+            >
               <Text size="xs" c="dimmed">
-                Pitch
+                {pitch.toFixed(1)}x
               </Text>
-              <Slider
-                value={pitch}
-                onChange={handlePitchChange}
-                min={0.1}
-                max={2.0}
-                step={0.01}
-                style={{ flex: 1 }}
-                size="sm"
-              />
-              <ActionIcon
-                onClick={() => handlePitchChange(1.0)}
-                variant="subtle"
-                size="sm"
-                title="Reset pitch to 1.0x"
-              >
-                <Text size="xs" c="dimmed">
-                  {pitch.toFixed(1)}x
-                </Text>
-              </ActionIcon>
-            </Group>
+            </ActionIcon>
           </Group>
         </Group>
-      )}
+      </Group>
 
-      {showRegionControls && (
-        <Card withBorder>
-          <Stack gap="md">
-            <Group justify="space-between">
-              <Text fw={500}>Regions/Segments</Text>
-              <Group gap="xs">
-                {!isCreatingRegion ? (
+      <Card withBorder>
+        <Stack gap="md">
+          <Group justify="space-between">
+            <Text fw={500}>Regions/Segments</Text>
+            <Group gap="xs">
+              {!isCreatingRegion ? (
+                <Button
+                  size="sm"
+                  leftSection={<IconSquareRoundedPlus size={16} />}
+                  onClick={() => setIsCreatingRegion(true)}
+                  disabled={!wavesurfer}
+                >
+                  Add Region
+                </Button>
+              ) : (
+                <Group gap="xs">
+                  <TextInput
+                    placeholder="Region name"
+                    value={newRegionLabel}
+                    onChange={(e) => setNewRegionLabel(e.target.value)}
+                    size="sm"
+                  />
+                  <Button size="sm" onClick={handleCreateRegion}>
+                    Create
+                  </Button>
                   <Button
                     size="sm"
-                    leftSection={<IconSquareRoundedPlus size={16} />}
-                    onClick={() => setIsCreatingRegion(true)}
-                    disabled={!wavesurfer}
+                    variant="subtle"
+                    onClick={() => {
+                      setIsCreatingRegion(false)
+                      setNewRegionLabel("")
+                    }}
                   >
-                    Add Region
+                    Cancel
                   </Button>
-                ) : (
-                  <Group gap="xs">
-                    <TextInput
-                      placeholder="Region name"
-                      value={newRegionLabel}
-                      onChange={(e) => setNewRegionLabel(e.target.value)}
-                      size="sm"
-                    />
-                    <Button size="sm" onClick={handleCreateRegion}>
-                      Create
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="subtle"
-                      onClick={() => {
-                        setIsCreatingRegion(false)
-                        setNewRegionLabel("")
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                  </Group>
-                )}
-              </Group>
+                </Group>
+              )}
             </Group>
+          </Group>
 
-            {/* Orange Region Buttons */}
-            {regions.length > 0 && (
-              <Group gap="xs">
-                <Text size="sm" fw={500}>
-                  Quick Play:
-                </Text>
-                {regionButtons}
-              </Group>
-            )}
-
-            {regions.length === 0 ? (
-              <Text size="sm" c="dimmed" ta="center" py="md">
-                No regions created yet. Add regions to create segments in your
-                audio.
+          {/* Orange Region Buttons */}
+          {regions.length > 0 && (
+            <Group gap="xs">
+              <Text size="sm" fw={500}>
+                Quick Play:
               </Text>
-            ) : (
-              <Stack gap="xs">
-                {regions.map((region) => (
-                  <Card key={region.id} withBorder p="xs">
-                    <Group justify="space-between" align="center">
-                      <Group gap="sm">
-                        <Badge color={region.color} variant="light" size="sm">
-                          {formatTime(region.start)} - {formatTime(region.end)}
-                        </Badge>
-                        {editingRegion === region.id ? (
-                          <TextInput
-                            size="xs"
-                            defaultValue={region.label}
-                            onBlur={(e) =>
-                              handleEditRegion(region.id, e.target.value)
+              {regionButtons}
+            </Group>
+          )}
+
+          {regions.length === 0 ? (
+            <Text size="sm" c="dimmed" ta="center" py="md">
+              No regions created yet. Add regions to create segments in your
+              audio.
+            </Text>
+          ) : (
+            <Stack gap="xs">
+              {regions.map((region) => (
+                <Card key={region.id} withBorder p="xs">
+                  <Group justify="space-between" align="center">
+                    <Group gap="sm">
+                      <Badge color={region.color} variant="light" size="sm">
+                        {formatTime(region.start)} - {formatTime(region.end)}
+                      </Badge>
+                      {editingRegion === region.id ? (
+                        <TextInput
+                          size="xs"
+                          defaultValue={region.label}
+                          onBlur={(e) =>
+                            handleEditRegion(region.id, e.target.value)
+                          }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              handleEditRegion(region.id, e.currentTarget.value)
                             }
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                handleEditRegion(
-                                  region.id,
-                                  e.currentTarget.value,
-                                )
-                              }
-                            }}
-                            autoFocus
-                          />
-                        ) : (
-                          <Text size="sm" fw={500}>
-                            {region.label}
-                          </Text>
-                        )}
-                      </Group>
-                      <Group gap="xs">
-                        <ActionIcon
-                          size="sm"
-                          variant="subtle"
-                          onClick={() => handlePlayRegion(region.id)}
-                        >
-                          <IconPlayerPlay size={14} />
-                        </ActionIcon>
-                        <Menu>
-                          <Menu.Target>
-                            <ActionIcon size="sm" variant="subtle">
-                              <IconDotsVertical size={14} />
-                            </ActionIcon>
-                          </Menu.Target>
-                          <Menu.Dropdown>
-                            <Menu.Item
-                              leftSection={<IconEdit size={14} />}
-                              onClick={() => setEditingRegion(region.id)}
-                            >
-                              Edit
-                            </Menu.Item>
-                            <Menu.Item
-                              leftSection={<IconTrash size={14} />}
-                              color="red"
-                              onClick={() => handleDeleteRegion(region.id)}
-                            >
-                              Delete
-                            </Menu.Item>
-                          </Menu.Dropdown>
-                        </Menu>
-                      </Group>
+                          }}
+                          autoFocus
+                        />
+                      ) : (
+                        <Text size="sm" fw={500}>
+                          {region.label}
+                        </Text>
+                      )}
                     </Group>
-                  </Card>
-                ))}
-              </Stack>
-            )}
-          </Stack>
-        </Card>
-      )}
+                    <Group gap="xs">
+                      <ActionIcon
+                        size="sm"
+                        variant="subtle"
+                        onClick={() => handlePlayRegion(region.id)}
+                      >
+                        <IconPlayerPlay size={14} />
+                      </ActionIcon>
+                      <Menu>
+                        <Menu.Target>
+                          <ActionIcon size="sm" variant="subtle">
+                            <IconDotsVertical size={14} />
+                          </ActionIcon>
+                        </Menu.Target>
+                        <Menu.Dropdown>
+                          <Menu.Item
+                            leftSection={<IconEdit size={14} />}
+                            onClick={() => setEditingRegion(region.id)}
+                          >
+                            Edit
+                          </Menu.Item>
+                          <Menu.Item
+                            leftSection={<IconTrash size={14} />}
+                            color="red"
+                            onClick={() => handleDeleteRegion(region.id)}
+                          >
+                            Delete
+                          </Menu.Item>
+                        </Menu.Dropdown>
+                      </Menu>
+                    </Group>
+                  </Group>
+                </Card>
+              ))}
+            </Stack>
+          )}
+        </Stack>
+      </Card>
     </Stack>
   )
 }
