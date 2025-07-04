@@ -208,6 +208,8 @@ export const ModernWaveSurferWithRegions: React.FC<
           setCurrentTime(region.start)
           // Set cue as active region for playback
           setActiveRegion(region)
+          // Reset flag when cue is moved
+          setHasStartedFromCue(false)
         }
       })
 
@@ -305,19 +307,23 @@ export const ModernWaveSurferWithRegions: React.FC<
     [onError],
   )
 
+  // Track if we've started playing from cue point (for normal play/pause behavior)
+  const [hasStartedFromCue, setHasStartedFromCue] = useState(false)
+
   const handlePlayPause = useCallback(() => {
     if (wavesurfer) {
       if (!isPlaying) {
-        // When starting to play, check if there's a cue point and start from there
-        if (cuePoint) {
+        // When starting to play, only jump to cue if we haven't started from cue yet
+        if (cuePoint && !hasStartedFromCue) {
           const duration = wavesurfer.getDuration()
           if (duration && duration > 0) {
             const seekToPercentage = cuePoint.start / duration
             wavesurfer.seekTo(seekToPercentage)
             setActiveRegion(cuePoint)
+            setHasStartedFromCue(true)
           }
         } else {
-          // No cue point, check if we're clicking outside of any region
+          // Normal play behavior - just resume from current position
           const currentTime = wavesurfer.getCurrentTime()
           const clickedRegion = regionsPlugin
             ?.getRegions()
@@ -332,7 +338,7 @@ export const ModernWaveSurferWithRegions: React.FC<
       }
       wavesurfer.playPause()
     }
-  }, [wavesurfer, isPlaying, regionsPlugin, cuePoint])
+  }, [wavesurfer, isPlaying, regionsPlugin, cuePoint, hasStartedFromCue])
 
   const handleVolumeChange = useCallback(
     (newVolume: number) => {
@@ -422,7 +428,7 @@ export const ModernWaveSurferWithRegions: React.FC<
         decRegionJumpLock()
         return
       }
-      if (loop && activeRegion && isPlaying) {
+      if (loop && activeRegion && activeRegion.id !== "CUE" && isPlaying) {
         if (
           currentTime < activeRegion.start ||
           currentTime >= activeRegion.end
@@ -447,11 +453,14 @@ export const ModernWaveSurferWithRegions: React.FC<
     }
   }, [wavesurfer, loop, activeRegion, isPlaying, onSeek, duration])
 
-  // Region buttons (orange style from original)
+  // Region buttons (orange style from original) - exclude cue point
   const regionButtons = useMemo(() => {
-    if (regions.length === 0) return null
+    // Filter out the cue point from region buttons
+    const nonCueRegions = regions.filter((region) => region.id !== "CUE")
 
-    return regions.map((regionData, i) => {
+    if (nonCueRegions.length === 0) return null
+
+    return nonCueRegions.map((regionData, i) => {
       const region = regionsPlugin
         ?.getRegions()
         .find((r) => r.id === regionData.id)
@@ -576,6 +585,7 @@ export const ModernWaveSurferWithRegions: React.FC<
           })
           setCuePoint(newCueRegion)
           setActiveRegion(newCueRegion)
+          setHasStartedFromCue(false) // Reset flag when new cue is set
           console.log("Set cue to cursor position:", currentTime)
         }
       }
@@ -895,74 +905,79 @@ export const ModernWaveSurferWithRegions: React.FC<
 
           {/* Orange Region Buttons */}
 
-          {regions.length === 0 ? (
+          {regions.filter((region) => region.id !== "CUE").length === 0 ? (
             <Text size="sm" c="dimmed" ta="center" py="md">
               No regions created yet. Add regions to create segments in your
               audio.
             </Text>
           ) : (
             <Stack gap="xs">
-              {regions.map((region) => (
-                <Card key={region.id} withBorder p="xs">
-                  <Group justify="space-between" align="center">
-                    <Group gap="sm">
-                      <Badge color={region.color} variant="light" size="sm">
-                        {formatTime(region.start)} - {formatTime(region.end)}
-                      </Badge>
-                      {editingRegion === region.id ? (
-                        <TextInput
-                          size="xs"
-                          defaultValue={region.label}
-                          onBlur={(e) =>
-                            handleEditRegion(region.id, e.target.value)
-                          }
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              handleEditRegion(region.id, e.currentTarget.value)
+              {regions
+                .filter((region) => region.id !== "CUE")
+                .map((region) => (
+                  <Card key={region.id} withBorder p="xs">
+                    <Group justify="space-between" align="center">
+                      <Group gap="sm">
+                        <Badge color={region.color} variant="light" size="sm">
+                          {formatTime(region.start)} - {formatTime(region.end)}
+                        </Badge>
+                        {editingRegion === region.id ? (
+                          <TextInput
+                            size="xs"
+                            defaultValue={region.label}
+                            onBlur={(e) =>
+                              handleEditRegion(region.id, e.target.value)
                             }
-                          }}
-                          autoFocus
-                        />
-                      ) : (
-                        <Text size="sm" fw={500}>
-                          {region.label}
-                        </Text>
-                      )}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                handleEditRegion(
+                                  region.id,
+                                  e.currentTarget.value,
+                                )
+                              }
+                            }}
+                            autoFocus
+                          />
+                        ) : (
+                          <Text size="sm" fw={500}>
+                            {region.label}
+                          </Text>
+                        )}
+                      </Group>
+                      <Group gap="xs">
+                        <ActionIcon
+                          size="sm"
+                          variant="subtle"
+                          onClick={() => handlePlayRegion(region.id)}
+                        >
+                          <IconPlayerPlay size={14} />
+                        </ActionIcon>
+                        <Menu>
+                          <Menu.Target>
+                            <ActionIcon size="sm" variant="subtle">
+                              <IconDotsVertical size={14} />
+                            </ActionIcon>
+                          </Menu.Target>
+                          <Menu.Dropdown>
+                            <Menu.Item
+                              leftSection={<IconEdit size={14} />}
+                              onClick={() => setEditingRegion(region.id)}
+                            >
+                              Edit
+                            </Menu.Item>
+                            <Menu.Item
+                              leftSection={<IconTrash size={14} />}
+                              color="red"
+                              onClick={() => handleDeleteRegion(region.id)}
+                            >
+                              Delete
+                            </Menu.Item>
+                          </Menu.Dropdown>
+                        </Menu>
+                      </Group>
                     </Group>
-                    <Group gap="xs">
-                      <ActionIcon
-                        size="sm"
-                        variant="subtle"
-                        onClick={() => handlePlayRegion(region.id)}
-                      >
-                        <IconPlayerPlay size={14} />
-                      </ActionIcon>
-                      <Menu>
-                        <Menu.Target>
-                          <ActionIcon size="sm" variant="subtle">
-                            <IconDotsVertical size={14} />
-                          </ActionIcon>
-                        </Menu.Target>
-                        <Menu.Dropdown>
-                          <Menu.Item
-                            leftSection={<IconEdit size={14} />}
-                            onClick={() => setEditingRegion(region.id)}
-                          >
-                            Edit
-                          </Menu.Item>
-                          <Menu.Item
-                            leftSection={<IconTrash size={14} />}
-                            color="red"
-                            onClick={() => handleDeleteRegion(region.id)}
-                          >
-                            Delete
-                          </Menu.Item>
-                        </Menu.Dropdown>
-                      </Menu>
-                    </Group>
-                  </Group>
-                </Card>
-              ))}
+                  </Card>
+                ))}
             </Stack>
           )}
         </Stack>
