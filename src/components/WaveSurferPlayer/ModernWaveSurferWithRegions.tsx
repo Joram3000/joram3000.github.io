@@ -48,9 +48,6 @@ interface ModernWaveSurferWithRegionsProps {
   waveColor?: string
   progressColor?: string
   cursorColor?: string
-  barWidth?: number
-  barGap?: number
-  barRadius?: number
   showControls?: boolean
   showVolumeControl?: boolean
   showZoomControls?: boolean
@@ -75,9 +72,6 @@ export const ModernWaveSurferWithRegions: React.FC<
   waveColor = "#1976d2",
   progressColor = "#1976d2",
   cursorColor = "#1976d2",
-  barWidth = 2,
-  barGap = 1,
-  barRadius = 2,
   showControls = true,
   showVolumeControl = true,
   showZoomControls = true,
@@ -102,6 +96,7 @@ export const ModernWaveSurferWithRegions: React.FC<
   const [volume, setVolume] = useState(1)
   const [zoom, setZoom] = useState(1)
   const [loop, setLoop] = useState(false)
+  const [pitch, setPitch] = useState(1)
   const [error, setError] = useState<string | null>(null)
   const [regions, setRegions] = useState<RegionData[]>([])
   const [editingRegion, setEditingRegion] = useState<string | null>(null)
@@ -208,6 +203,11 @@ export const ModernWaveSurferWithRegions: React.FC<
         })
       })
 
+      // Set initial pitch if not default
+      if (pitch !== 1) {
+        ws.setPlaybackRate(pitch, false)
+      }
+
       onReady?.(ws)
     },
     [
@@ -217,6 +217,7 @@ export const ModernWaveSurferWithRegions: React.FC<
       onRegionDeleted,
       getRegionContent,
       getRandomColor,
+      pitch,
     ],
   )
 
@@ -306,6 +307,27 @@ export const ModernWaveSurferWithRegions: React.FC<
     setLoop(!loop)
   }, [loop])
 
+  const handlePitchChange = useCallback(
+    (newPitch: number) => {
+      setPitch(newPitch)
+      if (wavesurfer) {
+        const wasPlaying = wavesurfer.isPlaying()
+
+        // Use the official WaveSurfer setPlaybackRate method
+        // preservePitch: false for proper cursor synchronization (like DJ style)
+        wavesurfer.setPlaybackRate(newPitch, false)
+
+        // If audio was playing, ensure it continues playing to maintain sync
+        // This matches the official speed.js example behavior
+        if (wasPlaying) {
+          wavesurfer.play()
+        }
+      }
+    },
+    [wavesurfer],
+  )
+
+  // Hotcue/region play: always set activeRegion, set time, and play (like BlankWaveSurfer)
   const handlePlayRegion = useCallback(
     (regionId: string) => {
       if (!regionsPlugin || !wavesurfer) return
@@ -313,6 +335,7 @@ export const ModernWaveSurferWithRegions: React.FC<
       const region = regionsPlugin.getRegions().find((r) => r.id === regionId)
       if (region) {
         setActiveRegion(region)
+        // Always set time and play, even if already playing (for snappy hotcue)
         wavesurfer.setTime(region.start)
         wavesurfer.play()
       }
@@ -321,6 +344,7 @@ export const ModernWaveSurferWithRegions: React.FC<
   )
 
   // Enhanced time tracking with region loop
+  // Loop/region loop: like BlankWaveSurfer, always loop region if activeRegion is set and loop is aan
   useEffect(() => {
     if (!wavesurfer) return
 
@@ -328,10 +352,18 @@ export const ModernWaveSurferWithRegions: React.FC<
       setCurrentTime(currentTime)
       onSeek?.(currentTime)
 
-      // Handle region looping - if loop is enabled and we have an active region
+      // BlankWaveSurfer-style: als loop aan en activeRegion, altijd region loopen
       if (loop && activeRegion && isPlaying) {
         if (currentTime >= activeRegion.end) {
           wavesurfer.setTime(activeRegion.start)
+          wavesurfer.play()
+        }
+      }
+      // Als geen activeRegion, loop hele track
+      else if (loop && !activeRegion && isPlaying) {
+        if (currentTime >= duration) {
+          wavesurfer.setTime(0)
+          wavesurfer.play()
         }
       }
     }
@@ -341,7 +373,7 @@ export const ModernWaveSurferWithRegions: React.FC<
     return () => {
       wavesurfer.un("timeupdate", handleTimeUpdate)
     }
-  }, [wavesurfer, loop, activeRegion, isPlaying, onSeek])
+  }, [wavesurfer, loop, activeRegion, isPlaying, onSeek, duration])
 
   // Region buttons (orange style from original)
   const regionButtons = useMemo(() => {
@@ -375,7 +407,7 @@ export const ModernWaveSurferWithRegions: React.FC<
     if (!regionsPlugin || !wavesurfer) return
 
     const start = currentTime
-    const end = Math.min(start + 5, duration) // 5 second region or until end of track
+    const end = Math.min(start + 5, duration) // 5 second region or until end of track // dit zouden we ook op BPM kunnen doen
 
     regionsPlugin.addRegion({
       start,
@@ -452,9 +484,6 @@ export const ModernWaveSurferWithRegions: React.FC<
           waveColor={waveColor}
           progressColor={progressColor}
           cursorColor={cursorColor}
-          barWidth={barWidth}
-          barGap={barGap}
-          barRadius={barRadius}
           url={audioUrl}
           onReady={onWavesurferReady}
           onPlay={onWavesurferPlay}
@@ -552,6 +581,33 @@ export const ModernWaveSurferWithRegions: React.FC<
                 </ActionIcon>
               </Group>
             )}
+
+            {/* Pitch Control */}
+
+            <Group gap="xs" style={{ minWidth: 150 }}>
+              <Text size="xs" c="dimmed">
+                Pitch
+              </Text>
+              <Slider
+                value={pitch}
+                onChange={handlePitchChange}
+                min={0.1}
+                max={2.0}
+                step={0.01}
+                style={{ flex: 1 }}
+                size="sm"
+              />
+              <ActionIcon
+                onClick={() => handlePitchChange(1.0)}
+                variant="subtle"
+                size="sm"
+                title="Reset pitch to 1.0x"
+              >
+                <Text size="xs" c="dimmed">
+                  {pitch.toFixed(1)}x
+                </Text>
+              </ActionIcon>
+            </Group>
           </Group>
         </Group>
       )}
