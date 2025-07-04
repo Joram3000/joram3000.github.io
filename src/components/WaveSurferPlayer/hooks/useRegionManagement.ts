@@ -194,13 +194,6 @@ export const useRegionManagement = (
         }
       }),
       wsRegions.on("region-out", (region: Region) => {
-        // console.log(
-        //   "Region-out:",
-        //   region.id,
-        //   "Was looping:",
-        //   loopingRegionRef.current?.id,
-        // )
-
         if (region === cuePoint) {
           setActiveRegion(null)
           // Defer cue point seeking to avoid audio stutters

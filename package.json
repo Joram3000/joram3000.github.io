@@ -40,7 +40,8 @@
     "redux-thunk": "^2.4.2",
     "scrolly-video": "^0.0.17",
     "tone": "^14.7.77",
-    "waveform-data": "^4.3.0"
+    "waveform-data": "^4.3.0",
+    "wavesurfer.js": "^7.4.2"
   },
   "devDependencies": {
     "@types/p5": "^1.7.6",
@@ -57,7 +58,6 @@
     "postcss-preset-mantine": "^1.9.0",
     "postcss-simple-vars": "^7.0.1",
     "typescript": "^5.2.2",
-    "vite": "^4.4.5",
-    "wavesurfer.js": "^7.4.2"
+    "vite": "^4.4.5"
   }
 }

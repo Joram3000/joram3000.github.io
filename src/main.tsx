@@ -26,6 +26,7 @@ import Experimenten from "./pages/experimenten-page"
 import ParallaxTest from "./pages/experimenten-page/parallax"
 import VideoScroll from "./pages/experimenten-page/videoscroll"
 import LubadhPresetmaker from "./pages/experimenten-page/lubadhPresetmaker"
+import ModernWaveSurferExample from "./pages/modern-wavesurfer-example"
 
 const router = createHashRouter([
   {
@@ -52,6 +53,11 @@ const router = createHashRouter([
       {
         path: "/experimenten/lubadhPresetmaker",
         element: <LubadhPresetmaker />,
+      },
+
+      {
+        path: "/experimenten/modern-wavesurfer",
+        element: <ModernWaveSurferExample />,
       },
     ],
   },

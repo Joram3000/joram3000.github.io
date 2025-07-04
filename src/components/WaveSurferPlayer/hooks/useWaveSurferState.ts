@@ -7,7 +7,6 @@ export interface WaveSurferState {
   zoom: number
   loop: boolean
   audioRate: number
-  // pitchValue: number
   volume: number
 }
 
