@@ -536,6 +536,7 @@ export const ModernWaveSurferWithRegions: React.FC<
           onError={onWavesurferError}
           normalize={true}
           backend="WebAudio"
+          hideScrollbar={true}
         />
       </Box>
 
@@ -556,24 +557,24 @@ export const ModernWaveSurferWithRegions: React.FC<
           </ActionIcon>
 
           <ActionIcon
-            onClick={handleLoopToggle}
-            disabled={!wavesurfer}
-            variant={loop ? "filled" : "outline"}
-            size="md"
-            color={theme.primaryColor}
-          >
-            <IconRepeat size={20} />
-          </ActionIcon>
-
-          <ActionIcon
             onClick={() => setFollow((f) => !f)}
             variant={follow ? "filled" : "subtle"}
-            size="sm"
-            color={follow ? "yellow" : undefined}
+            size="lg"
+            color={follow ? "yellow" : theme.primaryColor}
             title={follow ? "Disable follow" : "Enable follow"}
             aria-label={follow ? "Disable follow" : "Enable follow"}
           >
             <IconSquareRoundedChevronRight size={20} />
+          </ActionIcon>
+
+          <ActionIcon
+            onClick={handleLoopToggle}
+            disabled={!wavesurfer}
+            variant={loop ? "filled" : "outline"}
+            size="lg"
+            color={theme.primaryColor}
+          >
+            <IconRepeat size={20} />
           </ActionIcon>
           <Text size="sm" c="dimmed">
             {formatTime(currentTime)} / {formatTime(duration)}
