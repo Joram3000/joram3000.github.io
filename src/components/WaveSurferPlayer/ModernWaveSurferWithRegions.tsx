@@ -428,15 +428,18 @@ export const ModernWaveSurferWithRegions: React.FC<
         decRegionJumpLock()
         return
       }
-      if (loop && activeRegion && activeRegion.id !== "CUE" && isPlaying) {
-        if (
-          currentTime < activeRegion.start ||
-          currentTime >= activeRegion.end
-        ) {
-          // Set a higher lock count to prevent timeupdate infinite loop
-          setRegionJumpLock(5)
-          wavesurfer.setTime(activeRegion.start)
-          wavesurfer.play()
+      if (loop && activeRegion && isPlaying) {
+        // Only loop if the active region is not the cue point and has an end time
+        if (activeRegion.id !== "CUE" && activeRegion.end) {
+          if (
+            currentTime < activeRegion.start ||
+            currentTime >= activeRegion.end
+          ) {
+            // Set a higher lock count to prevent timeupdate infinite loop
+            setRegionJumpLock(5)
+            wavesurfer.setTime(activeRegion.start)
+            wavesurfer.play()
+          }
         }
       } else if (loop && !activeRegion && isPlaying) {
         if (currentTime >= duration) {
