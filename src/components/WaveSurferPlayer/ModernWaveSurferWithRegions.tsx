@@ -327,34 +327,60 @@ export const ModernWaveSurferWithRegions: React.FC<
     [wavesurfer],
   )
 
-  // Hotcue/region play: always set activeRegion, set time, and play (like BlankWaveSurfer)
+  // Hotcue/region play: direct, snappy, en met robuuste loop-lock
+  // Gebruik een module-scope variable voor de lock (geen window property nodig)
+  // Module-scope lock for hotcue/loop race condition
+  // Nu met counter zodat meerdere timeupdates worden geblokkeerd na een jump
+  let regionJumpLockCount = 0
+  function setRegionJumpLock(count: number) {
+    regionJumpLockCount = count
+  }
+  function decRegionJumpLock() {
+    if (regionJumpLockCount > 0) regionJumpLockCount--
+  }
+  function getRegionJumpLock() {
+    return regionJumpLockCount > 0
+  }
+
+  // Gebruik useCallback zodat handlePlayRegion stabiel blijft voor useMemo
   const handlePlayRegion = useCallback(
     (regionId: string) => {
       if (!regionsPlugin || !wavesurfer) return
 
       const region = regionsPlugin.getRegions().find((r) => r.id === regionId)
       if (region) {
-        setActiveRegion(region)
-        // Always set time and play, even if already playing (for snappy hotcue)
+        // Blokkeer 2 timeupdates na een jump (kan evt. naar 3 als nodig)
+        setRegionJumpLock(2)
         wavesurfer.setTime(region.start)
         wavesurfer.play()
+        setActiveRegion(region)
       }
     },
     [regionsPlugin, wavesurfer],
   )
 
   // Enhanced time tracking with region loop
-  // Loop/region loop: like BlankWaveSurfer, always loop region if activeRegion is set and loop is aan
+  // Loop/region loop: altijd region loopen, maar onderdruk race condition met lock
   useEffect(() => {
     if (!wavesurfer) return
 
+    // Gebruik module-scope lock variable
     const handleTimeUpdate = (currentTime: number) => {
       setCurrentTime(currentTime)
       onSeek?.(currentTime)
 
-      // BlankWaveSurfer-style: als loop aan en activeRegion, altijd region loopen
+      // Robuuste lock: als er net een hotcue jump was, skip 2x de loop check
+      if (getRegionJumpLock()) {
+        decRegionJumpLock()
+        return
+      }
+
+      // Alleen loopen als cursor buiten de actieve region is
       if (loop && activeRegion && isPlaying) {
-        if (currentTime >= activeRegion.end) {
+        if (
+          currentTime < activeRegion.start ||
+          currentTime >= activeRegion.end
+        ) {
           wavesurfer.setTime(activeRegion.start)
           wavesurfer.play()
         }
@@ -373,6 +399,7 @@ export const ModernWaveSurferWithRegions: React.FC<
     return () => {
       wavesurfer.un("timeupdate", handleTimeUpdate)
     }
+    // getRegionJumpLock en setRegionJumpLock zijn module-functies, hoeven niet in deps-array
   }, [wavesurfer, loop, activeRegion, isPlaying, onSeek, duration])
 
   // Region buttons (orange style from original)
