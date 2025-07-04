@@ -99,6 +99,8 @@ export const ModernWaveSurferWithRegions: React.FC<
   }, [wavesurfer, follow])
   // ...existing code...
   const [regionsPlugin, setRegionsPlugin] = useState<RegionsPlugin | null>(null)
+  // Cue point state for cue region logic
+  const [cuePoint, setCuePoint] = useState<Region | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
@@ -152,6 +154,21 @@ export const ModernWaveSurferWithRegions: React.FC<
       const regions = ws.registerPlugin(RegionsPlugin.create())
       setRegionsPlugin(regions)
 
+      // --- CUE POINT LOGIC ---
+      // Add a default cue region at 4.96s if not present (like useRegionManagement)
+      const existingCue = regions.getRegions().find((r) => r.id === "CUE")
+      if (!existingCue) {
+        const cueRegion = regions.addRegion({
+          id: "CUE",
+          start: 4.96,
+          color: "orange",
+        })
+        setCuePoint && setCuePoint(cueRegion)
+        console.log("Created cue region:", cueRegion)
+      } else {
+        setCuePoint && setCuePoint(existingCue)
+      }
+
       // Set up region event listeners
       regions.on("region-created", (region: Region) => {
         const content = getRegionContent(region)
@@ -165,6 +182,7 @@ export const ModernWaveSurferWithRegions: React.FC<
         }
         setRegions((prev) => [...prev, regionData])
         onRegionCreated?.(region)
+        if (region.id === "CUE" && setCuePoint) setCuePoint(region)
       })
 
       regions.on("region-updated", (region: Region) => {
@@ -177,11 +195,13 @@ export const ModernWaveSurferWithRegions: React.FC<
           ),
         )
         onRegionUpdated?.(region)
+        if (region.id === "CUE" && setCuePoint) setCuePoint(region)
       })
 
       regions.on("region-removed", (region: Region) => {
         setRegions((prev) => prev.filter((r) => r.id !== region.id))
         onRegionDeleted?.(region)
+        if (region.id === "CUE" && setCuePoint) setCuePoint(null)
       })
 
       regions.on("region-clicked", (region: Region) => {
@@ -190,9 +210,9 @@ export const ModernWaveSurferWithRegions: React.FC<
         ws.play()
       })
 
-      // Add double-click event handler for regions to delete them
+      // Add double-click event handler for regions to delete them (except cue)
       regions.on("region-double-clicked", (region: Region) => {
-        region.remove()
+        if (region.id !== "CUE") region.remove()
       })
 
       // Add double-click event handler for waveform to create regions
@@ -320,20 +340,20 @@ export const ModernWaveSurferWithRegions: React.FC<
     (newPitch: number) => {
       setPitch(newPitch)
       if (wavesurfer) {
-        const wasPlaying = wavesurfer.isPlaying()
-
-        // Use the official WaveSurfer setPlaybackRate method
-        // preservePitch: false for proper cursor synchronization (like DJ style)
         wavesurfer.setPlaybackRate(newPitch, false)
-
-        // If audio was playing, ensure it continues playing to maintain sync
-        // This matches the official speed.js example behavior
-        if (wasPlaying) {
-          wavesurfer.play()
+        // Force UI update after drastic rate change for smooth cursor
+        setCurrentTime(wavesurfer.getCurrentTime())
+        // If looping a region, keep cursor inside region after pitch change
+        if (loop && activeRegion && isPlaying) {
+          const t = wavesurfer.getCurrentTime()
+          if (t < activeRegion.start || t >= activeRegion.end) {
+            wavesurfer.setTime(activeRegion.start)
+            wavesurfer.play()
+          }
         }
       }
     },
-    [wavesurfer],
+    [wavesurfer, loop, activeRegion, isPlaying],
   )
 
   // Hotcue/region play: direct, snappy, en met robuuste loop-lock
@@ -489,6 +509,52 @@ export const ModernWaveSurferWithRegions: React.FC<
       .padStart(2, "0")}`
   }
 
+  // --- CUE BUTTON LOGIC (Pioneer CDJ/BlankWaveSurfer style) ---
+  // Track cue button state
+  const [cueButtonHeld, setCueButtonHeld] = useState(false)
+  // Used to restore play state after cue release
+  const cueWasPlaying = React.useRef(false)
+
+  // Handler for cue button down (mouse/touch)
+  const handleCueDown = useCallback(() => {
+    if (!wavesurfer || !cuePoint) return
+    cueWasPlaying.current = isPlaying
+    // Always jump to cue and play from there
+    wavesurfer.setTime(cuePoint.start)
+    wavesurfer.play()
+    setActiveRegion(cuePoint)
+    setCueButtonHeld(true)
+  }, [wavesurfer, cuePoint, isPlaying])
+
+  // Handler for cue button up (mouse/touch)
+  const handleCueUp = useCallback(() => {
+    if (!wavesurfer || !cuePoint) return
+    wavesurfer.pause()
+    wavesurfer.setTime(cuePoint.start)
+    setActiveRegion(cuePoint)
+    setCueButtonHeld(false)
+  }, [wavesurfer, cuePoint])
+
+  // Keyboard support for cue (spacebar or C)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.code === "KeyC" || e.code === "Space") && !cueButtonHeld) {
+        handleCueDown()
+      }
+    }
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if ((e.code === "KeyC" || e.code === "Space") && cueButtonHeld) {
+        handleCueUp()
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    window.addEventListener("keyup", handleKeyUp)
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+      window.removeEventListener("keyup", handleKeyUp)
+    }
+  }, [cueButtonHeld, handleCueDown, handleCueUp])
+
   if (error) {
     return (
       <Alert
@@ -555,6 +621,25 @@ export const ModernWaveSurferWithRegions: React.FC<
               <IconPlayerPlayFilled size={20} />
             )}
           </ActionIcon>
+
+          {/* --- CUE BUTTON --- */}
+          <Button
+            color="orange"
+            size="lg"
+            variant={cueButtonHeld ? "filled" : "outline"}
+            style={{ fontWeight: 700, minWidth: 60 }}
+            disabled={!wavesurfer || !cuePoint}
+            onMouseDown={handleCueDown}
+            onMouseUp={handleCueUp}
+            onMouseLeave={() => cueButtonHeld && handleCueUp()}
+            onTouchStart={handleCueDown}
+            onTouchEnd={handleCueUp}
+            tabIndex={0}
+            aria-pressed={cueButtonHeld}
+            title="Cue (hold to play from cue, release to return)"
+          >
+            Cue
+          </Button>
 
           <ActionIcon
             onClick={() => setFollow((f) => !f)}
@@ -658,6 +743,7 @@ export const ModernWaveSurferWithRegions: React.FC<
         </Group>
       </Group>
 
+      <Group gap="xs">{regionButtons}</Group>
       <Card withBorder>
         <Stack gap="md">
           <Group justify="space-between">
@@ -699,14 +785,6 @@ export const ModernWaveSurferWithRegions: React.FC<
           </Group>
 
           {/* Orange Region Buttons */}
-          {regions.length > 0 && (
-            <Group gap="xs">
-              <Text size="sm" fw={500}>
-                Quick Play:
-              </Text>
-              {regionButtons}
-            </Group>
-          )}
 
           {regions.length === 0 ? (
             <Text size="sm" c="dimmed" ta="center" py="md">
