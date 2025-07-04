@@ -1,0 +1,690 @@
+import React, { useState, useCallback, useMemo, useEffect } from "react"
+import WavesurferPlayer from "@wavesurfer/react"
+import type WaveSurfer from "wavesurfer.js"
+import RegionsPlugin, { Region } from "wavesurfer.js/dist/plugins/regions.js"
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Group,
+  Slider,
+  Stack,
+  Text,
+  useMantineTheme,
+  Alert,
+  Badge,
+  TextInput,
+  Menu,
+  Card,
+} from "@mantine/core"
+import {
+  IconZoomIn,
+  IconZoomOut,
+  IconRepeat,
+  IconPlayerPlayFilled,
+  IconPlayerPauseFilled,
+  IconVolume3,
+  IconVolume,
+  IconAlertCircle,
+  IconSquareRoundedPlus,
+  IconTrash,
+  IconEdit,
+  IconPlayerPlay,
+  IconDotsVertical,
+} from "@tabler/icons-react"
+
+interface RegionData {
+  id: string
+  start: number
+  end: number
+  color?: string
+  content?: string
+  label?: string
+}
+
+interface ModernWaveSurferWithRegionsProps {
+  audioUrl: string
+  height?: number
+  waveColor?: string
+  progressColor?: string
+  cursorColor?: string
+  barWidth?: number
+  barGap?: number
+  barRadius?: number
+  showControls?: boolean
+  showVolumeControl?: boolean
+  showZoomControls?: boolean
+  showLoopControl?: boolean
+  showRegionControls?: boolean
+  onReady?: (wavesurfer: WaveSurfer) => void
+  onPlay?: () => void
+  onPause?: () => void
+  onFinish?: () => void
+  onSeek?: (currentTime: number) => void
+  onError?: (error: string) => void
+  onRegionCreated?: (region: Region) => void
+  onRegionUpdated?: (region: Region) => void
+  onRegionDeleted?: (region: Region) => void
+}
+
+export const ModernWaveSurferWithRegions: React.FC<
+  ModernWaveSurferWithRegionsProps
+> = ({
+  audioUrl,
+  height = 144,
+  waveColor = "#1976d2",
+  progressColor = "#1976d2",
+  cursorColor = "#1976d2",
+  barWidth = 2,
+  barGap = 1,
+  barRadius = 2,
+  showControls = true,
+  showVolumeControl = true,
+  showZoomControls = true,
+  showLoopControl = true,
+  showRegionControls = true,
+  onReady,
+  onPlay,
+  onPause,
+  onFinish,
+  onSeek,
+  onError,
+  onRegionCreated,
+  onRegionUpdated,
+  onRegionDeleted,
+}) => {
+  const theme = useMantineTheme()
+  const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null)
+  const [regionsPlugin, setRegionsPlugin] = useState<RegionsPlugin | null>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [volume, setVolume] = useState(1)
+  const [zoom, setZoom] = useState(1)
+  const [loop, setLoop] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [regions, setRegions] = useState<RegionData[]>([])
+  const [editingRegion, setEditingRegion] = useState<string | null>(null)
+  const [newRegionLabel, setNewRegionLabel] = useState("")
+  const [isCreatingRegion, setIsCreatingRegion] = useState(false)
+  const [activeRegion, setActiveRegion] = useState<Region | null>(null)
+
+  const regionColors = useMemo(
+    () => [
+      "rgba(255, 107, 107, 0.3)", // Red with opacity
+      "rgba(78, 205, 196, 0.3)", // Teal with opacity
+      "rgba(69, 183, 209, 0.3)", // Blue with opacity
+      "rgba(150, 206, 180, 0.3)", // Green with opacity
+      "rgba(254, 202, 87, 0.3)", // Yellow with opacity
+      "rgba(255, 159, 243, 0.3)", // Pink with opacity
+      "rgba(84, 160, 255, 0.3)", // Light blue with opacity
+      "rgba(95, 39, 205, 0.3)", // Purple with opacity
+      "rgba(0, 210, 211, 0.3)", // Cyan with opacity
+      "rgba(255, 159, 67, 0.3)", // Orange with opacity
+    ],
+    [],
+  )
+
+  const getRandomColor = useCallback(() => {
+    return regionColors[Math.floor(Math.random() * regionColors.length)]
+  }, [regionColors])
+
+  const getRegionContent = useCallback((region: Region): string => {
+    if (typeof region.content === "string") {
+      return region.content
+    } else if (region.content && region.content.textContent) {
+      return region.content.textContent
+    }
+    return ""
+  }, [])
+
+  const onWavesurferReady = useCallback(
+    (ws: WaveSurfer) => {
+      setWavesurfer(ws)
+      setDuration(ws.getDuration())
+      setError(null)
+
+      // Initialize regions plugin
+      const regions = ws.registerPlugin(RegionsPlugin.create())
+      setRegionsPlugin(regions)
+
+      // Set up region event listeners
+      regions.on("region-created", (region: Region) => {
+        const content = getRegionContent(region)
+        const regionData: RegionData = {
+          id: region.id,
+          start: region.start,
+          end: region.end,
+          color: region.color,
+          content: content,
+          label: content || `Region ${regions.getRegions().length}`,
+        }
+        setRegions((prev) => [...prev, regionData])
+        onRegionCreated?.(region)
+      })
+
+      regions.on("region-updated", (region: Region) => {
+        const content = getRegionContent(region)
+        setRegions((prev) =>
+          prev.map((r) =>
+            r.id === region.id
+              ? { ...r, start: region.start, end: region.end, content: content }
+              : r,
+          ),
+        )
+        onRegionUpdated?.(region)
+      })
+
+      regions.on("region-removed", (region: Region) => {
+        setRegions((prev) => prev.filter((r) => r.id !== region.id))
+        onRegionDeleted?.(region)
+      })
+
+      regions.on("region-clicked", (region: Region) => {
+        setActiveRegion(region)
+        ws.setTime(region.start)
+        ws.play()
+      })
+
+      // Add double-click event handler for regions to delete them
+      regions.on("region-double-clicked", (region: Region) => {
+        region.remove()
+      })
+
+      // Add double-click event handler for waveform to create regions
+      ws.on("dblclick", (relativeX: number) => {
+        const duration = ws.getDuration()
+        const clickTime = relativeX * duration
+        const regionStart = Math.max(0, clickTime - 1) // Start 1 second before click
+        const regionEnd = Math.min(duration, clickTime + 1) // End 1 second after click
+
+        regions.addRegion({
+          start: regionStart,
+          end: regionEnd,
+          color: getRandomColor(),
+          content: `Region ${regions.getRegions().length + 1}`,
+          resize: true,
+          drag: true,
+        })
+      })
+
+      onReady?.(ws)
+    },
+    [
+      onReady,
+      onRegionCreated,
+      onRegionUpdated,
+      onRegionDeleted,
+      getRegionContent,
+      getRandomColor,
+    ],
+  )
+
+  const onWavesurferPlay = useCallback(() => {
+    setIsPlaying(true)
+    onPlay?.()
+  }, [onPlay])
+
+  const onWavesurferPause = useCallback(() => {
+    setIsPlaying(false)
+    onPause?.()
+  }, [onPause])
+
+  const onWavesurferFinish = useCallback(() => {
+    setIsPlaying(false)
+    if (loop && wavesurfer) {
+      // If loop is enabled and we have an active region, loop the region
+      if (activeRegion) {
+        wavesurfer.setTime(activeRegion.start)
+        wavesurfer.play()
+      } else {
+        // If no active region, loop the entire track
+        wavesurfer.play()
+      }
+    }
+    onFinish?.()
+  }, [loop, wavesurfer, activeRegion, onFinish])
+
+  const onWavesurferTimeupdate = useCallback(
+    (_ws: WaveSurfer, currentTime: number) => {
+      setCurrentTime(currentTime)
+      onSeek?.(currentTime)
+    },
+    [onSeek],
+  )
+
+  const onWavesurferError = useCallback(
+    (_ws: WaveSurfer, error: Error) => {
+      const errorMessage = error?.message || "Failed to load audio"
+      setError(errorMessage)
+      onError?.(errorMessage)
+    },
+    [onError],
+  )
+
+  const handlePlayPause = useCallback(() => {
+    if (wavesurfer) {
+      // If we're starting to play and no region is active, clear activeRegion
+      if (!isPlaying) {
+        const currentTime = wavesurfer.getCurrentTime()
+        // Check if we're clicking outside of any region
+        const clickedRegion = regionsPlugin
+          ?.getRegions()
+          .find(
+            (region) =>
+              currentTime >= region.start && currentTime <= region.end,
+          )
+        if (!clickedRegion) {
+          setActiveRegion(null)
+        }
+      }
+      wavesurfer.playPause()
+    }
+  }, [wavesurfer, isPlaying, regionsPlugin])
+
+  const handleVolumeChange = useCallback(
+    (newVolume: number) => {
+      setVolume(newVolume)
+      if (wavesurfer) {
+        wavesurfer.setVolume(newVolume)
+      }
+    },
+    [wavesurfer],
+  )
+
+  const handleZoomChange = useCallback(
+    (newZoom: number) => {
+      setZoom(newZoom)
+      if (wavesurfer) {
+        wavesurfer.zoom(newZoom)
+      }
+    },
+    [wavesurfer],
+  )
+
+  const handleLoopToggle = useCallback(() => {
+    setLoop(!loop)
+  }, [loop])
+
+  const handlePlayRegion = useCallback(
+    (regionId: string) => {
+      if (!regionsPlugin || !wavesurfer) return
+
+      const region = regionsPlugin.getRegions().find((r) => r.id === regionId)
+      if (region) {
+        setActiveRegion(region)
+        wavesurfer.setTime(region.start)
+        wavesurfer.play()
+      }
+    },
+    [regionsPlugin, wavesurfer],
+  )
+
+  // Enhanced time tracking with region loop
+  useEffect(() => {
+    if (!wavesurfer) return
+
+    const handleTimeUpdate = (currentTime: number) => {
+      setCurrentTime(currentTime)
+      onSeek?.(currentTime)
+
+      // Handle region looping - if loop is enabled and we have an active region
+      if (loop && activeRegion && isPlaying) {
+        if (currentTime >= activeRegion.end) {
+          wavesurfer.setTime(activeRegion.start)
+        }
+      }
+    }
+
+    wavesurfer.on("timeupdate", handleTimeUpdate)
+
+    return () => {
+      wavesurfer.un("timeupdate", handleTimeUpdate)
+    }
+  }, [wavesurfer, loop, activeRegion, isPlaying, onSeek])
+
+  // Region buttons (orange style from original)
+  const regionButtons = useMemo(() => {
+    if (regions.length === 0) return null
+
+    return regions.map((regionData, i) => {
+      const region = regionsPlugin
+        ?.getRegions()
+        .find((r) => r.id === regionData.id)
+      if (!region) return null
+
+      return (
+        <Button
+          key={region.id}
+          color="orange"
+          onClick={() => handlePlayRegion(region.id)}
+          size="sm"
+          variant="filled"
+          style={{
+            backgroundColor: theme.colors.orange?.[6 + (i % 3)] || `orange`,
+            marginRight: 4,
+          }}
+        >
+          {i + 1}
+        </Button>
+      )
+    })
+  }, [regions, regionsPlugin, theme.colors.orange, handlePlayRegion])
+
+  const handleCreateRegion = useCallback(() => {
+    if (!regionsPlugin || !wavesurfer) return
+
+    const start = currentTime
+    const end = Math.min(start + 5, duration) // 5 second region or until end of track
+
+    regionsPlugin.addRegion({
+      start,
+      end,
+      color: getRandomColor(),
+      content: newRegionLabel || `Region ${regions.length + 1}`,
+      resize: true,
+      drag: true,
+    })
+
+    setNewRegionLabel("")
+    setIsCreatingRegion(false)
+  }, [
+    regionsPlugin,
+    wavesurfer,
+    currentTime,
+    duration,
+    newRegionLabel,
+    regions.length,
+    getRandomColor,
+  ])
+
+  const handleDeleteRegion = useCallback(
+    (regionId: string) => {
+      if (!regionsPlugin) return
+
+      const region = regionsPlugin.getRegions().find((r) => r.id === regionId)
+      if (region) {
+        region.remove()
+      }
+    },
+    [regionsPlugin],
+  )
+
+  const handleEditRegion = useCallback(
+    (regionId: string, newLabel: string) => {
+      if (!regionsPlugin) return
+
+      const region = regionsPlugin.getRegions().find((r) => r.id === regionId)
+      if (region) {
+        region.setContent(newLabel)
+        setEditingRegion(null)
+      }
+    },
+    [regionsPlugin],
+  )
+
+  const formatTime = (seconds: number): string => {
+    const mins = Math.floor(seconds / 60)
+    const secs = Math.floor(seconds % 60)
+    return `${mins.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`
+  }
+
+  if (error) {
+    return (
+      <Alert
+        icon={<IconAlertCircle size="1rem" />}
+        title="Audio Error"
+        color="red"
+        variant="light"
+      >
+        {error}
+      </Alert>
+    )
+  }
+
+  return (
+    <Stack gap="md">
+      <Box>
+        <WavesurferPlayer
+          height={height}
+          waveColor={waveColor}
+          progressColor={progressColor}
+          cursorColor={cursorColor}
+          barWidth={barWidth}
+          barGap={barGap}
+          barRadius={barRadius}
+          url={audioUrl}
+          onReady={onWavesurferReady}
+          onPlay={onWavesurferPlay}
+          onPause={onWavesurferPause}
+          onFinish={onWavesurferFinish}
+          onTimeupdate={onWavesurferTimeupdate}
+          onError={onWavesurferError}
+          normalize={true}
+          backend="WebAudio"
+        />
+      </Box>
+
+      {showControls && (
+        <Group justify="space-between" align="center">
+          <Group gap="sm">
+            <ActionIcon
+              onClick={handlePlayPause}
+              disabled={!wavesurfer}
+              variant="filled"
+              size="lg"
+              color={theme.primaryColor}
+            >
+              {isPlaying ? (
+                <IconPlayerPauseFilled size={20} />
+              ) : (
+                <IconPlayerPlayFilled size={20} />
+              )}
+            </ActionIcon>
+
+            {showLoopControl && (
+              <ActionIcon
+                onClick={handleLoopToggle}
+                disabled={!wavesurfer}
+                variant={loop ? "filled" : "outline"}
+                size="md"
+                color={theme.primaryColor}
+              >
+                <IconRepeat size={16} />
+              </ActionIcon>
+            )}
+
+            <Text size="sm" c="dimmed">
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </Text>
+          </Group>
+
+          <Group gap="md">
+            {showVolumeControl && (
+              <Group gap="xs" style={{ minWidth: 120 }}>
+                <ActionIcon variant="subtle" size="sm">
+                  {volume > 0.5 ? (
+                    <IconVolume3 size={16} />
+                  ) : (
+                    <IconVolume size={16} />
+                  )}
+                </ActionIcon>
+                <Slider
+                  value={volume}
+                  onChange={handleVolumeChange}
+                  min={0}
+                  max={1}
+                  step={0.1}
+                  style={{ flex: 1 }}
+                  size="sm"
+                />
+              </Group>
+            )}
+
+            {showZoomControls && (
+              <Group gap="xs" style={{ minWidth: 120 }}>
+                <ActionIcon
+                  onClick={() => handleZoomChange(Math.max(1, zoom - 10))}
+                  disabled={!wavesurfer || zoom <= 1}
+                  variant="subtle"
+                  size="sm"
+                >
+                  <IconZoomOut size={16} />
+                </ActionIcon>
+                <Slider
+                  value={zoom}
+                  onChange={handleZoomChange}
+                  min={1}
+                  max={200}
+                  step={10}
+                  style={{ flex: 1 }}
+                  size="sm"
+                />
+                <ActionIcon
+                  onClick={() => handleZoomChange(Math.min(200, zoom + 10))}
+                  disabled={!wavesurfer || zoom >= 200}
+                  variant="subtle"
+                  size="sm"
+                >
+                  <IconZoomIn size={16} />
+                </ActionIcon>
+              </Group>
+            )}
+          </Group>
+        </Group>
+      )}
+
+      {showRegionControls && (
+        <Card withBorder>
+          <Stack gap="md">
+            <Group justify="space-between">
+              <Text fw={500}>Regions/Segments</Text>
+              <Group gap="xs">
+                {!isCreatingRegion ? (
+                  <Button
+                    size="sm"
+                    leftSection={<IconSquareRoundedPlus size={16} />}
+                    onClick={() => setIsCreatingRegion(true)}
+                    disabled={!wavesurfer}
+                  >
+                    Add Region
+                  </Button>
+                ) : (
+                  <Group gap="xs">
+                    <TextInput
+                      placeholder="Region name"
+                      value={newRegionLabel}
+                      onChange={(e) => setNewRegionLabel(e.target.value)}
+                      size="sm"
+                    />
+                    <Button size="sm" onClick={handleCreateRegion}>
+                      Create
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="subtle"
+                      onClick={() => {
+                        setIsCreatingRegion(false)
+                        setNewRegionLabel("")
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </Group>
+                )}
+              </Group>
+            </Group>
+
+            {/* Orange Region Buttons */}
+            {regions.length > 0 && (
+              <Group gap="xs">
+                <Text size="sm" fw={500}>
+                  Quick Play:
+                </Text>
+                {regionButtons}
+              </Group>
+            )}
+
+            {regions.length === 0 ? (
+              <Text size="sm" c="dimmed" ta="center" py="md">
+                No regions created yet. Add regions to create segments in your
+                audio.
+              </Text>
+            ) : (
+              <Stack gap="xs">
+                {regions.map((region) => (
+                  <Card key={region.id} withBorder p="xs">
+                    <Group justify="space-between" align="center">
+                      <Group gap="sm">
+                        <Badge color={region.color} variant="light" size="sm">
+                          {formatTime(region.start)} - {formatTime(region.end)}
+                        </Badge>
+                        {editingRegion === region.id ? (
+                          <TextInput
+                            size="xs"
+                            defaultValue={region.label}
+                            onBlur={(e) =>
+                              handleEditRegion(region.id, e.target.value)
+                            }
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                handleEditRegion(
+                                  region.id,
+                                  e.currentTarget.value,
+                                )
+                              }
+                            }}
+                            autoFocus
+                          />
+                        ) : (
+                          <Text size="sm" fw={500}>
+                            {region.label}
+                          </Text>
+                        )}
+                      </Group>
+                      <Group gap="xs">
+                        <ActionIcon
+                          size="sm"
+                          variant="subtle"
+                          onClick={() => handlePlayRegion(region.id)}
+                        >
+                          <IconPlayerPlay size={14} />
+                        </ActionIcon>
+                        <Menu>
+                          <Menu.Target>
+                            <ActionIcon size="sm" variant="subtle">
+                              <IconDotsVertical size={14} />
+                            </ActionIcon>
+                          </Menu.Target>
+                          <Menu.Dropdown>
+                            <Menu.Item
+                              leftSection={<IconEdit size={14} />}
+                              onClick={() => setEditingRegion(region.id)}
+                            >
+                              Edit
+                            </Menu.Item>
+                            <Menu.Item
+                              leftSection={<IconTrash size={14} />}
+                              color="red"
+                              onClick={() => handleDeleteRegion(region.id)}
+                            >
+                              Delete
+                            </Menu.Item>
+                          </Menu.Dropdown>
+                        </Menu>
+                      </Group>
+                    </Group>
+                  </Card>
+                ))}
+              </Stack>
+            )}
+          </Stack>
+        </Card>
+      )}
+    </Stack>
+  )
+}
+
+export default ModernWaveSurferWithRegions
