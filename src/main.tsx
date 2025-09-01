@@ -9,7 +9,6 @@ import "@mantine/core/styles.css"
 import "@mantine/carousel/styles.css"
 import "mantine-datatable/styles.css"
 import Root from "./routes/root"
-import ContestPage from "./pages/beatbattle-page/contestpage"
 import ValkWorkIn from "./pages/valkdigital-page/ValkWorkIn"
 import TwistCards from "./pages/test-page/TwistCards"
 import HomePage from "./pages/home-page"
@@ -18,14 +17,9 @@ import ContactPage from "./pages/contact-page"
 import AboutPage from "./pages/about-page"
 import PatternMakerPage from "./pages/patternmaker-page"
 import VideoPlayer from "./pages/valkdigital-page/videoplayer/Videoplayer"
-import BeatBattleHomePage from "./pages/beatbattle-page/index"
 import SoundDesign from "./pages/valkdigital-page/sounddesign/Sounddesign"
 import Overige from "./pages/valkdigital-page/Overige/Overige"
 import AudioplayerPage from "./pages/audioplayer-page"
-import Experimenten from "./pages/experimenten-page"
-import ParallaxTest from "./pages/experimenten-page/parallax"
-import VideoScroll from "./pages/experimenten-page/videoscroll"
-import LubadhPresetmaker from "./pages/experimenten-page/lubadhPresetmaker"
 
 const router = createHashRouter([
   {
@@ -40,19 +34,10 @@ const router = createHashRouter([
       { path: "/contact", element: <ContactPage /> },
       { path: "/about", element: <AboutPage /> },
       { path: "/css", element: <TwistCards count={32} speed={8} /> },
-      { path: "/beatbattle", element: <BeatBattleHomePage /> },
-      { path: "/beatbattle/:id", element: <ContestPage /> },
       { path: "/valkdigital", element: <ValkWorkIn /> },
       { path: "/valkdigital/narrowcasting", element: <VideoPlayer /> },
       { path: "/valkdigital/interfacesounddesign", element: <SoundDesign /> },
       { path: "/valkdigital/overige", element: <Overige /> },
-      { path: "/experimenten/", element: <Experimenten /> },
-      { path: "/experimenten/parallax", element: <ParallaxTest /> },
-      { path: "/experimenten/videoscroll", element: <VideoScroll /> },
-      {
-        path: "/experimenten/lubadhPresetmaker",
-        element: <LubadhPresetmaker />,
-      },
     ],
   },
 ])
