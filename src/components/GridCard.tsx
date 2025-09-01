@@ -21,7 +21,7 @@ const GridCard: React.FC<GridCardProps> = ({ content }) => {
       href={`#/${content.projectUrl}`.toLowerCase()}
     >
       <Card.Section>
-        <Image src={content.img ?? pisa} h={200} />
+        <Image src={pisa} h={200} />
       </Card.Section>
 
       <Text fw={600} size="lg" mt="md">

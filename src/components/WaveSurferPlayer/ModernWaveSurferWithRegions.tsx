@@ -45,6 +45,7 @@ interface RegionData {
 
 interface ModernWaveSurferWithRegionsProps {
   audioUrl: string
+  bpm: number // Optional BPM for future use, not currently implemented
   height?: number
   waveColor?: string
   progressColor?: string
@@ -69,6 +70,7 @@ export const ModernWaveSurferWithRegions: React.FC<
   ModernWaveSurferWithRegionsProps
 > = ({
   audioUrl,
+  bpm,
   height = 144,
   waveColor = "#1976d2",
   progressColor = "#1976d2",
@@ -107,7 +109,7 @@ export const ModernWaveSurferWithRegions: React.FC<
   const [newRegionLabel, setNewRegionLabel] = useState("")
   const [isCreatingRegion, setIsCreatingRegion] = useState(false)
   const [activeRegion, setActiveRegion] = useState<Region | null>(null)
-
+  const looplength = (bpm / 60) * 8 // Convert BPM to seconds per beat (not currently used, but kept for future use)
   const regionColors = useMemo(
     () => [
       "rgba(255, 107, 107, 0.3)", // Red with opacity
@@ -226,8 +228,11 @@ export const ModernWaveSurferWithRegions: React.FC<
       ws.on("dblclick", (relativeX: number) => {
         const duration = ws.getDuration()
         const clickTime = relativeX * duration
-        const regionStart = Math.max(0, clickTime - 1)
-        const regionEnd = Math.min(duration, clickTime + 1)
+        // Use looplength for segment length, fallback to 2s if looplength is invalid
+        const segmentLength =
+          typeof looplength === "number" && looplength > 0 ? looplength : 2
+        const regionStart = Math.max(0, clickTime - segmentLength / 2)
+        const regionEnd = Math.min(duration, regionStart + segmentLength)
 
         regions.addRegion({
           start: regionStart,
@@ -239,16 +244,15 @@ export const ModernWaveSurferWithRegions: React.FC<
         })
       })
 
-      // Set initial pitch if not default - remove this since we don't track pitch state
-
       onReady?.(ws)
     },
     [
       onReady,
+      getRegionContent,
       onRegionCreated,
       onRegionUpdated,
       onRegionDeleted,
-      getRegionContent,
+      looplength,
       getRandomColor,
     ],
   )
@@ -765,7 +769,7 @@ export const ModernWaveSurferWithRegions: React.FC<
               Pitch
             </Text>
             <Slider
-              value={1}
+              value={wavesurfer?.getPlaybackRate() ?? 1}
               onChange={handlePitchChange}
               min={0.1}
               max={2.0}
@@ -780,7 +784,7 @@ export const ModernWaveSurferWithRegions: React.FC<
               title="Reset pitch to 1.0x"
             >
               <Text size="xs" c="dimmed">
-                1.0x
+                {(wavesurfer?.getPlaybackRate() ?? 1).toFixed(1)}x
               </Text>
             </ActionIcon>
           </Group>
